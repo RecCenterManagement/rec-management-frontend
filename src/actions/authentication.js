@@ -1,3 +1,4 @@
+import {axios} from 'axios'
 
 // Authentication action constants
 export const LOGIN = 'authentication/LOGIN'
