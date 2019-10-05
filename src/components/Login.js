@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Paper, Checkbox, FormControl, FormControlLabel, Grid, TextField, Typography } from '@material-ui/core';
 import { login } from '../actions/authentication';
@@ -14,9 +16,11 @@ function Login() {
         rememberMe: false,
         username: '',
         password: ''
-
     })
-    const classes = useStyles();
+
+    const classes = useStyles();    
+    const dispatch = useDispatch();
+    let history = useHistory();
     const handleChange = name => event => {
         switch (name) {
             case 'rememberMe':
@@ -27,16 +31,18 @@ function Login() {
                 break;
         }
     };
-
-    const handleLogin = (username, password, rememberMe = false) => login(username, password, rememberMe);
-
-    return (
-        <Paper>
+    const handleLogin = (username, password, rememberMe = false) => {
+        dispatch(login(username, password, rememberMe))
+        history.push('/')        
+    }
+     return (
+        <>
+         <Paper>
             <Grid container spacing={2}>
                 <Grid item>
                     <Typography gutterBottom variant="h5" component="h2">
                         Sign In
-          </Typography>
+                </Typography>
                     <FormControl>
                         <TextField
                             label="Username"
@@ -68,7 +74,7 @@ function Login() {
                         />
                         <Typography>Did you forget your password?</Typography>
                         <Button variant='outlined' color='secondary' href="/reset/request">Reset Password</Button>
-                        <Button variant="contained" color="primary" onClick={handleLogin(state.username, state.password, state.rememberMe)}> Sign In</Button>
+                        <Button variant="contained" color="primary" onClick={() => handleLogin(state.username, state.password, state.rememberMe)}> Sign In</Button>
                     </FormControl>
                 </Grid>
                 <Grid item>
@@ -79,6 +85,7 @@ function Login() {
                 </Grid>
             </Grid>
         </Paper>
+        </>
     );
 }
 
