@@ -9,7 +9,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { useSelector } from 'react-redux'
-import { Drawer } from '@material-ui/core';
+import { Drawer, Button } from '@material-ui/core';
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
@@ -26,25 +26,35 @@ const useStyles = makeStyles(theme => ({
   },
   jhNavbar: {
     backgroundColor: '#1f242b',
-    padding: '0.2em 1em'
   },
-  profileImage: {
-      margin: '-10px 0px',
-      height: '40px',
-      width: '40px',
-      borderRadius: '50%'
-  }
 }));
+
+export const SignInLogOut = props =>
+  props.authenticated ? (
+    <Button component={Link} to="/logout" style={{ marginLeft: '20px' }} variant="outlined" color="secondary">
+      Log Out
+    </Button>
+  ) : (
+    <>
+      <Button component={Link} to="/login" style={{ marginLeft: '20px', marginRight: '20px' }} variant="outlined" color="secondary">
+        Log In
+      </Button>
+      <Button component={Link} to="/register" variant="outlined" color="secondary">
+        Register
+      </Button>
+    </>
+);
 
 const Home = () => {
   const classes = useStyles()
   const authenticated = useSelector(state => state.authentication.isAuthenticated)
   const [menuOpen, setMenuOpen] = useState(false)
   const [drawer, setDrawer] = useState(false)
+  console.log(authenticated)
 
   return (
     <>
-    <AppBar position="static">
+    <AppBar className={classes.jhNavbar} position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawer(true)}>
             <MenuIcon />
@@ -80,6 +90,7 @@ const Home = () => {
                 <MenuItem onClick={() => console.log("HELLO")}>My account</MenuItem>
               </Menu>
             </div>}
+            <SignInLogOut authenticated={authenticated}/>
         </Toolbar>
       </AppBar>
       <Drawer open={drawer} onClose={() => setDrawer(false)}>
