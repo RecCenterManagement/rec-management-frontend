@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,6 +9,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { useSelector } from 'react-redux'
+import { Button, Drawer } from '@material-ui/core';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,24 +20,26 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
   title: {
+    color: 'white',
+    textDecoration: 'none',
     flexGrow: 1,
   },
 }));
 
-
-function App() {
-  const classes = useStyles();
-
+const Home = () => {
+  const classes = useStyles()
   const authenticated = useSelector(state => state.authentication.isAuthenticated)
+  const [drawer, setDrawer] = useState(false)
 
   return (
+    <>
     <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawer(true)}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Photos
+          <Typography variant="h6" className={classes.title} component={Link} to="/">
+            RecCenterManagement
           </Typography>
             {authenticated && <div>
               <IconButton
@@ -67,6 +71,32 @@ function App() {
             </div>}
         </Toolbar>
       </AppBar>
+      <Drawer open={drawer} onClose={() => setDrawer(false)}>
+        Hello
+      </Drawer>
+      </>
+      )
+}
+
+const Login = () => (<div></div>)
+const Register = () => (<div></div>)
+
+
+function App() {
+
+  return (
+    <Router>
+      <div>
+      <Button component={Link} to="/">Home</Button>
+      <Button component={Link} to="/login">Login</Button>
+      <Button component={Link} to="/register">Register</Button>
+
+
+        <Route exact path="/" component={Home}/>
+        <Route path="/login" component={Login} />
+        <Route path="/topics" component={Register} />
+      </div>
+    </Router>
   );
 }
 
