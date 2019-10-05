@@ -8,6 +8,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,6 +26,8 @@ const useStyles = makeStyles(theme => ({
 function App() {
   const classes = useStyles();
 
+  const authenticated = useSelector(state => state.authentication.isAuthenticated)
+
   return (
     <AppBar position="static">
         <Toolbar>
@@ -34,7 +37,7 @@ function App() {
           <Typography variant="h6" className={classes.title}>
             Photos
           </Typography>
-            <div>
+            {authenticated && <div>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -61,7 +64,7 @@ function App() {
                 <MenuItem onClick={() => console.log("HELLO")}>Profile</MenuItem>
                 <MenuItem onClick={() => console.log("HELLO")}>My account</MenuItem>
               </Menu>
-            </div>
+            </div>}
         </Toolbar>
       </AppBar>
   );
