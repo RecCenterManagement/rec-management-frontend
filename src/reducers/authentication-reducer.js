@@ -15,5 +15,7 @@ export default function reducer(state = initial_state, action) {
         case 'FETCH_TERMS_START': {
             return { ...state, fetching: true, fetched: false }
         }
+        default:
+            return state
     }
 }
