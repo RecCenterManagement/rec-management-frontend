@@ -11,7 +11,7 @@ import Menu from '@material-ui/core/Menu';
 import { useSelector } from 'react-redux'
 import { Button, Drawer } from '@material-ui/core';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import Login from './components/Login'
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -78,10 +78,7 @@ const Home = () => {
       )
 }
 
-const Login = () => (<div></div>)
 const Register = () => (<div></div>)
-
-
 function App() {
 
   return (
@@ -90,8 +87,6 @@ function App() {
       <Button component={Link} to="/">Home</Button>
       <Button component={Link} to="/login">Login</Button>
       <Button component={Link} to="/register">Register</Button>
-
-
         <Route exact path="/" component={Home}/>
         <Route path="/login" component={Login} />
         <Route path="/topics" component={Register} />
