@@ -8,10 +8,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Button, Drawer } from '@material-ui/core';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Login from './components/Login'
+import { login } from './actions/authentication';
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -30,6 +32,12 @@ const Home = () => {
   const classes = useStyles()
   const authenticated = useSelector(state => state.authentication.isAuthenticated)
   const [drawer, setDrawer] = useState(false)
+
+  const dispatch = useDispatch()
+
+  const handleLogin = () => {
+    dispatch(login('admin', 'admin', false))
+  }
 
   return (
     <>
@@ -71,6 +79,7 @@ const Home = () => {
             </div>}
         </Toolbar>
       </AppBar>
+      <Button variant="outlined" onClick={handleLogin}>Click me</Button>
       <Drawer open={drawer} onClose={() => setDrawer(false)}>
         Hello
       </Drawer>
