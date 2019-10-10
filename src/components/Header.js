@@ -129,8 +129,8 @@ const Header = () => {
                 open={menuOpen}
                 onClose={handleClose}
               >
-                <MenuItem onClick={() => console.log('HELLO')}>
-                  Profile
+                <MenuItem component={Link} to="/settings">
+                  Settings
                 </MenuItem>
                 <MenuItem onClick={() => console.log('HELLO')}>
                   My account

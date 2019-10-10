@@ -66,7 +66,7 @@ export const logout = () => dispatch => {
   })
 }
 
-export const clearAuthentication = messageKey => (dispatch, getState) => {
+export const clearAuthentication = messageKey => dispatch => {
   clearAuthToken()
   dispatch(displayAuthError(messageKey))
   dispatch({
