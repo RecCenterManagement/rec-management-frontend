@@ -2,7 +2,9 @@ import {
   FETCH_TOKEN_START,
   RECEIVE_TOKEN,
   FETCH_ACCOUNT_START,
-  RECEIVE_ACCOUNT
+  RECEIVE_ACCOUNT,
+  UPDATE_ACCOUNT,
+  UPDATE_ACCOUNT_ERROR
 } from '../actions/authentication'
 
 const initial_state = {
@@ -35,6 +37,18 @@ export default function reducer(state = initial_state, action) {
         account: action.payload,
         isAuthenticated: true,
         loading: false
+      }
+    }
+    case UPDATE_ACCOUNT: {
+      return {
+        ...state,
+        account: action.payload.account
+      }
+    }
+    case UPDATE_ACCOUNT_ERROR: {
+      return {
+        ...state,
+        loginError: true
       }
     }
     default: {

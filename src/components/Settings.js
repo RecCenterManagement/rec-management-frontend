@@ -12,24 +12,55 @@ import {
   CardHeader,
   Grid
 } from '@material-ui/core'
+import { useSelector } from 'react-redux'
+import { saveAccountForm } from '../actions/authentication'
 
 const useStyles = makeStyles(theme => ({
   card: {
     marginTop: '5vh',
-    height: '100%'
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around'
   },
   cardHeader: {
     backgroundColor: theme.palette.primary.light,
     color: 'black'
   },
   media: {
-    height: 240
+    height: 240,
+    backgroundSize: 240
   }
 }))
 
-const Settings = () => {
+const Settings = props => {
   const classes = useStyles()
-  const username = 'admin'
+
+  const account = useSelector(state => state.authentication.account)
+
+  const [form_field, set_form_field] = useState({
+    firstName: account.firstName,
+    lastName: account.lastName,
+    email: account.email,
+    username: account.login
+  })
+
+  const { firstName, lastName, email, username } = form_field
+
+  const handleChange = name => event => {
+    set_form_field({ ...form_field, [name]: event.target.value })
+  }
+
+  const handleSubmit = () => {
+    saveAccountForm({
+      ...account,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      login: username
+    })
+  }
+
   return (
     <Grid container spacing={4}>
       <Grid item xs={12} sm={12} md={7}>
@@ -44,8 +75,8 @@ const Settings = () => {
                 id="outlined-name"
                 label="First Name"
                 className={classes.textField}
-                value="admin"
-                onChange={console.log('hello')}
+                value={firstName}
+                onChange={handleChange('firstName')}
                 margin="normal"
                 variant="outlined"
               />
@@ -53,8 +84,8 @@ const Settings = () => {
                 id="outlined-name"
                 label="Last Name"
                 className={classes.textField}
-                value="admin"
-                onChange={console.log('hello')}
+                value={lastName}
+                onChange={handleChange('lastName')}
                 margin="normal"
                 variant="outlined"
               />
@@ -62,22 +93,16 @@ const Settings = () => {
                 id="outlined-name"
                 label="Email Address"
                 className={classes.textField}
-                value="admin@localhost"
-                onChange={console.log('hello')}
+                value={email}
+                onChange={handleChange('email')}
                 margin="normal"
                 variant="outlined"
               />
             </div>
           </CardContent>
           <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button size="small" color="secondary">
-              Edit
-            </Button>
-            <Button size="small" color="secondary">
+            <Button size="medium" color="secondary" onClick={handleSubmit}>
               Save
-            </Button>
-            <Button size="small" color="secondary">
-              Cancel
             </Button>
           </CardActions>
         </Card>
@@ -88,7 +113,7 @@ const Settings = () => {
           <CardActionArea>
             <CardMedia
               className={classes.media}
-              image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
+              image={account.imageUrl}
               title="Contemplative Reptile"
             />
           </CardActionArea>
