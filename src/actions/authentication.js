@@ -13,57 +13,63 @@ export const ERROR_MESSAGE = 'authentication/ERROR_MESSAGE'
 
 const AUTH_KEY = 'ou-rcm-auth-token'
 
-export const displayAuthError = message => ({ type: ERROR_MESSAGE, message });
+export const displayAuthError = message => ({ type: ERROR_MESSAGE, message })
 
 export const login = (username, password, rememberMe = false) => {
-    return (dispatch) => {
-        dispatch({ type: FETCH_TOKEN_START, payload: {} });
-        axios.post('api/authenticate', { username, password, rememberMe }).then((result) => {
-            dispatch({ type: RECEIVE_TOKEN, payload: result.data.id_token })
-            const jwt = result.data.id_token;
-            if (rememberMe) {
-                localStorage.setItem(AUTH_KEY, jwt)
-            } else {
-                sessionStorage.setItem(AUTH_KEY, jwt)
-            }
-            dispatch(getUserAccount())
-        }).catch(error => {
-            dispatch({ type: FETCH_TOKEN_ERROR, payload: error })
-        })
-    }
-};
+  return dispatch => {
+    dispatch({ type: FETCH_TOKEN_START, payload: {} })
+    axios
+      .post('api/authenticate', { username, password, rememberMe })
+      .then(result => {
+        dispatch({ type: RECEIVE_TOKEN, payload: result.data.id_token })
+        const jwt = result.data.id_token
+        if (rememberMe) {
+          localStorage.setItem(AUTH_KEY, jwt)
+        } else {
+          sessionStorage.setItem(AUTH_KEY, jwt)
+        }
+        dispatch(getUserAccount())
+      })
+      .catch(error => {
+        dispatch({ type: FETCH_TOKEN_ERROR, payload: error })
+      })
+  }
+}
 
 export const getUserAccount = () => (dispatch, getState) => {
-    let token = localStorage.getItem(AUTH_KEY)
-    token = token ? token : sessionStorage.getItem(AUTH_KEY)
-    var config = {
-        headers: {'Authorization': "Bearer " + token}
-    };
+  let token = localStorage.getItem(AUTH_KEY)
+  token = token ? token : sessionStorage.getItem(AUTH_KEY)
+  var config = {
+    headers: { Authorization: 'Bearer ' + token }
+  }
 
-    dispatch({ type: FETCH_ACCOUNT_START, payload: {} })
-    axios.get('api/account', config).then(result => {
-        dispatch({ type: RECEIVE_ACCOUNT, payload: result.data })
-    }).catch(err => {
-        dispatch({ type: FETCH_ACCOUNT_ERROR, payload: err })
+  dispatch({ type: FETCH_ACCOUNT_START, payload: {} })
+  axios
+    .get('api/account', config)
+    .then(result => {
+      dispatch({ type: RECEIVE_ACCOUNT, payload: result.data })
+    })
+    .catch(err => {
+      dispatch({ type: FETCH_ACCOUNT_ERROR, payload: err })
     })
 }
 
 export const clearAuthToken = () => {
-    sessionStorage.removeItem(AUTH_KEY)
-    localStorage.removeItem(AUTH_KEY)
-};
+  sessionStorage.removeItem(AUTH_KEY)
+  localStorage.removeItem(AUTH_KEY)
+}
 
 export const logout = () => dispatch => {
-    clearAuthToken();
-    dispatch({
-        type: LOGOUT
-    });
-};
+  clearAuthToken()
+  dispatch({
+    type: LOGOUT
+  })
+}
 
 export const clearAuthentication = messageKey => (dispatch, getState) => {
-    clearAuthToken();
-    dispatch(displayAuthError(messageKey));
-    dispatch({
-        type: CLEAR_AUTH
-    });
-};
+  clearAuthToken()
+  dispatch(displayAuthError(messageKey))
+  dispatch({
+    type: CLEAR_AUTH
+  })
+}
