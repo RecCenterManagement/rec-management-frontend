@@ -13,7 +13,7 @@ export const ERROR_MESSAGE = 'authentication/ERROR_MESSAGE'
 export const UPDATE_ACCOUNT = 'authentication/UPDATE_ACCOUNT'
 export const UPDATE_ACCOUNT_ERROR = 'authentication/UPDATE_ACCOUNT'
 
-const AUTH_KEY = 'ou-rcm-auth-token'
+export const AUTH_KEY = 'ou-rcm-auth-token'
 
 export const displayAuthError = message => ({ type: ERROR_MESSAGE, message })
 
@@ -76,15 +76,22 @@ export const clearAuthentication = messageKey => dispatch => {
   })
 }
 
-export const saveAccountForm = account => dispatch => {
-  axios
-    .post('/api/account', account)
-    .then(data => {
-      console.log('hello', account)
-      dispatch({ type: UPDATE_ACCOUNT, payload: account })
-    })
-    .catch(err => {
-      console.error(err)
-      dispatch({ type: UPDATE_ACCOUNT_ERROR })
-    })
+export const saveAccountForm = account => {
+  return dispatch => {
+    let token = localStorage.getItem(AUTH_KEY)
+    token = token ? token : sessionStorage.getItem(AUTH_KEY)
+    var config = {
+      headers: { Authorization: 'Bearer ' + token }
+    }
+
+    axios
+      .post('/api/account', account, config)
+      .then(data => {
+        dispatch({ type: UPDATE_ACCOUNT, payload: account })
+      })
+      .catch(err => {
+        console.error(err)
+        dispatch({ type: UPDATE_ACCOUNT_ERROR })
+      })
+  }
 }

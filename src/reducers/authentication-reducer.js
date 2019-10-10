@@ -42,7 +42,7 @@ export default function reducer(state = initial_state, action) {
     case UPDATE_ACCOUNT: {
       return {
         ...state,
-        account: action.payload.account
+        account: action.payload
       }
     }
     case UPDATE_ACCOUNT_ERROR: {

@@ -12,7 +12,7 @@ import {
   CardHeader,
   Grid
 } from '@material-ui/core'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { saveAccountForm } from '../actions/authentication'
 
 const useStyles = makeStyles(theme => ({
@@ -35,8 +35,10 @@ const useStyles = makeStyles(theme => ({
 
 const Settings = props => {
   const classes = useStyles()
+  const dispatch = useDispatch()
 
   const account = useSelector(state => state.authentication.account)
+  console.log(account)
 
   const [form_field, set_form_field] = useState({
     firstName: account.firstName,
@@ -52,13 +54,15 @@ const Settings = props => {
   }
 
   const handleSubmit = () => {
-    saveAccountForm({
-      ...account,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      login: username
-    })
+    dispatch(
+      saveAccountForm({
+        ...account,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        login: username
+      })
+    )
   }
 
   return (
@@ -101,7 +105,11 @@ const Settings = props => {
             </div>
           </CardContent>
           <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button size="medium" color="secondary" onClick={handleSubmit}>
+            <Button
+              size="medium"
+              color="secondary"
+              onClick={() => handleSubmit()}
+            >
               Save
             </Button>
           </CardActions>
