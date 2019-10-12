@@ -1,18 +1,38 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Login from './components/Login'
 import Home from './components/Home'
+import Header from './components/Header'
+import Settings from './components/Settings'
+import { useSelector, useDispatch } from 'react-redux'
+import { AUTH_KEY, getUserAccount } from './actions/authentication'
 import Register from './components/Register'
 
+
 function App() {
+  const authenticated = useSelector(
+    state => state.authentication.isAuthenticated
+  )
+  const dispatch = useDispatch()
+
+  if (!authenticated) {
+    if (localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY)) {
+      dispatch(getUserAccount())
+    }
+  }
 
   return (
     <Router>
-        <Route exact path="/" component={Home}/>
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+      <Route
+        path="/"
+        render={props => props.location.pathname !== '/login' && <Header />}
+      />
+      <Route exact path="/" component={Home} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/settings" component={Settings} />
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
