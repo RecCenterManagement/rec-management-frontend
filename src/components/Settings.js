@@ -20,8 +20,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: '5vh',
     height: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around'
+    flexDirection: 'column'
   },
   cardHeader: {
     backgroundColor: theme.palette.primary.light,
@@ -33,12 +32,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Settings = props => {
+const Settings = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
   const account = useSelector(state => state.authentication.account)
-  console.log(account)
 
   const [form_field, set_form_field] = useState({
     firstName: account.firstName,
