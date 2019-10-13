@@ -7,7 +7,7 @@ import Settings from './components/Settings'
 import { useSelector, useDispatch } from 'react-redux'
 import { AUTH_KEY, getUserAccount } from './actions/authentication'
 import Register from './components/Register'
-
+import Footer from './components/Footer'
 
 function App() {
   const authenticated = useSelector(
@@ -31,6 +31,10 @@ function App() {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/settings" component={Settings} />
+      <Route
+        path="/"
+        render={props => props.location.pathname !== '/login' && <Footer />}
+      />
     </Router>
   )
 }

@@ -9,7 +9,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import { useSelector } from 'react-redux'
-import { Drawer, Button } from '@material-ui/core'
+import { Button } from '@material-ui/core'
+import RecDrawer from './RecDrawer'
 import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
@@ -81,6 +82,7 @@ const Header = () => {
     setMenuOpen(false)
   }
 
+  console.log(drawer)
   return (
     <>
       <AppBar className={classes.jhNavbar} position="static">
@@ -141,9 +143,7 @@ const Header = () => {
           <SignInLogOut authenticated={authenticated} />
         </Toolbar>
       </AppBar>
-      <Drawer open={drawer} onClose={() => setDrawer(false)}>
-        Hello
-      </Drawer>
+      <RecDrawer open={drawer} onClose={() => setDrawer(false)} />
     </>
   )
 }
