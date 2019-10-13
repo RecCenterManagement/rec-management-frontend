@@ -24,7 +24,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...initialState,
         registrationFailure: true,
-        errorMessage: action.payload.response.data.errorKey
+        errorMessage: action.payload
       }
     }
     case CREATE_ACCOUNT_SUCCESS: {

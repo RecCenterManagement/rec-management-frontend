@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -9,8 +9,13 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import { useSelector } from 'react-redux'
-import { Button } from '@material-ui/core'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import { Button, MenuList } from '@material-ui/core'
 import RecDrawer from './RecDrawer'
+import Grow from '@material-ui/core/Grow'
+import Paper from '@material-ui/core/Paper'
+import Popper from '@material-ui/core/Popper'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
@@ -68,9 +73,16 @@ const Header = () => {
   const authenticated = useSelector(
     state => state.authentication.isAuthenticated
   )
+  const roles = useSelector(state => state.authentication.account.authorities)
+  let isAdmin = false
+  if (roles) {
+    isAdmin = roles.includes('ROLE_ADMIN')
+  }
   const [menuOpen, setMenuOpen] = useState(false)
   const [drawer, setDrawer] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
+  const [adminMenu, setAdminMenu] = useState(false)
+  const anchorRef = useRef(null)
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -82,7 +94,6 @@ const Header = () => {
     setMenuOpen(false)
   }
 
-  console.log(drawer)
   return (
     <>
       <AppBar className={classes.jhNavbar} position="static">
@@ -106,6 +117,46 @@ const Header = () => {
           </Typography>
           {authenticated && (
             <div>
+              <Button
+                color="secondary"
+                ref={anchorRef}
+                size="small"
+                aria-owns={true ? 'menu-list-grow' : undefined}
+                aria-haspopup="true"
+                onClick={() => setAdminMenu(true)}
+              >
+                Entities
+                <ExpandMore />
+              </Button>
+              <Popper
+                open={adminMenu}
+                anchorEl={anchorRef.current}
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === 'bottom' ? 'center top' : 'center bottom'
+                    }}
+                  >
+                    <Paper id="menu-list-grow">
+                      <ClickAwayListener
+                        onClickAway={() => setAdminMenu(false)}
+                      >
+                        <MenuList>
+                          <MenuItem selected={false}>Users</MenuItem>
+                          <MenuItem selected={false}>Facilities</MenuItem>
+                          <MenuItem selected={false}>Reservations</MenuItem>
+                          <MenuItem selected={false}>Equipment</MenuItem>
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
               <IconButton
                 id="account-icon-button"
                 aria-label="account of current user"

@@ -4,6 +4,7 @@ export const CREATE_ACCOUNT_REQUEST = 'register/CREATE_ACCOUNT_REQUEST'
 export const CREATE_ACCOUNT_ERROR = 'register/CREATE_ACCOUNT_ERROR'
 export const CREATE_ACCOUNT_SUCCESS = 'register/CREATE_ACCOUNT_SUCCESS'
 export const RESET = 'register/RESET'
+
 export const register = (login, email, password) => {
   return dispatch => {
     dispatch({
