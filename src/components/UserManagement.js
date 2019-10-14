@@ -8,13 +8,14 @@ import {
   TablePagination,
   TableRow,
   TableHead,
-  Grid
+  Grid,
+  ButtonGroup,
+  Button
 } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getUsers,updateUser } from '../actions/user-management'
-
+import { getAllUsers, getUsers, updateUser } from '../actions/user-management'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -33,13 +34,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const UserManagement = (props) => {
-    const [state, setState] = useState({
-        order: 'asc',
-        sort: '',
-        activePage: 1,
-        itemsPerPage: 10
-      })
+const UserManagement = props => {
+  const [state, setState] = useState({
+    order: 'asc',
+    sort: '',
+    activePage: 1,
+    itemsPerPage: 10
+  })
   const classes = useStyles()
   const dispatch = useDispatch()
   let history = useHistory()
@@ -47,7 +48,7 @@ const UserManagement = (props) => {
   const account = useSelector(state => state.authentication.account)
 
   const users = useSelector(state => state.userManagement.users)
-/*   const sort = prop => () => {
+  /*   const sort = prop => () => {
     setState(...state,
       {
         order: state.order === 'asc' ? 'desc' : 'asc',
@@ -70,36 +71,60 @@ const UserManagement = (props) => {
 
  const  toggleActive = user => () => {
     dispatch(updateUser({
-      ...user,
+      ...user,Three
       activated: !user.activated
     }));
   }; */
   useEffect(() => {
-  getUsers(1,2,'asc')
-}, [dispatch])
-  console.log(account.username, users[0])
+    dispatch(getAllUsers())
+  }, [dispatch])
+  console.log(account.username, users)
+
   return (
-<Paper>
-    <Grid container spacing={4}>
-     <Table>
-     <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map(row => (
-            <TableRow key={'row.name'}>
-              <TableCell component="th" scope="row">
-                {'row.name'}
-              </TableCell>
-              <TableCell>{'row'}</TableCell>
+    <Paper>
+      <Grid container spacing={4}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Id</TableCell>
+              <TableCell>Login</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Activated</TableCell>
+              <TableCell>Profiles</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-         </Table>   
-    </Grid>
+          </TableHead>
+          <TableBody>
+            {users.map(row => (
+              <TableRow key={row.id}>
+                <TableCell component='th' scope='row'>
+                  {row.id}
+                </TableCell>
+                <TableCell>{row.login}</TableCell>
+                <TableCell>{row.email}</TableCell>
+                <TableCell>{row.activated ? 'true' : 'false'}</TableCell>
+                <TableCell>{row.langKey}</TableCell>
+                <TableCell>
+                  {' '}
+                  {row.authorities.map(item => (
+                    <div>{item}</div>
+                  ))}
+                </TableCell>
+                <TableCell>{row.createdBy}</TableCell>
+                <TableCell>{row.createdDate}</TableCell>
+                <TableCell>{row.lastModifiedBy}</TableCell>
+                <TableCell>{row.lastModifiedDate}</TableCell>
+                <TableCell>
+                  <ButtonGroup variant='contained' color='primary'>
+                    <Button>View</Button>
+                    <Button>Edit</Button>
+                    <Button>Delete</Button>
+                  </ButtonGroup>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Grid>
     </Paper>
   )
 }
