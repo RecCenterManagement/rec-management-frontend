@@ -9,6 +9,7 @@ import { AUTH_KEY, getUserAccount } from './actions/authentication'
 import Register from './components/Register'
 import Footer from './components/Footer'
 import Facilities from './components/Facilities'
+import Reservations from './components/Reservations'
 
 function App() {
   const authenticated = useSelector(
@@ -33,6 +34,7 @@ function App() {
       <Route path="/register" component={Register} />
       <Route path="/settings" component={Settings} />
       <Route path="/facilities" component={Facilities} />
+      <Route path="/reservations" component={Reservations} />
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}

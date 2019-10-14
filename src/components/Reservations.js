@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { get_facilities } from '../actions/facilities'
+import { get_reservations } from '../actions/reservations'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,14 +25,14 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Facilities = props => {
+const Reservations = props => {
   const classes = useStyles()
-  const entities = useSelector(state => state.facilities.entities)
+  const entities = useSelector(state => state.reservations.entities)
   const dispatch = useDispatch()
 
   useEffect(
     () => {
-      dispatch(get_facilities())
+      dispatch(get_reservations())
     },
     [dispatch]
   )
@@ -43,14 +43,12 @@ const Facilities = props => {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="right">Footage</TableCell>
-            <TableCell align="right">Capacity</TableCell>
-            <TableCell align="right">AV Support</TableCell>
-            <TableCell align="right">Food Allowed</TableCell>
-            <TableCell align="right">Color Code</TableCell>
-            <TableCell align="right">Description</TableCell>
+            <TableCell align="left">ID</TableCell>
+            <TableCell align="left">Event</TableCell>
+            <TableCell align="left">Estimated Particpants</TableCell>
+            <TableCell align="left">Start Time</TableCell>
+            <TableCell align="left">End Time</TableCell>
+            <TableCell align="left">User</TableCell>
             <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -61,13 +59,11 @@ const Facilities = props => {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="right">{row.footage}</TableCell>
-                <TableCell align="right">{row.capacity}</TableCell>
-                <TableCell align="right">{row.avSupport}</TableCell>
-                <TableCell align="right">{row.foodAllowed}</TableCell>
-                <TableCell align="right">{row.colorCode}</TableCell>
-                <TableCell align="right">{row.description}</TableCell>
+                <TableCell align="left">{row.event}</TableCell>
+                <TableCell align="left">{row.estimatedParticipants}</TableCell>
+                <TableCell align="left">{row.startTime}</TableCell>
+                <TableCell align="left">{row.endTime}</TableCell>
+                <TableCell align="left" />
                 <TableCell align="center">
                   <ButtonGroup>
                     <Button>View</Button>
@@ -83,4 +79,4 @@ const Facilities = props => {
   )
 }
 
-export default Facilities
+export default Reservations

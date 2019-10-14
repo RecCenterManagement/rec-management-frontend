@@ -13,7 +13,6 @@ export const get_facilities = () => {
     var config = {
       headers: { Authorization: 'Bearer ' + token }
     }
-    console.log('called')
     dispatch({ type: FETCH_FACILITIES_START, payload: {} })
     axios
       .get('api/facilities', config)
