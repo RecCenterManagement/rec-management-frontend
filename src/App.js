@@ -11,6 +11,7 @@ import Footer from './components/Footer'
 import Facilities from './components/Facilities'
 import Reservations from './components/Reservations'
 import Equipment from './components/Equipment'
+import EquipmentReservations from './components/EquipmentReservations'
 
 function App() {
   const authenticated = useSelector(
@@ -37,6 +38,7 @@ function App() {
       <Route path="/facilities" component={Facilities} />
       <Route path="/reservations" component={Reservations} />
       <Route path="/equipment" component={Equipment} />
+      <Route path="/equipment-reservations" component={EquipmentReservations} />
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}

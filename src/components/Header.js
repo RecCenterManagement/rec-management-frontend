@@ -178,6 +178,14 @@ const Header = () => {
                           >
                             Equipment
                           </MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/equipment-reservations"
+                            onClick={() => handleEntityClick('equ-res')}
+                            selected={currentEntity === 'equ-res'}
+                          >
+                            Equipment Reservations
+                          </MenuItem>
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>
