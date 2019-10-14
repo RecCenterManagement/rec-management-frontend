@@ -79,42 +79,42 @@ function Register() {
           <div className={classes.firstContainer}>
             <div className={classes.firstWrapper}>
               <div className={classes.firstTitle}>
-                <Typography gutterBottom variant='h5' component='h2'>
+                <Typography gutterBottom variant="h5" component="h2">
                   Register
                 </Typography>
               </div>
               <FormControl>
                 <TextField
-                  label='Username'
-                  id='login-input'
-                  margin='normal'
-                  variant='outlined'
+                  label="Username"
+                  id="login-input"
+                  margin="normal"
+                  variant="outlined"
                   value={state.login}
                   onChange={handleChange('login')}
                 />
                 <TextField
-                  label='Email'
-                  id='email-input'
-                  margin='normal'
-                  variant='outlined'
+                  label="Email"
+                  id="email-input"
+                  margin="normal"
+                  variant="outlined"
                   value={state.email}
                   onChange={handleChange('email')}
                 />
                 <TextField
-                  label='Password'
-                  id='first-password-input'
-                  margin='normal'
-                  variant='outlined'
-                  type='password'
+                  label="Password"
+                  id="first-password-input"
+                  margin="normal"
+                  variant="outlined"
+                  type="password"
                   value={state.firstPassword}
                   onChange={handleChange('firstPassword')}
                 />
                 <TextField
-                  label='Password Confirmation'
-                  id='second-password-input'
-                  margin='normal'
-                  variant='outlined'
-                  type='password'
+                  label="Password Confirmation"
+                  id="second-password-input"
+                  margin="normal"
+                  variant="outlined"
+                  type="password"
                   error={state.secondPassword !== state.firstPassword}
                   value={state.secondPassword}
                   onChange={handleChange('secondPassword')}
@@ -129,8 +129,8 @@ function Register() {
             </div>
             <div className={classes.button}>
               <Button
-                variant='contained'
-                color='primary'
+                variant="contained"
+                color="primary"
                 onClick={() =>
                   handleRegister(state.login, state.email, state.firstPassword)
                 }
@@ -143,22 +143,22 @@ function Register() {
         <Grid item xs={12} md={8}>
           <div className={classes.secondContainer}>
             <div className={classes.secondTitle}>
-              <Typography gutterBottom variant='h5' component='h2'>
+              <Typography gutterBottom variant="h5" component="h2">
                 Sign In
               </Typography>
             </div>
             <img
               src={require('../img/grizzbear.svg')}
               className={classes.image}
-              alt='Grizz bear with weight'
+              alt="Grizz bear with weight"
             />
             <div className={classes.secondTitle}>
-              <Typography gutterBottom variant='h6' component='h2'>
+              <Typography gutterBottom variant="h6" component="h2">
                 Get back on track!
               </Typography>
             </div>
             <div className={classes.button}>
-              <Button variant='contained' color='secondary' href='/login'>
+              <Button variant="contained" color="secondary" href="/login">
                 Sign In
               </Button>
             </div>

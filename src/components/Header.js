@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -9,7 +9,13 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import { useSelector } from 'react-redux'
-import { Drawer, Button } from '@material-ui/core'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import { Button, MenuList } from '@material-ui/core'
+import RecDrawer from './RecDrawer'
+import Grow from '@material-ui/core/Grow'
+import Paper from '@material-ui/core/Paper'
+import Popper from '@material-ui/core/Popper'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
@@ -67,9 +73,17 @@ const Header = () => {
   const authenticated = useSelector(
     state => state.authentication.isAuthenticated
   )
+  const roles = useSelector(state => state.authentication.account.authorities)
+  let isAdmin = false
+  if (roles) {
+    isAdmin = roles.includes('ROLE_ADMIN')
+  }
   const [menuOpen, setMenuOpen] = useState(false)
   const [drawer, setDrawer] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
+  const [adminMenu, setAdminMenu] = useState(false)
+  const [currentEntity, setCurrentEntity] = useState('')
+  const anchorRef = useRef(null)
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -79,6 +93,11 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null)
     setMenuOpen(false)
+  }
+
+  const handleEntityClick = name => {
+    setCurrentEntity(name)
+    setAdminMenu(false)
   }
 
   return (
@@ -104,6 +123,75 @@ const Header = () => {
           </Typography>
           {authenticated && (
             <div>
+              <Button
+                color="secondary"
+                ref={anchorRef}
+                size="small"
+                aria-owns={true ? 'menu-list-grow' : undefined}
+                aria-haspopup="true"
+                onClick={() => setAdminMenu(true)}
+              >
+                Entities
+                <ExpandMore />
+              </Button>
+              <Popper
+                open={adminMenu}
+                anchorEl={anchorRef.current}
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === 'bottom' ? 'center top' : 'center bottom'
+                    }}
+                  >
+                    <Paper id="menu-list-grow">
+                      <ClickAwayListener
+                        onClickAway={() => setAdminMenu(false)}
+                      >
+                        <MenuList>
+                          <MenuItem selected={false}>Users</MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/facilities"
+                            onClick={() => handleEntityClick('fac')}
+                            selected={currentEntity === 'fac'}
+                          >
+                            Facilities
+                          </MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/reservations"
+                            onClick={() => handleEntityClick('res')}
+                            selected={currentEntity === 'res'}
+                          >
+                            Reservations
+                          </MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/equipment"
+                            onClick={() => handleEntityClick('equ')}
+                            selected={currentEntity === 'equ'}
+                          >
+                            Equipment
+                          </MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/equipment-reservations"
+                            onClick={() => handleEntityClick('equ-res')}
+                            selected={currentEntity === 'equ-res'}
+                          >
+                            Equipment Reservations
+                          </MenuItem>
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
               <IconButton
                 id="account-icon-button"
                 aria-label="account of current user"
@@ -141,9 +229,7 @@ const Header = () => {
           <SignInLogOut authenticated={authenticated} />
         </Toolbar>
       </AppBar>
-      <Drawer open={drawer} onClose={() => setDrawer(false)}>
-        Hello
-      </Drawer>
+      <RecDrawer open={drawer} onClose={() => setDrawer(false)} />
     </>
   )
 }
