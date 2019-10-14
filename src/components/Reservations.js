@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -8,11 +8,17 @@ import {
   TableHead,
   TableRow,
   ButtonGroup,
-  Button
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  TextField
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { get_reservations } from '../actions/reservations'
+import ReservationsDialog from './ReservationForm.js'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +35,24 @@ const Reservations = props => {
   const classes = useStyles()
   const entities = useSelector(state => state.reservations.entities)
   const dispatch = useDispatch()
+  const [open, setOpen] = useState(false)
+  const [selectedEntity, setSelectedEntity] = useState({})
+  const [editable, setEditable] = useState('view')
+
+
+ const handleClose = () => {
+    setOpen(false)
+  }
+
+   const handleOpen = (type, entity) => {
+      if (type === 'edit') {
+        setEditable(true)
+      } else {
+        setEditable(false)
+      }
+      setSelectedEntity(entity)
+      setOpen(true)
+    }
 
   useEffect(
     () => {
@@ -38,6 +62,7 @@ const Reservations = props => {
   )
 
   return (
+  <>
     <Card className={classes.root}>
       <CardHeader className={classes.cardHeader} title="Reservation Entities" />
       <Table aria-label="simple table">
@@ -66,17 +91,28 @@ const Reservations = props => {
                 <TableCell align="left" />
                 <TableCell align="center">
                   <ButtonGroup>
-                    <Button>View</Button>
-                    <Button>Save</Button>
+                    <Button onClick={() => handleOpen('view', row)}>
+                      View
+                    </Button>
+                    <Button onClick={() => handleOpen('edit', row)}>
+                      Edit
+                    </Button>
                     <Button>Delete</Button>
-                  </ButtonGroup>
+                    </ButtonGroup>
                 </TableCell>
               </TableRow>
             ))}
         </TableBody>
       </Table>
     </Card>
+    <ReservationsDialog
+            open={open}
+            handleClose={handleClose}
+            entity={selectedEntity}
+            editable={editable}
+     />
+     </>
   )
-}
+ }
 
 export default Reservations
