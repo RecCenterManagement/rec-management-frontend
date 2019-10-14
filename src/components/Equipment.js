@@ -13,7 +13,6 @@ import {
   DialogActions,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   TextField
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
@@ -64,10 +63,7 @@ const Reservations = props => {
   return (
     <>
       <Card className={classes.root}>
-        <CardHeader
-          className={classes.cardHeader}
-          title="Reservation Entities"
-        />
+        <CardHeader className={classes.cardHeader} title="Equipment Entities" />
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
