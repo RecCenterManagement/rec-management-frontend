@@ -69,16 +69,20 @@ const UserManagement = props => {
     dispatch(getUsers(state.activePage - 1, state.itemsPerPage, `${state.sort},${state.order}`));
   };
 
- const  toggleActive = user => () => {
-    dispatch(updateUser({
-      ...user,Three
-      activated: !user.activated
-    }));
-  }; */
+ */
   useEffect(() => {
     dispatch(getAllUsers())
   }, [dispatch])
-  console.log(account.username, users)
+
+  const toggleActive = user => {
+    console.log(user)
+    dispatch(
+      updateUser({
+        ...user,
+        activated: !user.activated
+      })
+    )
+  }
 
   return (
     <Card>
@@ -107,7 +111,11 @@ const UserManagement = props => {
                   </TableCell>
                   <TableCell>{row.login}</TableCell>
                   <TableCell>{row.email}</TableCell>
-                  <TableCell>{row.activated ? 'true' : 'false'}</TableCell>
+                  <TableCell>
+                    <Button onClick={() => toggleActive(row)}>
+                      {row.activated ? 'Activated' : 'Deactivated'}
+                    </Button>
+                  </TableCell>
                   <TableCell>{row.langKey}</TableCell>
                   <TableCell>
                     {row.authorities.map(item => (

@@ -10,13 +10,13 @@ export const RESET = 'userManagement/RESET'
 
 export const AUTH_KEY = 'ou-rcm-auth-token'
 const apiUrl = 'api/users'
+let token = localStorage.getItem(AUTH_KEY)
+token = token ? token : sessionStorage.getItem(AUTH_KEY)
+var config = {
+  headers: { Authorization: 'Bearer ' + token }
+}
 
 export const getAllUsers = () => (dispatch, getState) => {
-  let token = localStorage.getItem(AUTH_KEY)
-  token = token ? token : sessionStorage.getItem(AUTH_KEY)
-  var config = {
-    headers: { Authorization: 'Bearer ' + token }
-  }
   dispatch({
     type: REQUEST(FETCH_USERS),
     payload: {}
@@ -67,9 +67,9 @@ export const createUser = user => async dispatch => {
 export const updateUser = user => async dispatch => {
   const result = await dispatch({
     type: UPDATE_USER,
-    payload: axios.put(apiUrl, user)
+    payload: axios.put(apiUrl, user, config)
   })
-  dispatch(getUsers())
+  dispatch(getAllUsers())
   return result
 }
 
@@ -77,7 +77,7 @@ export const deleteUser = id => async dispatch => {
   const requestUrl = `${apiUrl}/${id}`
   const result = await dispatch({
     type: DELETE_USER,
-    payload: axios.delete(requestUrl)
+    payload: axios.delete(requestUrl,config)
   })
   dispatch(getUsers())
   return result
