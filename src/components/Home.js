@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import RecCenterVector from '../static/RecCenter.svg'
 import { Button } from '@material-ui/core'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import RecCalendar from './RecCalendar'
 
 const useStyles = makeStyles(theme => ({
   backgroundHome: {
@@ -84,6 +85,8 @@ const Home = () => {
             Membership
           </Button>
           <Button
+            component={Link}
+            to="/calendar"
             className={classes.homeButton}
             color="secondary"
             variant="outlined"
@@ -105,6 +108,7 @@ const Home = () => {
       </div>
       <Router>
         <Route path="/membership" component={Membership} />
+        <Route path="/calendar" component={RecCalendar} />
       </Router>
     </>
   )

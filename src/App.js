@@ -11,6 +11,7 @@ import Footer from './components/Footer'
 import Facilities from './components/Facilities'
 import Reservations from './components/Reservations'
 import Equipment from './components/Equipment'
+import RecCalendar from './components/RecCalendar'
 import EquipmentReservations from './components/EquipmentReservations'
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
       <Route path="/reservations" component={Reservations} />
       <Route path="/equipment" component={Equipment} />
       <Route path="/equipment-reservations" component={EquipmentReservations} />
+      <Route path="/calendar" component={RecCalendar} />
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}
