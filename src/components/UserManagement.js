@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
-  Paper,
+  Card,
   Table,
   TableBody,
   TableCell,
@@ -81,51 +81,60 @@ const UserManagement = props => {
   console.log(account.username, users)
 
   return (
-    <Paper>
+    <Card>
       <Grid container spacing={4}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell>Login</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Activated</TableCell>
-              <TableCell>Profiles</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map(row => (
-              <TableRow key={row.id}>
-                <TableCell component='th' scope='row'>
-                  {row.id}
-                </TableCell>
-                <TableCell>{row.login}</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{row.activated ? 'true' : 'false'}</TableCell>
-                <TableCell>{row.langKey}</TableCell>
-                <TableCell>
-                  {' '}
-                  {row.authorities.map(item => (
-                    <div>{item}</div>
-                  ))}
-                </TableCell>
-                <TableCell>{row.createdBy}</TableCell>
-                <TableCell>{row.createdDate}</TableCell>
-                <TableCell>{row.lastModifiedBy}</TableCell>
-                <TableCell>{row.lastModifiedDate}</TableCell>
-                <TableCell>
-                  <ButtonGroup variant='contained' color='primary'>
-                    <Button>View</Button>
-                    <Button>Edit</Button>
-                    <Button>Delete</Button>
-                  </ButtonGroup>
-                </TableCell>
+        <Grid item xs={12}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Id</TableCell>
+                <TableCell>Login</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Activated</TableCell>
+                <TableCell>Lan</TableCell>
+                <TableCell>Profiles</TableCell>
+                <TableCell>Created Date</TableCell>
+                <TableCell>Modified Date</TableCell>
+                <TableCell>Modified By</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {users.map(row => (
+                <TableRow key={row.id}>
+                  <TableCell component='th' scope='row'>
+                    {row.id}
+                  </TableCell>
+                  <TableCell>{row.login}</TableCell>
+                  <TableCell>{row.email}</TableCell>
+                  <TableCell>{row.activated ? 'true' : 'false'}</TableCell>
+                  <TableCell>{row.langKey}</TableCell>
+                  <TableCell>
+                    {row.authorities.map(item => (
+                      <div>{item}</div>
+                    ))}
+                  </TableCell>
+                  <TableCell>{row.createdDate}</TableCell>
+                  <TableCell>{row.lastModifiedDate}</TableCell>
+                  <TableCell>{row.lastModifiedBy}</TableCell>
+                  <TableCell>
+                    <ButtonGroup
+                      size='small'
+                      variant='contained'
+                      color='primary'
+                    >
+                      <Button>View</Button>
+                      <Button>Edit</Button>
+                      <Button>Delete</Button>
+                    </ButtonGroup>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Grid>
       </Grid>
-    </Paper>
+    </Card>
   )
 }
 
