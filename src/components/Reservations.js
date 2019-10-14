@@ -39,7 +39,7 @@ const Reservations = props => {
 
   return (
     <Card className={classes.root}>
-      <CardHeader className={classes.cardHeader} title="Facility Entities" />
+      <CardHeader className={classes.cardHeader} title="Reservation Entities" />
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
