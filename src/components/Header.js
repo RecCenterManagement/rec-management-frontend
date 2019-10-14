@@ -82,6 +82,7 @@ const Header = () => {
   const [drawer, setDrawer] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [adminMenu, setAdminMenu] = useState(false)
+  const [currentEntity, setCurrentEntity] = useState('')
   const anchorRef = useRef(null)
 
   const handleClick = event => {
@@ -92,6 +93,11 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null)
     setMenuOpen(false)
+  }
+
+  const handleEntityClick = name => {
+    setCurrentEntity(name)
+    setAdminMenu(false)
   }
 
   return (
@@ -148,9 +154,30 @@ const Header = () => {
                       >
                         <MenuList>
                           <MenuItem selected={false}>Users</MenuItem>
-                          <MenuItem selected={false}>Facilities</MenuItem>
-                          <MenuItem selected={false}>Reservations</MenuItem>
-                          <MenuItem selected={false}>Equipment</MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/facilities"
+                            onClick={() => handleEntityClick('fac')}
+                            selected={currentEntity === 'fac'}
+                          >
+                            Facilities
+                          </MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/reservations"
+                            onClick={() => handleEntityClick('res')}
+                            selected={currentEntity === 'res'}
+                          >
+                            Reservations
+                          </MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/equipment"
+                            onClick={() => handleEntityClick('equ')}
+                            selected={currentEntity === 'equ'}
+                          >
+                            Equipment
+                          </MenuItem>
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>
