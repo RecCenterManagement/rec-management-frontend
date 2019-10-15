@@ -8,7 +8,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import { Button, MenuList } from '@material-ui/core'
 import RecDrawer from './RecDrawer'
@@ -16,7 +16,8 @@ import Grow from '@material-ui/core/Grow'
 import Paper from '@material-ui/core/Paper'
 import Popper from '@material-ui/core/Popper'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { logout } from '../actions/authentication'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,38 +36,52 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export const SignInLogOut = props =>
-  props.authenticated ? (
+export const SignInLogOut = props => {
+
+  /*
+  Invoked when the user presses the 'logout' button. 
+  Dispatches a logout event to Redux, jumps to homepage and refreshes
+  */
+  const history = useHistory();
+  const dispatch = useDispatch();
+  function handleLogOut() {
+    dispatch(logout())
+    history.push('/')
+    window.location.reload();
+  }
+
+  return (props.authenticated ? (
     <Button
       component={Link}
-      to="/logout"
       style={{ marginLeft: '20px' }}
       variant="outlined"
       color="secondary"
+      onClick={handleLogOut}
     >
       Log Out
     </Button>
   ) : (
-    <>
-      <Button
-        component={Link}
-        to="/login"
-        style={{ marginLeft: '20px', marginRight: '20px' }}
-        variant="outlined"
-        color="secondary"
-      >
-        Log In
+      <>
+        <Button
+          component={Link}
+          to="/login"
+          style={{ marginLeft: '20px', marginRight: '20px' }}
+          variant="outlined"
+          color="secondary"
+        >
+          Log In
       </Button>
-      <Button
-        component={Link}
-        to="/register"
-        variant="outlined"
-        color="secondary"
-      >
-        Register
+        <Button
+          component={Link}
+          to="/register"
+          variant="outlined"
+          color="secondary"
+        >
+          Register
       </Button>
-    </>
-  )
+      </>
+    ))
+}
 
 const Header = () => {
   const classes = useStyles()
