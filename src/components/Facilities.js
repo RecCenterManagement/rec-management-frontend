@@ -132,7 +132,6 @@ const FacilitiesDialog = props => {
   const handleChange = event => {
     setEntity(event.target.value)
   }
-  console.log(editable)
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
