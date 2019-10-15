@@ -21,7 +21,12 @@ import {
 import { useHistory } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllUsers, getUsers, updateUser } from '../actions/user-management'
+import {
+  getAllUsers,
+  getUsers,
+  updateUser,
+  deleteUser
+} from '../actions/user-management'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -48,7 +53,7 @@ const UserManagement = props => {
     itemsPerPage: 10
   })
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(props ? props.open : false)
   const [editable, setEditable] = useState('view')
   const [selectedEntity, setSelectedEntity] = useState({})
   const classes = useStyles()
@@ -60,10 +65,6 @@ const UserManagement = props => {
     dispatch(getAllUsers())
   }, [dispatch])
 
-  const handleClose = () => {
-    setOpen(false)
-  }
-
   const handleOpen = (type, entity) => {
     console.log('DIALOG')
     if (type === 'edit') {
@@ -72,12 +73,16 @@ const UserManagement = props => {
       setEditable(false)
     }
     setSelectedEntity(entity)
-    setOpen(true)
+    setOpen(!open)
   }
   const toggleActive = user => {
     dispatch(updateUser({ ...user, activated: !user.activated }))
   }
-  console.log(users)
+  const handleDelete = id => {
+    dispatch(deleteUser(id))
+    
+  }
+  console.log("before",open)
 
   return (
     <>
@@ -128,7 +133,7 @@ const UserManagement = props => {
                     <Button onClick={() => handleOpen('edit', row)}>
                       Edit
                     </Button>
-                    <Button>Delete</Button>
+                    <Button onClick={() => handleDelete(row.id)}>Delete</Button>
                   </ButtonGroup>
                 </TableCell>
               </TableRow>
@@ -136,32 +141,39 @@ const UserManagement = props => {
           </TableBody>
         </Table>
       </Card>
-      <UsersDialog
-        open={open}
-        handleClose={handleClose}
-        entity={selectedEntity}
-        editable={editable}
-      />
+      <UsersDialog open={open} entity={selectedEntity} editable={editable} />
     </>
   )
 }
 
 const UsersDialog = props => {
-  const { open, handleClose, editable } = props
-
+  const dispatch = useDispatch()
+  const { editable } = props
   const [entity, setEntity] = useState(props.entity)
+  const [open, setOpen] = useState(props.open)
 
   useEffect(() => {
     setEntity(props.entity)
-  }, [props.entity])
+    setOpen(props.open)
+  }, [props.entity, props.open])
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
   }
-  console.log(entity)
+
+  const handleClose = () => {
+    setOpen(!open)
+  }
+
+  const handleUpdate = entity => {
+    dispatch(updateUser(entity))
+    setOpen(!open)
+  }
+
+  console.log("afeter",props, open)
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
-      <DialogTitle id='form-dialog-title'>Equipment Editor</DialogTitle>
+      <DialogTitle id='form-dialog-title'>User Editor</DialogTitle>
       <DialogContent>
         <TextField
           disabled={true}
@@ -297,7 +309,7 @@ const UsersDialog = props => {
           <Button onClick={handleClose} color='secondary'>
             Cancel
           </Button>
-          <Button onClick={handleClose} color='secondary'>
+          <Button onClick={() => handleUpdate(entity)} color='secondary'>
             Save
           </Button>
         </DialogActions>
