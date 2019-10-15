@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Card,
-  CardHeader,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  ButtonGroup,
   Button,
   Dialog,
   DialogActions,
@@ -15,9 +7,6 @@ import {
   DialogContent,
   TextField
 } from '@material-ui/core'
-import { useSelector, useDispatch } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
-import { get_reservations } from '../actions/reservations'
 
 const ReservationsDialog = props => {
   const { open, handleClose, editable } = props
@@ -34,7 +23,6 @@ const ReservationsDialog = props => {
   const handleChange = event => {
     setEntity(event.target.value)
   }
-  console.log(editable)
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
@@ -50,79 +38,79 @@ const ReservationsDialog = props => {
           onChange={handleChange}
           fullWidth
         />
-         <TextField
-                  disabled={!editable}
-                  style={{ margin: '12px' }}
-                  id="name"
-                  label="Estimated Participants"
-                  value={entity.estimatedParticipants}
-                  type="number"
-                  onChange={handleChange}
-                  fullWidth
-                />
-         <TextField
-                  disabled={!editable}
-                  style={{ margin: '12px' }}
-                  id="name"
-                  label="Start Time"
-                  value={entity.startTime}
-                  type="DateTimeOffset"
-                  onChange={handleChange}
-                  fullWidth
-                />
-                <TextField
-                  disabled={!editable}
-                  style={{ margin: '12px' }}
-                  id="name"
-                  label="End Time"
-                  value={entity.endTime}
-                  type="datetime"
-                  onChange={handleChange}
-                  fullWidth
-                />
-                <TextField
-                  disabled={!editable}
-                  style={{ margin: '12px' }}
-                  id="name"
-                  label="User"
-                  value={entity.user}
-                  type="text"
-                  onChange={handleChange}
-                  fullWidth
-                />
-                <TextField
-                  disabled={!editable}
-                  style={{ margin: '12px' }}
-                  id="name"
-                  label="Facilities"
-                  value={entity.facilities}
-                  type="text"
-                  onChange={handleChange}
-                  fullWidth
-                />
-                <TextField
-                  disabled={!editable}
-                  style={{ margin: '12px' }}
-                  id="name"
-                  label="Equipment"
-                  value={entity.equipmentReservations}
-                  type="text"
-                  onChange={handleChange}
-                  fullWidth
-                />
-        </DialogContent>
-              {editable && (
-                <DialogActions>
-                  <Button onClick={handleClose} color="secondary">
-                    Cancel
-                  </Button>
-                  <Button onClick={handleClose} color="secondary">
-                    Save
-                  </Button>
-                </DialogActions>
-              )}
-            </Dialog>
-          )
-        }
+        <TextField
+          disabled={!editable}
+          style={{ margin: '12px' }}
+          id="name"
+          label="Estimated Participants"
+          value={entity.estimatedParticipants}
+          type="number"
+          onChange={handleChange}
+          fullWidth
+        />
+        <TextField
+          disabled={!editable}
+          style={{ margin: '12px' }}
+          id="name"
+          label="Start Time"
+          value={entity.startTime}
+          type="DateTimeOffset"
+          onChange={handleChange}
+          fullWidth
+        />
+        <TextField
+          disabled={!editable}
+          style={{ margin: '12px' }}
+          id="name"
+          label="End Time"
+          value={entity.endTime}
+          type="datetime"
+          onChange={handleChange}
+          fullWidth
+        />
+        <TextField
+          disabled={!editable}
+          style={{ margin: '12px' }}
+          id="name"
+          label="User"
+          value={entity.user}
+          type="text"
+          onChange={handleChange}
+          fullWidth
+        />
+        <TextField
+          disabled={!editable}
+          style={{ margin: '12px' }}
+          id="name"
+          label="Facilities"
+          value={entity.facilities}
+          type="text"
+          onChange={handleChange}
+          fullWidth
+        />
+        <TextField
+          disabled={!editable}
+          style={{ margin: '12px' }}
+          id="name"
+          label="Equipment"
+          value={entity.equipmentReservations}
+          type="text"
+          onChange={handleChange}
+          fullWidth
+        />
+      </DialogContent>
+      {editable && (
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="secondary">
+            Save
+          </Button>
+        </DialogActions>
+      )}
+    </Dialog>
+  )
+}
 
 export default ReservationsDialog
