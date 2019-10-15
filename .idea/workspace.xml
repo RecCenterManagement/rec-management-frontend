@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d28cae7a-81fa-4c31-9f81-336c79663623" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/ReservationForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Membership.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,7 +15,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="amgoodfellow-7" />
+        <entry key="$PROJECT_DIR$" value="tmpiot-form" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -61,7 +62,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
