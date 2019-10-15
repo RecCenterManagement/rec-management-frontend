@@ -8,12 +8,7 @@ import {
   TableHead,
   TableRow,
   ButtonGroup,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  DialogContent,
-  TextField
+  Button
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
@@ -39,20 +34,19 @@ const Reservations = props => {
   const [selectedEntity, setSelectedEntity] = useState({})
   const [editable, setEditable] = useState('view')
 
-
- const handleClose = () => {
+  const handleClose = () => {
     setOpen(false)
   }
 
-   const handleOpen = (type, entity) => {
-      if (type === 'edit') {
-        setEditable(true)
-      } else {
-        setEditable(false)
-      }
-      setSelectedEntity(entity)
-      setOpen(true)
+  const handleOpen = (type, entity) => {
+    if (type === 'edit') {
+      setEditable(true)
+    } else {
+      setEditable(false)
     }
+    setSelectedEntity(entity)
+    setOpen(true)
+  }
 
   useEffect(
     () => {
@@ -62,57 +56,62 @@ const Reservations = props => {
   )
 
   return (
-  <>
-    <Card className={classes.root}>
-      <CardHeader className={classes.cardHeader} title="Reservation Entities" />
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">ID</TableCell>
-            <TableCell align="left">Event</TableCell>
-            <TableCell align="left">Estimated Particpants</TableCell>
-            <TableCell align="left">Start Time</TableCell>
-            <TableCell align="left">End Time</TableCell>
-            <TableCell align="left">User</TableCell>
-            <TableCell align="center">Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {entities &&
-            entities.map(row => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.id}
-                </TableCell>
-                <TableCell align="left">{row.event}</TableCell>
-                <TableCell align="left">{row.estimatedParticipants}</TableCell>
-                <TableCell align="left">{row.startTime}</TableCell>
-                <TableCell align="left">{row.endTime}</TableCell>
-                <TableCell align="left" />
-                <TableCell align="center">
-                  <ButtonGroup>
-                    <Button onClick={() => handleOpen('view', row)}>
-                      View
-                    </Button>
-                    <Button onClick={() => handleOpen('edit', row)}>
-                      Edit
-                    </Button>
-                    <Button>Delete</Button>
+    <>
+      <Card className={classes.root}>
+        <CardHeader
+          className={classes.cardHeader}
+          title="Reservation Entities"
+        />
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">ID</TableCell>
+              <TableCell align="left">Event</TableCell>
+              <TableCell align="left">Estimated Particpants</TableCell>
+              <TableCell align="left">Start Time</TableCell>
+              <TableCell align="left">End Time</TableCell>
+              <TableCell align="left">User</TableCell>
+              <TableCell align="center">Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {entities &&
+              entities.map(row => (
+                <TableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {row.id}
+                  </TableCell>
+                  <TableCell align="left">{row.event}</TableCell>
+                  <TableCell align="left">
+                    {row.estimatedParticipants}
+                  </TableCell>
+                  <TableCell align="left">{row.startTime}</TableCell>
+                  <TableCell align="left">{row.endTime}</TableCell>
+                  <TableCell align="left">{row.user.login}</TableCell>
+                  <TableCell align="center">
+                    <ButtonGroup>
+                      <Button onClick={() => handleOpen('view', row)}>
+                        View
+                      </Button>
+                      <Button onClick={() => handleOpen('edit', row)}>
+                        Edit
+                      </Button>
+                      <Button>Delete</Button>
                     </ButtonGroup>
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-    </Card>
-    <ReservationsDialog
-            open={open}
-            handleClose={handleClose}
-            entity={selectedEntity}
-            editable={editable}
-     />
-     </>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </Card>
+      <ReservationsDialog
+        open={open}
+        handleClose={handleClose}
+        entity={selectedEntity}
+        editable={editable}
+      />
+    </>
   )
- }
+}
 
 export default Reservations
