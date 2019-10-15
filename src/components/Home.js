@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '15px',
     transition: 'background-color 0.5s ease',
     [theme.breakpoints.down('md')]: {
-      backgroundColor: '#877148'
+      backgroundColor: theme.palette.secondary.main,
+      color: theme.palette.secondary.contrastText
     },
     [theme.breakpoints.down('xs')]: {
       height: '75px'
