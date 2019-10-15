@@ -77,9 +77,14 @@ export const deleteUser = id => async dispatch => {
   const requestUrl = `${apiUrl}/${id}`
   const result = await dispatch({
     type: DELETE_USER,
-    payload: axios.delete(requestUrl,config)
+    payload: axios.delete(requestUrl,config).then(result => {
+      dispatch({ type: SUCCESS(DELETE_USER), payload: result })
+    })
+    .catch(error => {
+      dispatch({ type: FAILURE(DELETE_USER), payload: error })
+    })
   })
-  dispatch(getUsers())
+  dispatch(getAllUsers())
   return result
 }
 
