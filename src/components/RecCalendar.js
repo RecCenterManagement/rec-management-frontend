@@ -48,7 +48,7 @@ const RecCalendar = () => {
   const [temporaryEvent, setTemporaryEvent] = useState({})
   const [open, setOpen] = useState(false)
 
-  const username = useSelector(state => state.authentication.account.login)
+  const user = useSelector(state => state.authentication.account)
 
   const handleChange = event => {
     setValue(event.target.value)
@@ -89,9 +89,26 @@ const RecCalendar = () => {
     event: temporaryEvent.title,
     startTime: temporaryEvent.start,
     endTime: temporaryEvent.end,
-    facilities: value,
-    user: username
+    facilities: facilities.filter(f => f.name === value)[0],
+    user: user
   })
+
+  const generate_events = () => {
+    let events_arr = []
+    reservations.forEach(reservation => {
+      events_arr.push({
+        id: reservation.id,
+        allDay: false,
+        title: reservation.event,
+        start: new Date(reservation.startTime),
+        end: new Date(reservation.endTime),
+        desc: `${reservation.estimatedParticipants} participants`
+      })
+    })
+    events_arr.push(temporaryEvent)
+
+    return events_arr
+  }
 
   return (
     <div>
@@ -128,19 +145,7 @@ const RecCalendar = () => {
           selectable
           onSelectSlot={handleSelectSlot}
           defaultView={Views.WEEK}
-          events={[
-            reservations.map(reservation => {
-              return {
-                id: reservation.id,
-                allDay: false,
-                title: reservation.event,
-                start: new Date(reservation.startTime),
-                end: new Date(reservation.endTime),
-                desc: `${reservation.estimatedParticipants} participants`
-              }
-            }),
-            temporaryEvent
-          ]}
+          events={generate_events()}
           views={['week', 'month']}
           startAccessor="start"
           endAccessor="end"
@@ -161,6 +166,7 @@ const RecCalendar = () => {
         handleClose={() => setOpen(false)}
         editable={true}
         entity={eventToEntity()}
+        create={true}
       />
     </div>
   )
