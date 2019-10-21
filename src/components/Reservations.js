@@ -87,7 +87,7 @@ const Reservations = props => {
                   </TableCell>
                   <TableCell align="left">{row.startTime}</TableCell>
                   <TableCell align="left">{row.endTime}</TableCell>
-                  <TableCell align="left">{row.user.login}</TableCell>
+                  <TableCell align="left">{row.login}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup>
                       <Button onClick={() => handleOpen('view', row)}>

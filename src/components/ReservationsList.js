@@ -1,9 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import {AppBar, Tab, Tabs, Typography, Box} from '@material-ui/core'
+import Reservations from './Reservations'
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      <Box p={3}>{children}</Box>
+    </Typography>
+  );
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,7 +50,7 @@ export default function ReservationsList() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Past reservations
+        <Reservations/>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Pending Reservations
@@ -43,6 +58,7 @@ export default function ReservationsList() {
       <TabPanel value={value} index={2}>
         Upcoming Reservations
       </TabPanel>
+
     </div>
   )
 }

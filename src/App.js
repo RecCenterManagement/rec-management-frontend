@@ -9,7 +9,7 @@ import { AUTH_KEY, getUserAccount } from './actions/authentication'
 import Register from './components/Register'
 import Footer from './components/Footer'
 import Facilities from './components/Facilities'
-import Reservations from './components/Reservations'
+import ReservationsList from './components/ReservationsList'
 import Equipment from './components/Equipment'
 import RecCalendar from './components/RecCalendar'
 import EquipmentReservations from './components/EquipmentReservations'
@@ -38,7 +38,7 @@ function App() {
       <Route path="/register" component={Register} />
       <Route path="/settings" component={Settings} />
       <Route path="/facilities" component={Facilities} />
-      <Route path="/reservations" component={Reservations} />
+      <Route path="/reservations" component={ReservationsList} />
       <Route path="/equipment" component={Equipment} />
       <Route path="/equipment-reservations" component={EquipmentReservations} />
       <Route path="/membership" component={Membership} />
