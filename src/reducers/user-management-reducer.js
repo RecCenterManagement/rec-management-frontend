@@ -9,7 +9,7 @@ import {
   } from '../actions/user-management'
 import { REQUEST, SUCCESS, FAILURE } from '../actions/actions-util';
 
-
+//change to let
 const initialState = {
     loading: false,
     errorMessage: null,

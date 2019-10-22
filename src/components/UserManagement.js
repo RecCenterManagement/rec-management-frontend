@@ -87,7 +87,7 @@ const UserManagement = props => {
   return (
     <>
       <Card className={classes.card}>
-        <CardHeader className={classes.cardHeader} title='Facility Entities' />
+        <CardHeader className={classes.cardHeader} title='User Management' />
         <Table aria-label='simple table'>
           <TableHead>
             <TableRow>
