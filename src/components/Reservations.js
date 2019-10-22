@@ -109,6 +109,7 @@ const Reservations = props => {
         handleClose={handleClose}
         entity={selectedEntity}
         editable={editable}
+        create={false}
       />
     </>
   )

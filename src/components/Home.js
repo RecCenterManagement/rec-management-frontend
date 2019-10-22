@@ -9,27 +9,40 @@ const useStyles = makeStyles(theme => ({
   backgroundHome: {
     background: `url(${RecCenterVector}) no-repeat right center`,
     backgroundColor: '#343434',
-    height: '80vh'
+    overflow: 'hidden',
   },
   homepagetitle: {
-    margin: '5%',
-    position: 'absolute',
-    right: '0px',
     fontSize: '2em',
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    float: 'right',
+    margin: '15px'
   },
   homeButton: {
     height: '150px',
-    margin: '15px',
-    maxWidth: '150px'
+    marginBottom: '15px',
+    transition: 'background-color 0.5s ease',
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: theme.palette.secondary.main,
+      color: theme.palette.secondary.contrastText
+    },
+    [theme.breakpoints.down('xs')]: {
+      height: '75px'
+    }
   },
   homeButtonContainer: {
     display: 'flex',
     flexDirection: 'column',
-    width: '25%',
-    marginLeft: '5%',
-    paddingTop: '6%'
+    width: '150px',
+    marginLeft: '50px',
+    paddingTop: '50px',
+    paddingBottom: '50px',
+    [theme.breakpoints.down('xs')]: {
+      width: 'auto',
+      marginLeft: '10px',
+      marginRight: '10px'
+    }
+    
   }
 }))
 
