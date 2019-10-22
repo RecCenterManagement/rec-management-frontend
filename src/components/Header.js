@@ -153,6 +153,7 @@ const Header = () => {
                 anchorEl={anchorRef.current}
                 transition
                 disablePortal
+                style={{ zIndex: 1 }}
               >
                 {({ TransitionProps, placement }) => (
                   <Grow
