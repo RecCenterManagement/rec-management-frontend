@@ -37,20 +37,19 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export const SignInLogOut = props => {
-
   /*
   Invoked when the user presses the 'logout' button. 
   Dispatches a logout event to Redux, jumps to homepage and refreshes
   */
-  const history = useHistory();
-  const dispatch = useDispatch();
+  const history = useHistory()
+  const dispatch = useDispatch()
   function handleLogOut() {
     dispatch(logout())
     history.push('/')
-    window.location.reload();
+    window.location.reload()
   }
 
-  return (props.authenticated ? (
+  return props.authenticated ? (
     <Button
       component={Link}
       style={{ marginLeft: '20px' }}
@@ -61,26 +60,26 @@ export const SignInLogOut = props => {
       Log Out
     </Button>
   ) : (
-      <>
-        <Button
-          component={Link}
-          to="/login"
-          style={{ marginLeft: '20px', marginRight: '20px' }}
-          variant="outlined"
-          color="secondary"
-        >
-          Log In
+    <>
+      <Button
+        component={Link}
+        to="/login"
+        style={{ marginLeft: '20px', marginRight: '20px' }}
+        variant="outlined"
+        color="secondary"
+      >
+        Log In
       </Button>
-        <Button
-          component={Link}
-          to="/register"
-          variant="outlined"
-          color="secondary"
-        >
-          Register
+      <Button
+        component={Link}
+        to="/register"
+        variant="outlined"
+        color="secondary"
+      >
+        Register
       </Button>
-      </>
-    ))
+    </>
+  )
 }
 
 const Header = () => {

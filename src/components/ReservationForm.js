@@ -7,21 +7,56 @@ import {
   DialogContent,
   TextField
 } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { create_reservation, put_reservation } from '../actions/reservations'
 
 const ReservationsDialog = props => {
-  const { open, handleClose, editable } = props
+  const { open, handleClose, editable, create } = props
 
-  const [entity, setEntity] = useState(props.entity)
+  const dispatch = useDispatch()
+
+  const [entity, setEntity] = useState({
+    id: 0,
+    event: '',
+    estimatedParticipants: 0,
+    startTime: '',
+    endTime: '',
+    user: '',
+    facilities: [''],
+    equipmentReservations: '',
+    facilityObject: {}
+  })
 
   useEffect(
     () => {
-      setEntity(props.entity)
+      setEntity({
+        id: props.entity.id,
+        event: props.entity.event,
+        estimatedParticipants: props.entity.estimatedParticipants,
+        startTime: props.entity.startTime,
+        endTime: props.entity.endTime,
+        user: props.entity.user ? props.entity.user.login : props.entity.user,
+        facilities: props.entity.facilities
+          ? props.entity.facilities.name
+          : props.entity.facilities,
+        facilitiesObject: props.entity.facilities,
+        equipmentReservations: props.entity.equipmentReservations
+      })
     },
     [props.entity]
   )
 
-  const handleChange = event => {
-    setEntity(event.target.value)
+  const handleChange = name => event => {
+    setEntity({ ...entity, [name]: event.target.value })
+  }
+
+  const handleSave = () => {
+    if (create) {
+      dispatch(create_reservation(entity))
+    } else {
+      dispatch(put_reservation(entity))
+    }
+    handleClose()
   }
 
   return (
@@ -35,7 +70,7 @@ const ReservationsDialog = props => {
           label="Event"
           value={entity.event}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('event')}
           fullWidth
         />
         <TextField
@@ -45,7 +80,7 @@ const ReservationsDialog = props => {
           label="Estimated Participants"
           value={entity.estimatedParticipants}
           type="number"
-          onChange={handleChange}
+          onChange={handleChange('estimatedParticipants')}
           fullWidth
         />
         <TextField
@@ -55,7 +90,7 @@ const ReservationsDialog = props => {
           label="Start Time"
           value={entity.startTime}
           type="DateTimeOffset"
-          onChange={handleChange}
+          onChange={handleChange('startTime')}
           fullWidth
         />
         <TextField
@@ -65,7 +100,7 @@ const ReservationsDialog = props => {
           label="End Time"
           value={entity.endTime}
           type="datetime"
-          onChange={handleChange}
+          onChange={handleChange('endTime')}
           fullWidth
         />
         <TextField
@@ -75,7 +110,7 @@ const ReservationsDialog = props => {
           label="User"
           value={entity.user}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('user')}
           fullWidth
         />
         <TextField
@@ -85,7 +120,7 @@ const ReservationsDialog = props => {
           label="Facilities"
           value={entity.facilities}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('facilities')}
           fullWidth
         />
         <TextField
@@ -95,7 +130,7 @@ const ReservationsDialog = props => {
           label="Equipment"
           value={entity.equipmentReservations}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('equipmentReservations')}
           fullWidth
         />
       </DialogContent>
@@ -104,7 +139,7 @@ const ReservationsDialog = props => {
           <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleSave} color="secondary">
             Save
           </Button>
         </DialogActions>
