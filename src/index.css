@@ -13,8 +13,9 @@ code {
 }
 
 /* ==========================================================================
-Main page styles
+Reservation calendar styles
 ========================================================================== */
+
 .rbc-events-container {
   pointer-events: none;
 }
@@ -37,16 +38,6 @@ Main page styles
   padding: 1rem;
   width: 100%;
   font-size: 24px;
-}
-
-.toggle-button-room.toggle-button-false {
-  background-color: white !important;
-  color: black;
-}
-
-.toggle-button-room.toggle-button-false {
-  background-color: white !important;
-  color: black;
 }
 
 .reservation-calendar-wrapper {
@@ -81,10 +72,4 @@ Main page styles
   text-align: center;
   width: 100%;
   font-size: 36px;
-}
-
-.btn-primary.disabled,
-.btn-primary:disabled {
-  background-color: #909090;
-  border-color: #909090;
 }
