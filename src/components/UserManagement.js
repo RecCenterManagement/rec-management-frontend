@@ -68,9 +68,11 @@ const UserManagement = props => {
   }
   const toggleActive = user => {
     dispatch(updateUser({ ...user, activated: !user.activated }))
+    dispatch(getAllUsers())
   }
   const handleDelete = login => {
     dispatch(deleteUser(login))
+    dispatch(getAllUsers())
   }
 
   return (
@@ -160,6 +162,7 @@ const UsersDialog = props => {
 
   const handleUpdate = () => {
     dispatch(updateUser(entity))
+    dispatch(getAllUsers())
     handleClose()
   }
 
