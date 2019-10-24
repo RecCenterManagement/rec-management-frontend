@@ -14,18 +14,19 @@ import {
   ButtonGroup,
   Button,
   Typography,
-  Box
+  Box,
+  Grid
 } from '@material-ui/core'
 import Reservations from './Reservations'
-import { get_reservations } from '../actions/reservations'
+import { get_reservations_by_user_id } from '../actions/reservations'
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props
+  const { children, value, index, name, ...other } = props
   return (
     <Typography
       component='div'
       role='tabpanel'
-      hidden={value !== index}
+      hidden={value !== name}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
@@ -44,48 +45,39 @@ const useStyles = makeStyles(theme => ({
 
 export default function ReservationsList() {
   const classes = useStyles()
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = React.useState('APPROVED')
   const accountID = useSelector(state => state.authentication.account.id)
-  const allReservations = useSelector(state => state.reservations.entities)
+  const reservations = useSelector(state => state.reservations.entities)
+  const [date, setDate] = useState(new Date())
+  const [filteredReservations, setFilteredReservations] = useState([])
   const dispatch = useDispatch()
-  const [reservations, setReservations] = useState([])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-  useEffect(() => {
-    dispatch(get_reservations())
-  }, [dispatch])
 
   useEffect(() => {
-    setReservations(
-      allReservations.filter(reservation => reservation.user.id === accountID)
-    )
-  }, [allReservations])
+    if (accountID) {
+      console.log(accountID)
+      dispatch(get_reservations_by_user_id(accountID))
+    }
+  }, [dispatch, accountID])
 
-  const handleFilterReservations = () => { 
-    let temp = []
-    let date = new Date()
-    reservations.map(reservation => {
-      let start = new Date(reservation.startTime)
-      let end = new Date(reservation.endTime)
-      switch (date) {
-        case date > start && date > end:
-          temp.push(reservation)
-          break
-        case date <= start /*&& status === approved*/:
-          temp.push(reservation)
-          break
-        case date <= start /*&& status === pending*/:
-          temp.push(reservation)
-          break
-        default:
-          break
-      }
-    })
-    setReservations(temp)
+  const handleFilterReservations = () => {
+    if (value === 'PAST') {
+      setFilteredReservations(
+        reservations.filter(
+          res => Date(res.startTime) < date && Date(res.endTime) < date
+        )
+      )
+    } else {
+      setFilteredReservations(reservations.filter(res => res.status === value))
+    }
   }
-  console.log(reservations)
+  useEffect(() => {
+    handleFilterReservations()
+  }, [reservations, value])
+
   return (
     <div className={classes.root}>
       <AppBar position='static' color='primary'>
@@ -95,29 +87,30 @@ export default function ReservationsList() {
           aria-label='Reservations category tabs'
           centered
         >
-          <Tab label='Past' />
-          <Tab label='Pending' />
-          <Tab label='Upcoming' />
+          <Tab value='APPROVED' label='Approved' />
+          <Tab value='PENDING' label='Pending' />
+          <Tab value='DENIED' label='Denied' />
+          <Tab value='PAST' label='History' />
         </Tabs>
       </AppBar>
-      {[0, 1, 2].map((panel, index) => {
-        return (
-          <TabPanel value={value} index={index}>
-            <Table aria-label='simple table'>
-              <TableHead>
-                <TableRow>
-                  <TableCell align='left'>Event</TableCell>
-                  <TableCell align='left'>Estimated Particpants</TableCell>
-                  <TableCell align='left'>Start Time</TableCell>
-                  <TableCell align='left'>End Time</TableCell>
-                  { index === 0 && <TableCell align='left'>Status</TableCell>}
-
-                  <TableCell align='center'>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {reservations &&
-                  reservations.map(row => (
+      {reservations &&
+      reservations.filter(res => res.status === value).length !== 0 ? (
+        ['APPROVED', 'PENDING', 'DENIED', 'PAST'].map((panel, index) => {
+          return (
+            <TabPanel value={value} name={panel} index={index}>
+              <Table aria-label='simple table'>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align='left'>Event</TableCell>
+                    <TableCell align='left'>Estimated Particpants</TableCell>
+                    <TableCell align='left'>Start Time</TableCell>
+                    <TableCell align='left'>End Time</TableCell>
+                    {index === 3 && <TableCell align='left'>Status</TableCell>}
+                    <TableCell align='center'>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {filteredReservations.map(row => (
                     <TableRow key={row.name}>
                       <TableCell align='left'>{row.event}</TableCell>
                       <TableCell align='left'>
@@ -125,23 +118,30 @@ export default function ReservationsList() {
                       </TableCell>
                       <TableCell align='left'>{row.startTime}</TableCell>
                       <TableCell align='left'>{row.endTime}</TableCell>
-                      { index === 0 && <TableCell align='left'>Status</TableCell>}
+                      {index === 3 && (
+                        <TableCell align='left'>Status</TableCell>
+                      )}
                       <TableCell align='center'>
                         <ButtonGroup>
-                          {(index === 1 || index === 2) && (
+                          <Button>View</Button>
+                          {index === 1 && <Button>Edit</Button>}
+                          {(index === 0 || index === 1) && (
                             <Button>Cancel</Button>
                           )}
-                          {index === 1 && <Button>Edit</Button>}
-                          <Button>View</Button>
                         </ButtonGroup>
                       </TableCell>
                     </TableRow>
                   ))}
-              </TableBody>
-            </Table>
-          </TabPanel>
-        )
-      })}
+                </TableBody>
+              </Table>
+            </TabPanel>
+          )
+        })
+      ) : (
+        <div style={{ padding: '20px' }}>
+          <Typography>No reservations for this criteria</Typography>
+        </div>
+      )}
     </div>
   )
 }
