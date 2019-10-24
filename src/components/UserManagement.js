@@ -50,8 +50,12 @@ const UserManagement = props => {
     () => {
       dispatch(getAllUsers())
     },
-    [dispatch, users]
+    [dispatch]
   )
+
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   const handleOpen = (type, entity) => {
     if (type === 'edit') {
@@ -60,7 +64,7 @@ const UserManagement = props => {
       setEditable(false)
     }
     setSelectedEntity(entity)
-    setOpen(!open)
+    setOpen(true)
   }
   const toggleActive = user => {
     dispatch(updateUser({ ...user, activated: !user.activated }))
@@ -101,16 +105,16 @@ const UserManagement = props => {
                     {row.activated ? 'Activated' : 'Deactivated'}
                   </Button>
                 </TableCell>
-                <TableCell>{row.langKey}</TableCell>
-                <TableCell>
+                <TableCell align='right'> {row.langKey}</TableCell>
+                <TableCell align='right'>
                   {row.authorities.map(item => (
                     <div>{item}</div>
                   ))}
                 </TableCell>
                 <TableCell align='right'>{row.createdDate}</TableCell>
                 <TableCell align='right'>{row.lastModifiedDate}</TableCell>
-                <TableCell align='center'>{row.lastModifiedBy}</TableCell>
-                <TableCell>
+                <TableCell align='right'>{row.lastModifiedBy}</TableCell>
+                <TableCell align='center'>
                   <ButtonGroup size='small' variant='contained' color='primary'>
                     <Button onClick={() => handleOpen('view', row)}>
                       View
@@ -128,36 +132,35 @@ const UserManagement = props => {
           </TableBody>
         </Table>
       </Card>
-      <UsersDialog open={open} entity={selectedEntity} editable={editable} />
+      <UsersDialog
+        open={open}
+        entity={selectedEntity}
+        editable={editable}
+        handleClose={handleClose}
+      />
     </>
   )
 }
 
 const UsersDialog = props => {
   const dispatch = useDispatch()
-  const { editable } = props
-  const [entity, setEntity] = useState(props.entity)
-  const [open, setOpen] = useState(props.open)
+  const { open, handleClose, editable } = props
+  const [entity, setEntity] = useState({})
 
   useEffect(
     () => {
       setEntity(props.entity)
-      setOpen(props.open)
     },
-    [props.entity, props.open]
+    [props.entity]
   )
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
   }
 
-  const handleClose = () => {
-    setOpen(!open)
-  }
-
-  const handleUpdate = entity => {
+  const handleUpdate = () => {
     dispatch(updateUser(entity))
-    setOpen(!open)
+    handleClose()
   }
 
   console.log('afeter', props, open)
@@ -299,7 +302,7 @@ const UsersDialog = props => {
           <Button onClick={handleClose} color='secondary'>
             Cancel
           </Button>
-          <Button onClick={() => handleUpdate(entity)} color='secondary'>
+          <Button onClick={handleUpdate} color='secondary'>
             Save
           </Button>
         </DialogActions>
