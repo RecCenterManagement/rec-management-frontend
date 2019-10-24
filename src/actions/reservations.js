@@ -12,14 +12,9 @@ export const AUTH_KEY = 'ou-rcm-auth-token'
 
 export const get_reservations = () => {
   return dispatch => {
-    let token = localStorage.getItem(AUTH_KEY)
-    token = token ? token : sessionStorage.getItem(AUTH_KEY)
-    var config = {
-      headers: { Authorization: 'Bearer ' + token }
-    }
     dispatch({ type: FETCH_RESERVATIONS_START, payload: {} })
     axios
-      .get('api/reservations', config)
+      .get('api/reservations')
       .then(result => {
         console.log(result)
         dispatch({ type: RECEIVE_RESERVATIONS, payload: result.data })
@@ -33,14 +28,9 @@ export const get_reservations = () => {
 
 export const put_reservation = entity => {
   return (dispatch, getState) => {
-    let token = localStorage.getItem(AUTH_KEY)
-    token = token ? token : sessionStorage.getItem(AUTH_KEY)
-    var config = {
-      headers: { Authorization: 'Bearer ' + token }
-    }
     entity.user = getState().authentication.account
     axios
-      .put('api/reservations', entity, config)
+      .put('api/reservations', entity)
       .then(() => {
         const old_entities = getState().reservations.entities
         const new_entities = old_entities.map(element => {
@@ -57,17 +47,12 @@ export const put_reservation = entity => {
 
 export const create_reservation = entity => {
   return (dispatch, getState) => {
-    let token = localStorage.getItem(AUTH_KEY)
-    token = token ? token : sessionStorage.getItem(AUTH_KEY)
-    var config = {
-      headers: { Authorization: 'Bearer ' + token }
-    }
     delete entity.id
     entity.user = getState().authentication.account
     entity.facilities = [entity.facilitiesObject]
     delete entity.facilitiesObject
     axios
-      .post('api/reservations', entity, config)
+      .post('api/reservations', entity)
       .then(result => {
         let old_entities = getState().reservations.entities
         old_entities.push(result.data)

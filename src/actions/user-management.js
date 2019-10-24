@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SUCCESS, REQUEST, FAILURE } from './actions-util'
+import { SUCCESS, REQUEST, FAILURE} from './actions-util'
 export const FETCH_ROLES = 'userManagement/FETCH_ROLES'
 export const FETCH_USERS = 'userManagement/FETCH_USERS'
 export const FETCH_USER = 'userManagement/FETCH_USER'
@@ -8,13 +8,7 @@ export const UPDATE_USER = 'userManagement/UPDATE_USER'
 export const DELETE_USER = 'userManagement/DELETE_USER'
 export const RESET = 'userManagement/RESET'
 
-export const AUTH_KEY = 'ou-rcm-auth-token'
 const apiUrl = 'api/users'
-let token = localStorage.getItem(AUTH_KEY)
-token = token ? token : sessionStorage.getItem(AUTH_KEY)
-var config = {
-  headers: { Authorization: 'Bearer ' + token }
-}
 
 export const getAllUsers = () => (dispatch, getState) => {
   dispatch({
@@ -22,7 +16,7 @@ export const getAllUsers = () => (dispatch, getState) => {
     payload: {}
   })
   axios
-    .get(apiUrl, config)
+    .get(apiUrl)
     .then(result => {
       console.log(result)
       dispatch({ type: SUCCESS(FETCH_USERS), payload: result })
@@ -67,7 +61,7 @@ export const createUser = user => async dispatch => {
 export const updateUser = user => async dispatch => {
   const result = await dispatch({
     type: UPDATE_USER,
-    payload: axios.put(apiUrl, user, config)
+    payload: axios.put(apiUrl, user)
   })
   dispatch(getAllUsers())
   return result
@@ -77,7 +71,7 @@ export const deleteUser = login => async dispatch => {
   const requestUrl = `${apiUrl}/${login}`
   const result = await dispatch({
     type: DELETE_USER,
-    payload: axios.delete(requestUrl,config).then(result => {
+    payload: axios.delete(requestUrl).then(result => {
       dispatch({ type: SUCCESS(DELETE_USER), payload: result })
     })
     .catch(error => {

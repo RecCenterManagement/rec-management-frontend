@@ -166,7 +166,6 @@ const UsersDialog = props => {
     handleClose()
   }
 
-  console.log('afeter', props, open)
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
       <DialogTitle id='form-dialog-title'>User Editor</DialogTitle>
