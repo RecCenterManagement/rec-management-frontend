@@ -21,7 +21,7 @@ export const get_reservations = () => {
     axios
       .get('api/reservations', config)
       .then(result => {
-        console.log(result)
+       // console.log(result)
         dispatch({ type: RECEIVE_RESERVATIONS, payload: result.data })
       })
       .catch(error => {
@@ -76,6 +76,26 @@ export const create_reservation = entity => {
       .catch(error => {
         console.error(error)
         dispatch({ type: CREATE_RESERVATION_ERROR, payload: error })
+      })
+  }
+}
+export const get_reservations_by_user_id = (userId) => {
+  return dispatch => {
+    let token = localStorage.getItem(AUTH_KEY)
+    token = token ? token : sessionStorage.getItem(AUTH_KEY)
+    var config = {
+      headers: { Authorization: 'Bearer ' + token }
+    }
+    dispatch({ type: FETCH_RESERVATIONS_START, payload: {} })
+    axios
+      .get(`api/reservations?userId.equals=${userId}`, config)
+      .then(result => {
+       // console.log(result)
+        dispatch({ type: RECEIVE_RESERVATIONS, payload: result.data })
+      })
+      .catch(error => {
+        console.error(error)
+        dispatch({ type: FETCH_RESERVATIONS_ERROR, payload: error })
       })
   }
 }
