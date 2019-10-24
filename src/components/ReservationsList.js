@@ -71,7 +71,7 @@ export default function ReservationsList() {
         )
       )
     } else {
-      setFilteredReservations(reservations.filter(res => res.status === value))
+      setFilteredReservations(reservations.filter(res => res.status === value &&  (new Date(res.startTime) > date && new Date(res.endTime) > date)))
     }
   }
   useEffect(() => {
