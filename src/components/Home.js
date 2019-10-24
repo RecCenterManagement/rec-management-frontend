@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   backgroundHome: {
     background: `url(${RecCenterVector}) no-repeat right center`,
     backgroundColor: '#343434',
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   homepagetitle: {
     fontSize: '2em',
@@ -42,7 +42,6 @@ const useStyles = makeStyles(theme => ({
       marginLeft: '10px',
       marginRight: '10px'
     }
-    
   }
 }))
 
