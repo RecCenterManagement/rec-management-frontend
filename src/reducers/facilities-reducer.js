@@ -1,7 +1,9 @@
 import {
   FETCH_FACILITIES_START,
   RECEIVE_FACILITIES,
-  FETCH_FACILITIES_ERROR
+  FETCH_FACILITIES_ERROR,
+  PUT_FACILITY,
+  PUT_FACILITY_ERROR
 } from '../actions/facilities'
 
 const initial_state = {
@@ -23,6 +25,12 @@ export default function reducer(state = initial_state, action) {
     }
     case FETCH_FACILITIES_ERROR: {
       return { ...state, loading: true }
+    }
+    case PUT_FACILITY: {
+      return { ...state, entities: action.payload }
+    }
+    case PUT_FACILITY_ERROR: {
+      return { ...state, errorMessage: action.payload }
     }
     default: {
       return state

@@ -43,7 +43,7 @@ export const SignInLogOut = props => {
   */
   const history = useHistory()
   const dispatch = useDispatch()
-  function handleLogOut () {
+  function handleLogOut() {
     dispatch(logout())
     history.push('/')
     window.location.reload()
@@ -63,18 +63,18 @@ export const SignInLogOut = props => {
     <>
       <Button
         component={Link}
-        to='/login'
+        to="/login"
         style={{ marginLeft: '20px', marginRight: '20px' }}
-        variant='outlined'
-        color='secondary'
+        variant="outlined"
+        color="secondary"
       >
         Log In
       </Button>
       <Button
         component={Link}
-        to='/register'
-        variant='outlined'
-        color='secondary'
+        to="/register"
+        variant="outlined"
+        color="secondary"
       >
         Register
       </Button>
@@ -153,6 +153,7 @@ const Header = () => {
                 anchorEl={anchorRef.current}
                 transition
                 disablePortal
+                style={{ zIndex: 1 }}
               >
                 {({ TransitionProps, placement }) => (
                   <Grow

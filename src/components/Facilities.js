@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { get_facilities } from '../actions/facilities'
+import { get_facilities, put_facility } from '../actions/facilities'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -120,22 +120,47 @@ const Facilities = props => {
 const FacilitiesDialog = props => {
   const { open, handleClose, editable } = props
 
-  const [entity, setEntity] = useState(props.entity)
+  const [entity, setEntity] = useState({
+    id: 0,
+    name: '',
+    footage: '',
+    capacity: '',
+    avSupport: '',
+    foodAllowed: false,
+    colorCode: '',
+    description: ''
+  })
+
+  const dispatch = useDispatch()
 
   useEffect(
     () => {
-      setEntity(props.entity)
+      setEntity({
+        id: props.entity.id,
+        name: props.entity.name,
+        footage: props.entity.footage,
+        capacity: props.entity.capacity,
+        avSupport: props.entity.avSupport,
+        foodAllowed: props.entity.foodAllowed,
+        colorCode: props.entity.colorCode,
+        description: props.entity.description
+      })
     },
     [props.entity]
   )
 
-  const handleChange = event => {
-    setEntity(event.target.value)
+  const handleChange = name => event => {
+    setEntity({ ...entity, [name]: event.target.value })
+  }
+
+  const handleSave = () => {
+    dispatch(put_facility(entity))
+    handleClose()
   }
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
-      <DialogTitle id="form-dialog-title">Equipment Editor</DialogTitle>
+      <DialogTitle id="form-dialog-title">Facilities Editor</DialogTitle>
       <DialogContent>
         <TextField
           disabled={!editable}
@@ -144,7 +169,7 @@ const FacilitiesDialog = props => {
           label="Entity Name"
           value={entity.name}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('name')}
           fullWidth
         />
         <TextField
@@ -154,7 +179,7 @@ const FacilitiesDialog = props => {
           label="Footage"
           value={entity.footage}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('footage')}
           fullWidth
         />
         <TextField
@@ -174,7 +199,7 @@ const FacilitiesDialog = props => {
           label="AV Support"
           value={entity.avSupport}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('avSupport')}
           fullWidth
         />
         <TextField
@@ -184,7 +209,7 @@ const FacilitiesDialog = props => {
           label="Food Allowed"
           value={entity.foodAllowed}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('foodAllowed')}
           fullWidth
         />
         <TextField
@@ -194,7 +219,7 @@ const FacilitiesDialog = props => {
           label="Color Code"
           value={entity.colorCode}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('colorCode')}
           fullWidth
         />
         <TextField
@@ -204,7 +229,7 @@ const FacilitiesDialog = props => {
           label="Description"
           value={entity.description}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('description')}
           fullWidth
         />
       </DialogContent>
@@ -213,7 +238,7 @@ const FacilitiesDialog = props => {
           <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleSave} color="secondary">
             Save
           </Button>
         </DialogActions>

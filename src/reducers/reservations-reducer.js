@@ -1,7 +1,11 @@
 import {
   FETCH_RESERVATIONS_START,
   RECEIVE_RESERVATIONS,
-  FETCH_RESERVATIONS_ERROR
+  FETCH_RESERVATIONS_ERROR,
+  PUT_RESERVATION,
+  PUT_RESERVATION_ERROR,
+  CREATE_RESERVATION,
+  CREATE_RESERVATION_ERROR
 } from '../actions/reservations'
 
 const initial_state = {
@@ -23,6 +27,18 @@ export default function reducer(state = initial_state, action) {
     }
     case FETCH_RESERVATIONS_ERROR: {
       return { ...state, loading: true }
+    }
+    case PUT_RESERVATION: {
+      return { ...state, entities: action.payload }
+    }
+    case PUT_RESERVATION_ERROR: {
+      return { ...state, errorMessage: action.payload }
+    }
+    case CREATE_RESERVATION: {
+      return { ...state, entities: action.payload }
+    }
+    case CREATE_RESERVATION_ERROR: {
+      return { ...state, errorMessage: action.payload }
     }
     default: {
       return state

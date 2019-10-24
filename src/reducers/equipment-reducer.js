@@ -1,7 +1,9 @@
 import {
   FETCH_EQUIPMENT_START,
   RECEIVE_EQUIPMENT,
-  FETCH_EQUIPMENT_ERROR
+  FETCH_EQUIPMENT_ERROR,
+  PUT_EQUIPMENT,
+  PUT_EQUIPMENT_ERROR
 } from '../actions/equipment'
 
 const initial_state = {
@@ -23,6 +25,12 @@ export default function reducer(state = initial_state, action) {
     }
     case FETCH_EQUIPMENT_ERROR: {
       return { ...state, loading: true }
+    }
+    case PUT_EQUIPMENT: {
+      return { ...state, entities: action.payload }
+    }
+    case PUT_EQUIPMENT_ERROR: {
+      return { ...state, errorMessage: action.payload }
     }
     default: {
       return state
