@@ -11,22 +11,15 @@ import {
   Table,
   TableBody,
   TableCell,
-  TablePagination,
   TableRow,
   TableHead,
   TextField,
   ButtonGroup,
   Button
 } from '@material-ui/core'
-import { useHistory } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  getAllUsers,
-  getUsers,
-  updateUser,
-  deleteUser
-} from '../actions/user-management'
+import { getAllUsers, updateUser, deleteUser } from '../actions/user-management'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -46,27 +39,21 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const UserManagement = props => {
-  const [state, setState] = useState({
-    order: 'asc',
-    sort: '',
-    activePage: 1,
-    itemsPerPage: 10
-  })
-
   const [open, setOpen] = useState(props ? props.open : false)
   const [editable, setEditable] = useState('view')
   const [selectedEntity, setSelectedEntity] = useState({})
   const classes = useStyles()
   const dispatch = useDispatch()
-  let history = useHistory()
 
   const users = useSelector(state => state.userManagement.users)
-  useEffect(() => {
-    dispatch(getAllUsers())
-  }, [dispatch])
+  useEffect(
+    () => {
+      dispatch(getAllUsers())
+    },
+    [dispatch, users]
+  )
 
   const handleOpen = (type, entity) => {
-    console.log('DIALOG')
     if (type === 'edit') {
       setEditable(true)
     } else {
@@ -78,16 +65,14 @@ const UserManagement = props => {
   const toggleActive = user => {
     dispatch(updateUser({ ...user, activated: !user.activated }))
   }
-  const handleDelete = id => {
-    dispatch(deleteUser(id))
-    
+  const handleDelete = login => {
+    dispatch(deleteUser(login))
   }
-  console.log("before",open)
 
   return (
     <>
       <Card className={classes.card}>
-        <CardHeader className={classes.cardHeader} title='Facility Entities' />
+        <CardHeader className={classes.cardHeader} title='User Management' />
         <Table aria-label='simple table'>
           <TableHead>
             <TableRow>
@@ -133,7 +118,9 @@ const UserManagement = props => {
                     <Button onClick={() => handleOpen('edit', row)}>
                       Edit
                     </Button>
-                    <Button onClick={() => handleDelete(row.id)}>Delete</Button>
+                    <Button onClick={() => handleDelete(row.login)}>
+                      Delete
+                    </Button>
                   </ButtonGroup>
                 </TableCell>
               </TableRow>
@@ -152,10 +139,13 @@ const UsersDialog = props => {
   const [entity, setEntity] = useState(props.entity)
   const [open, setOpen] = useState(props.open)
 
-  useEffect(() => {
-    setEntity(props.entity)
-    setOpen(props.open)
-  }, [props.entity, props.open])
+  useEffect(
+    () => {
+      setEntity(props.entity)
+      setOpen(props.open)
+    },
+    [props.entity, props.open]
+  )
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
@@ -170,13 +160,13 @@ const UsersDialog = props => {
     setOpen(!open)
   }
 
-  console.log("afeter",props, open)
+  console.log('afeter', props, open)
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth={true}>
+    <Dialog open={open} onClose={handleClose} fullWidth>
       <DialogTitle id='form-dialog-title'>User Editor</DialogTitle>
       <DialogContent>
         <TextField
-          disabled={true}
+          disabled
           style={{ margin: '12px' }}
           id={'id'}
           label={'ID'}
@@ -239,7 +229,7 @@ const UsersDialog = props => {
         />
 
         <TextField
-          disabled={true}
+          disabled
           style={{ margin: '12px' }}
           id={'authorities'}
           label={'Authorities'}
@@ -248,7 +238,7 @@ const UsersDialog = props => {
           fullWidth
         />
         <TextField
-          disabled={true}
+          disabled
           style={{ margin: '12px' }}
           id={'createdDate'}
           label={'Created Date'}
@@ -257,7 +247,7 @@ const UsersDialog = props => {
           fullWidth
         />
         <TextField
-          disabled={true}
+          disabled
           style={{ margin: '12px' }}
           id={'createdby'}
           label={'Created By'}
@@ -266,7 +256,7 @@ const UsersDialog = props => {
           fullWidth
         />
         <TextField
-          disabled={true}
+          disabled
           style={{ margin: '12px' }}
           id={'modifiedDate'}
           label={'Modified Date'}
@@ -275,7 +265,7 @@ const UsersDialog = props => {
           fullWidth
         />
         <TextField
-          disabled={true}
+          disabled
           style={{ margin: '12px' }}
           id={'modifiedBy'}
           label={'Modified By'}

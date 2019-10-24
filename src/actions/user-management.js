@@ -73,8 +73,8 @@ export const updateUser = user => async dispatch => {
   return result
 }
 
-export const deleteUser = id => async dispatch => {
-  const requestUrl = `${apiUrl}/${id}`
+export const deleteUser = login => async dispatch => {
+  const requestUrl = `${apiUrl}/${login}`
   const result = await dispatch({
     type: DELETE_USER,
     payload: axios.delete(requestUrl,config).then(result => {
