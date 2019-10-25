@@ -7,6 +7,7 @@ import Settings from './components/Settings'
 import { useSelector, useDispatch } from 'react-redux'
 import { AUTH_KEY, getUserAccount } from './actions/authentication'
 import Register from './components/Register'
+import UserManagement from './components/UserManagement'
 import Footer from './components/Footer'
 import Facilities from './components/Facilities'
 import Reservations from './components/Reservations'
@@ -38,6 +39,7 @@ function App() {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/settings" component={Settings} />
+      <Route path="/users" component={UserManagement} />
       <Route path="/facilities" component={Facilities} />
       <Route path="/reservations" component={Reservations} />
       <Route path="/my-reservations" component={ReservationsList} />
