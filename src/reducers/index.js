@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import userManagement from './user-management-reducer'
 import authentication from './authentication-reducer'
 import facilities from './facilities-reducer'
 import reservations from './reservations-reducer'
@@ -12,5 +13,6 @@ export default combineReducers({
   reservations,
   equipment,
   equipment_reservations,
-  register
+  register,
+  userManagement
 })
