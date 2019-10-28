@@ -46,12 +46,9 @@ const UserManagement = props => {
   const dispatch = useDispatch()
 
   const users = useSelector(state => state.userManagement.users)
-  useEffect(
-    () => {
-      dispatch(getAllUsers())
-    },
-    [dispatch]
-  )
+  useEffect(() => {
+    dispatch(getAllUsers())
+  }, [dispatch])
 
   const handleClose = () => {
     setOpen(false)
@@ -78,46 +75,46 @@ const UserManagement = props => {
   return (
     <>
       <Card className={classes.card}>
-        <CardHeader className={classes.cardHeader} title='User Management' />
-        <Table aria-label='simple table'>
+        <CardHeader className={classes.cardHeader} title="User Management" />
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell align='left'>Login</TableCell>
-              <TableCell align='right'>Email</TableCell>
-              <TableCell align='right'>Activated</TableCell>
-              <TableCell align='right'>Lan</TableCell>
-              <TableCell align='right'>Profiles</TableCell>
-              <TableCell align='right'>Created Date</TableCell>
-              <TableCell align='right'>Modified Date</TableCell>
-              <TableCell align='right'>Modified By</TableCell>
-              <TableCell align='center'>Actions</TableCell>
+              <TableCell align="left">Login</TableCell>
+              <TableCell align="right">Email</TableCell>
+              <TableCell align="right">Activated</TableCell>
+              <TableCell align="right">Lan</TableCell>
+              <TableCell align="right">Profiles</TableCell>
+              <TableCell align="right">Created Date</TableCell>
+              <TableCell align="right">Modified Date</TableCell>
+              <TableCell align="right">Modified By</TableCell>
+              <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users.map(row => (
               <TableRow key={row.id}>
-                <TableCell component='th' scope='row'>
+                <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align='left'>{row.login}</TableCell>
-                <TableCell align='right'>{row.email}</TableCell>
-                <TableCell align='right'>
+                <TableCell align="left">{row.login}</TableCell>
+                <TableCell align="right">{row.email}</TableCell>
+                <TableCell align="right">
                   <Button onClick={() => toggleActive(row)}>
                     {row.activated ? 'Activated' : 'Deactivated'}
                   </Button>
                 </TableCell>
-                <TableCell align='right'> {row.langKey}</TableCell>
-                <TableCell align='right'>
+                <TableCell align="right"> {row.langKey}</TableCell>
+                <TableCell align="right">
                   {row.authorities.map(item => (
                     <div>{item}</div>
                   ))}
                 </TableCell>
-                <TableCell align='right'>{row.createdDate}</TableCell>
-                <TableCell align='right'>{row.lastModifiedDate}</TableCell>
-                <TableCell align='right'>{row.lastModifiedBy}</TableCell>
-                <TableCell align='center'>
-                  <ButtonGroup size='small' variant='contained' color='primary'>
+                <TableCell align="right">{row.createdDate}</TableCell>
+                <TableCell align="right">{row.lastModifiedDate}</TableCell>
+                <TableCell align="right">{row.lastModifiedBy}</TableCell>
+                <TableCell align="center">
+                  <ButtonGroup size="small" variant="contained" color="primary">
                     <Button onClick={() => handleOpen('view', row)}>
                       View
                     </Button>
@@ -149,12 +146,9 @@ const UsersDialog = props => {
   const { open, handleClose, editable } = props
   const [entity, setEntity] = useState({})
 
-  useEffect(
-    () => {
-      setEntity(props.entity)
-    },
-    [props.entity]
-  )
+  useEffect(() => {
+    setEntity(props.entity)
+  }, [props.entity])
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
@@ -168,7 +162,7 @@ const UsersDialog = props => {
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
-      <DialogTitle id='form-dialog-title'>User Editor</DialogTitle>
+      <DialogTitle id="form-dialog-title">User Editor</DialogTitle>
       <DialogContent>
         <TextField
           disabled
@@ -176,7 +170,7 @@ const UsersDialog = props => {
           id={'id'}
           label={'ID'}
           value={entity.id}
-          type='text'
+          type="text"
           fullWidth
         />
         <TextField
@@ -185,13 +179,13 @@ const UsersDialog = props => {
           id={'login'}
           label={'Login'}
           value={entity.login}
-          type='text'
+          type="text"
           onChange={handleChange('login')}
           fullWidth
         />
         <FormControlLabel
-          label='Activated'
-          labelPlacement='top'
+          label="Activated"
+          labelPlacement="top"
           id={'activated'}
           disabled={!editable}
           value={entity.activated}
@@ -208,7 +202,7 @@ const UsersDialog = props => {
           id={'firstName'}
           label={'First Name'}
           value={entity.firstName}
-          type='text'
+          type="text"
           onChange={handleChange('firstName')}
           fullWidth
         />
@@ -218,7 +212,7 @@ const UsersDialog = props => {
           id={'lastName'}
           label={'Last Name'}
           value={entity.lastName}
-          type='text'
+          type="text"
           onChange={handleChange('lastName')}
           fullWidth
         />
@@ -228,7 +222,7 @@ const UsersDialog = props => {
           id={'email'}
           label={'Email'}
           value={entity.email}
-          type='text'
+          type="text"
           onChange={handleChange('email')}
           fullWidth
         />
@@ -239,7 +233,7 @@ const UsersDialog = props => {
           id={'authorities'}
           label={'Authorities'}
           value={entity.authorities}
-          type='text'
+          type="text"
           fullWidth
         />
         <TextField
@@ -248,7 +242,7 @@ const UsersDialog = props => {
           id={'createdDate'}
           label={'Created Date'}
           value={entity.createdDate}
-          type='text'
+          type="text"
           fullWidth
         />
         <TextField
@@ -257,7 +251,7 @@ const UsersDialog = props => {
           id={'createdby'}
           label={'Created By'}
           value={entity.createdBy}
-          type='text'
+          type="text"
           fullWidth
         />
         <TextField
@@ -266,7 +260,7 @@ const UsersDialog = props => {
           id={'modifiedDate'}
           label={'Modified Date'}
           value={entity.lastModifiedDate}
-          type='text'
+          type="text"
           fullWidth
         />
         <TextField
@@ -275,7 +269,7 @@ const UsersDialog = props => {
           id={'modifiedBy'}
           label={'Modified By'}
           value={entity.lastModifiedBy}
-          type='text'
+          type="text"
           fullWidth
         />
         <TextField
@@ -284,7 +278,7 @@ const UsersDialog = props => {
           id={'imageUrl'}
           label={'Image Url'}
           value={entity.imageUrl}
-          type='text'
+          type="text"
           onChange={handleChange('imageUrl')}
           fullWidth
         />
@@ -294,17 +288,17 @@ const UsersDialog = props => {
           id={'langKey'}
           label={'Language'}
           value={entity.langKey}
-          type='text'
+          type="text"
           onChange={handleChange('langKey')}
           fullWidth
         />
       </DialogContent>
       {editable && (
         <DialogActions>
-          <Button onClick={handleClose} color='secondary'>
+          <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleUpdate} color='secondary'>
+          <Button onClick={handleUpdate} color="secondary">
             Save
           </Button>
         </DialogActions>

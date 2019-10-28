@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import Login from './components/Login'
 import Home from './components/Home'
 import Header from './components/Header'
@@ -37,14 +37,26 @@ function App() {
       <Route exact path="/" component={Home} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <Route path="/settings" component={Settings} />
-      <Route path="/users" component={UserManagement} />
-      <Route path="/facilities" component={Facilities} />
-      <Route path="/reservations" component={Reservations} />
-      <Route path="/equipment" component={Equipment} />
-      <Route path="/equipment-reservations" component={EquipmentReservations} />
+      <Route path="/settings" component={Settings}></Route>
+      <Route path="/users" component={UserManagement}>
+        <Redirect to="/login" />
+      </Route>
+      <Route path="/facilities" component={Facilities}>
+        <Redirect to="/login" />
+      </Route>
+      <Route path="/reservations" component={Reservations}>
+        <Redirect to="/login" />
+      </Route>
+      <Route path="/equipment" component={Equipment}>
+        <Redirect to="/login" />
+      </Route>
+      <Route path="/equipment-reservations" component={EquipmentReservations}>
+        <Redirect to="/login" />
+      </Route>
       <Route path="/membership" component={Membership} />
-      <Route path="/calendar" component={RecCalendar} />
+      <Route path="/calendar" component={RecCalendar}>
+        <Redirect to="/login" />
+      </Route>
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}

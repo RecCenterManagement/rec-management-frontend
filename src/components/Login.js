@@ -74,9 +74,15 @@ function Login() {
         break
     }
   }
-  const handleLogin = (username, password, rememberMe = false) => {
-    dispatch(login(username, password, rememberMe))
+  const handleLogin = () => {
+    dispatch(login(state.username, state.password, state.rememberMe))
     history.push('/')
+  }
+
+  const handleKeyPress = event => {
+    if (event.key === 'Enter') {
+      handleLogin()
+    }
   }
   return (
     <>
@@ -107,6 +113,7 @@ function Login() {
                     type="password"
                     value={state.password}
                     onChange={handleChange('password')}
+                    onKeyPress={handleKeyPress}
                   />
                   <FormControlLabel
                     control={
@@ -134,13 +141,7 @@ function Login() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() =>
-                    handleLogin(
-                      state.username,
-                      state.password,
-                      state.rememberMe
-                    )
-                  }
+                  onClick={handleLogin}
                 >
                   Sign In
                 </Button>

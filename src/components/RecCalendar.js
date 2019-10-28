@@ -54,13 +54,10 @@ const RecCalendar = () => {
     setValue(event.target.value)
   }
 
-  useEffect(
-    () => {
-      dispatch(get_facilities())
-      dispatch(get_reservations())
-    },
-    [dispatch]
-  )
+  useEffect(() => {
+    dispatch(get_facilities())
+    dispatch(get_reservations())
+  }, [dispatch])
 
   const getEventProperties = (event, start, end, isSelected) => {
     return {

@@ -53,8 +53,8 @@ export const SignInLogOut = props => {
     <Button
       component={Link}
       style={{ marginLeft: '20px' }}
-      variant='outlined'
-      color='secondary'
+      variant="outlined"
+      color="secondary"
       onClick={handleLogOut}
     >
       Log Out
@@ -116,33 +116,33 @@ const Header = () => {
 
   return (
     <>
-      <AppBar className={classes.jhNavbar} position='static'>
+      <AppBar className={classes.jhNavbar} position="static">
         <Toolbar>
           <IconButton
-            edge='start'
+            edge="start"
             className={classes.menuButton}
-            color='inherit'
-            aria-label='menu'
+            color="inherit"
+            aria-label="menu"
             onClick={() => setDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
           <Typography
-            variant='h6'
+            variant="h6"
             className={classes.title}
             component={Link}
-            to='/'
+            to="/"
           >
             RecCenterManagement
           </Typography>
           {authenticated && (
             <div>
               <Button
-                color='secondary'
+                color="secondary"
                 ref={anchorRef}
-                size='small'
+                size="small"
                 aria-owns={true ? 'menu-list-grow' : undefined}
-                aria-haspopup='true'
+                aria-haspopup="true"
                 onClick={() => setAdminMenu(true)}
               >
                 Entities
@@ -163,14 +163,14 @@ const Header = () => {
                         placement === 'bottom' ? 'center top' : 'center bottom'
                     }}
                   >
-                    <Paper id='menu-list-grow'>
+                    <Paper id="menu-list-grow">
                       <ClickAwayListener
                         onClickAway={() => setAdminMenu(false)}
                       >
                         <MenuList>
                           <MenuItem
                             component={Link}
-                            to='/users'
+                            to="/users"
                             onClick={() => handleEntityClick('users')}
                             selected={currentEntity === 'users'}
                           >
@@ -178,7 +178,7 @@ const Header = () => {
                           </MenuItem>
                           <MenuItem
                             component={Link}
-                            to='/facilities'
+                            to="/facilities"
                             onClick={() => handleEntityClick('fac')}
                             selected={currentEntity === 'fac'}
                           >
@@ -186,7 +186,7 @@ const Header = () => {
                           </MenuItem>
                           <MenuItem
                             component={Link}
-                            to='/reservations'
+                            to="/reservations"
                             onClick={() => handleEntityClick('res')}
                             selected={currentEntity === 'res'}
                           >
@@ -194,7 +194,7 @@ const Header = () => {
                           </MenuItem>
                           <MenuItem
                             component={Link}
-                            to='/equipment'
+                            to="/equipment"
                             onClick={() => handleEntityClick('equ')}
                             selected={currentEntity === 'equ'}
                           >
@@ -202,7 +202,7 @@ const Header = () => {
                           </MenuItem>
                           <MenuItem
                             component={Link}
-                            to='/equipment-reservations'
+                            to="/equipment-reservations"
                             onClick={() => handleEntityClick('equ-res')}
                             selected={currentEntity === 'equ-res'}
                           >
@@ -215,17 +215,17 @@ const Header = () => {
                 )}
               </Popper>
               <IconButton
-                id='account-icon-button'
-                aria-label='account of current user'
-                aria-controls='menu-appbar'
-                aria-haspopup='true'
+                id="account-icon-button"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
                 onClick={handleClick}
-                color='inherit'
+                color="inherit"
               >
                 <AccountCircle />
               </IconButton>
               <Menu
-                id='menu-appbar'
+                id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
                   vertical: 'top',
@@ -239,7 +239,7 @@ const Header = () => {
                 open={menuOpen}
                 onClose={handleClose}
               >
-                <MenuItem component={Link} to='/settings'>
+                <MenuItem component={Link} to="/settings">
                   Settings
                 </MenuItem>
                 <MenuItem onClick={() => console.log('HELLO')}>

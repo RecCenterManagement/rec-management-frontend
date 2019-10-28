@@ -27,24 +27,21 @@ const ReservationsDialog = props => {
     facilityObject: {}
   })
 
-  useEffect(
-    () => {
-      setEntity({
-        id: props.entity.id,
-        event: props.entity.event,
-        estimatedParticipants: props.entity.estimatedParticipants,
-        startTime: props.entity.startTime,
-        endTime: props.entity.endTime,
-        user: props.entity.user ? props.entity.user.login : props.entity.user,
-        facilities: props.entity.facilities
-          ? props.entity.facilities.name
-          : props.entity.facilities,
-        facilitiesObject: props.entity.facilities,
-        equipmentReservations: props.entity.equipmentReservations
-      })
-    },
-    [props.entity]
-  )
+  useEffect(() => {
+    setEntity({
+      id: props.entity.id,
+      event: props.entity.event,
+      estimatedParticipants: props.entity.estimatedParticipants,
+      startTime: props.entity.startTime,
+      endTime: props.entity.endTime,
+      user: props.entity.user ? props.entity.user.login : props.entity.user,
+      facilities: props.entity.facilities
+        ? props.entity.facilities.name
+        : props.entity.facilities,
+      facilitiesObject: props.entity.facilities,
+      equipmentReservations: props.entity.equipmentReservations
+    })
+  }, [props.entity])
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })

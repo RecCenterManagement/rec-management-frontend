@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SUCCESS, REQUEST, FAILURE} from './actions-util'
+import { SUCCESS, REQUEST, FAILURE } from './actions-util'
 export const FETCH_ROLES = 'userManagement/FETCH_ROLES'
 export const FETCH_USERS = 'userManagement/FETCH_USERS'
 export const FETCH_USER = 'userManagement/FETCH_USER'
@@ -71,12 +71,14 @@ export const deleteUser = login => async dispatch => {
   const requestUrl = `${apiUrl}/${login}`
   const result = await dispatch({
     type: DELETE_USER,
-    payload: axios.delete(requestUrl).then(result => {
-      dispatch({ type: SUCCESS(DELETE_USER), payload: result })
-    })
-    .catch(error => {
-      dispatch({ type: FAILURE(DELETE_USER), payload: error })
-    })
+    payload: axios
+      .delete(requestUrl)
+      .then(result => {
+        dispatch({ type: SUCCESS(DELETE_USER), payload: result })
+      })
+      .catch(error => {
+        dispatch({ type: FAILURE(DELETE_USER), payload: error })
+      })
   })
   dispatch(getAllUsers())
   return result
