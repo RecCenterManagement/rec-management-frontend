@@ -10,8 +10,38 @@ import ReservationForm from "./ReservationForm";
 import { get_reservations } from "../actions/reservations";
 import { get_facilities } from "../actions/facilities";
 import RecCalendarToolbar from "./RecCalendarToolbar";
+// Handler for class names.
+import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
+  temporaryEvent: {
+    backgroundColor: "#909090",
+    ".rbc-day-slot &.rbc-event": {
+      border: "2px dashed black"
+    }
+  },
+  pastEvent: {
+    backgroundColor: "#666",
+    borderTop: "1px solid #111",
+    "&.rbc-time-slot": {
+      borderTop: "1px solid #111"  
+    },
+    "& .rbc-timeslot-group, & .rbc-time-content > * + * > *": {
+      borderLeft: "1px solid #111",
+      borderBottom: "1px solid #111"  
+    },
+    ".rbc-today &": {
+      backgroundColor: "#888",
+      borderTop: "1px solid #333",
+      "&.rbc-time-slot": {
+        borderTop: "1px solid #333"  
+      },
+      "& .rbc-timeslot-group, & .rbc-time-content > * + * > *": {
+        borderLeft: "1px solid #333",
+        borderBottom: "1px solid #333"  
+      },
+    }
+  },
   calendarOverlay: {
     backgroundColor: "rgba(0, 0, 0, 0.7)",
     width: "100%",
@@ -36,8 +66,9 @@ const ToggleButton = ({ room_name, state, setState }) => {
 
   return (
     <Button
+      style={{ height: 64, margin: 16 }}
       variant="contained"
-      color={state ? "primary" : null}
+      color={state ? "primary" : "default"}
       onClick={onClick}
     >
       {room_name}
@@ -119,9 +150,18 @@ const RecCalendar = () => {
     );
   };
 
+
+  // Ensure the start and end of the event aren't in the past or far futuer.
+  const isEventInRange = (start, end) => {
+    const now = new Date();
+    const maxFutureDate = new Date();
+    maxFutureDate.setMonth(maxFutureDate.getMonth() + 3);
+    return (now < start && start < maxFutureDate) && (now < end && end < maxFutureDate);
+  }
+
   // Call this when a new event is created by click-and-drag on the calendar.
   const handleSelectSlot = ({ start, end }) => {
-    if (!doesEventOverlap(start, end)) {
+    if (!doesEventOverlap(start, end) && isEventInRange(start, end)) {
       clearTemporaryEvent();
       const newEvent = {
         id: 1,
@@ -140,12 +180,36 @@ const RecCalendar = () => {
   // Determine the properties of an event, including its CSS style.
   const getEventProperties = (event, start, end, isSelected) => {
     return {
-      style: event.temporary
-        ? {
-            backgroundColor: "#909090",
-            border: "2px dashed black"
-          }
-        : {}
+      className: event.temporary ? classes.temporaryEvent : null
+    };
+  };
+
+  // Determine the properties of a calendar time slots, including its CSS style.
+  const getSlotProperties = (date, resourceId) => {
+    const now = new Date();
+    now.setMinutes(59, 59, 999);
+    const today = new Date();
+    today.setMinutes(0, 0, 0);
+    const maxFutureDate = new Date();
+    maxFutureDate.setMonth(maxFutureDate.getMonth() + 3);
+
+    const inDateRange = today < date && date < maxFutureDate;
+
+    return {
+      className: inDateRange ? null : classes.pastEvent
+    };
+  };
+
+  // Determine the properties of a calendar day slots, including its CSS style.
+  const getDayProperties = date => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const maxFutureDate = new Date();
+    maxFutureDate.setMonth(maxFutureDate.getMonth() + 3);
+
+    const inDateRange = today <= date && date < maxFutureDate;
+    return {
+      className: inDateRange ? null : classes.pastEvent
     };
   };
 
@@ -166,17 +230,17 @@ const RecCalendar = () => {
 
   // Filter the list of EXISTING events into a list filtered by facility.
   // Memoization caches the result until the list of reservations or selected facilities changes.
-  const getFilteredEvents = React.useCallback(
-    () =>
-      generateEvents().filter(event => {
-        return (
-          event.facilities.filter(value => {
-            return getSelectedFacilities().includes(value.toString());
-          }).length !== 0
-        );
-      }),
-    [generateEvents, getSelectedFacilities]
-  );
+  const getFilteredEvents = () => {
+    console.log(`FINAL: ${getSelectedFacilities()}`);
+    return generateEvents().filter(event => {
+      console.log(event.facilities);
+      return (
+        event.facilities.filter(value => {
+          return getSelectedFacilities().includes(value.toString());
+        }).length !== 0
+      );
+    });
+  };
 
   // Convert the temporary event to an entity object for use by the form.
   const eventToEntity = () => ({
@@ -189,20 +253,34 @@ const RecCalendar = () => {
 
   // Create a list of facility buttons from the list of facilities.
   const createFacilityList = () => {
-    return facilities.map(facility => {
-      if (!(facility.id in buttonStates)) {
-        // Add a key to the list for each facility, if it hasn't been added yet.
-        setButtonStates(oldState => ({ ...oldState, [facility.id]: false }));
-      }
-      return (
-        <ToggleButton
-          state={buttonStates[`${facility.id}`]}
-          setState={setButtonState(`${facility.id}`)}
-          room_name={facility.name}
-        />
-      );
-    });
+    const result = (
+      <div>
+        {facilities.map(facility => {
+          if (!(facility.id in buttonStates)) {
+            // Add a key to the list for each facility, if it hasn't been added yet.
+            setButtonStates(oldState => ({
+              ...oldState,
+              [facility.id]: false
+            }));
+          }
+          return (
+            <ToggleButton
+              key={facility.name}
+              state={buttonStates[`${facility.id}`]}
+              setState={setButtonState(`${facility.id}`)}
+              room_name={facility.name}
+            />
+          );
+        })}
+      </div>
+    );
+    return result;
   };
+
+  // components of the Calendar:
+  // timeSlotWrapper : The time slots on the left side, displaying the time.
+  // toolbar : The buttons, including Today, Prev, Next, and view selectors if any.
+  // dateCellWrapper :
 
   // Render the calendar
   return (
@@ -220,14 +298,21 @@ const RecCalendar = () => {
           localizer={localizer}
           selectable
           onSelectSlot={handleSelectSlot}
+          min={new Date(1900, 1, 1, 9, 0)}
+          max={new Date(1900, 1, 1, 21, 0)}
+          onSelectEvent={handleSelectEvent}
           defaultView={Views.WEEK}
           events={[...getFilteredEvents(), temporaryEvent]}
           views={["week"]}
-          components={{ toolbar: props => <RecCalendarToolbar {...props} /> }}
+          components={{
+            toolbar: props => <RecCalendarToolbar {...props} />
+          }}
           startAccessor="start"
           endAccessor="end"
           showMultiDayTimes
           eventPropGetter={getEventProperties}
+          slotPropGetter={getSlotProperties}
+          dayPropGetter={getDayProperties}
           defaultDate={new Date()}
         />
       </div>
