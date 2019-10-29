@@ -16,6 +16,8 @@ import EquipmentReservations from './components/EquipmentReservations'
 import Membership from './components/Membership'
 import AboutUs from './components/AboutUs'
 import FacilityHoursAndSchedule from './components/FacilityHoursAndSchedule'
+import StayConnected from './components/StayConnected'
+import GroupExerciseSchedule from './components/GroupExerciseSchedule'
 
 function App() {
   const authenticated = useSelector(
@@ -47,6 +49,8 @@ function App() {
       <Route path="/calendar" component={RecCalendar} />
       <Route path='/aboutus' component={AboutUs} />
       <Route path='/facilityhours' component={FacilityHoursAndSchedule} />
+      <Route path='/stayconnected' component={StayConnected} />
+      <Route path='/groupexerciseschedule' component={GroupExerciseSchedule} />
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}
