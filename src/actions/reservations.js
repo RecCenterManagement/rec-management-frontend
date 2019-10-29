@@ -32,7 +32,7 @@ export const put_reservation = entity => {
   return (dispatch, getState) => {
     entity.user = getState().authentication.account
     axios
-      .put('api/reservations', entity)
+      .put('api/reservations?eagerFetch=true', entity)
       .then(() => {
         const old_entities = getState().reservations.entities
         const new_entities = old_entities.map(element => {
