@@ -44,6 +44,15 @@ export const login = (username, password, rememberMe = false) => {
 }
 
 export const getUserAccount = () => (dispatch, getState) => {
+
+  if (!getState().authentication.idToken) {
+    let token = localStorage.getItem('ou-rcm-auth-token')
+    token = token ? token : sessionStorage.getItem('ou-rcm-auth-token')
+
+    axios.defaults.headers.common = {
+      Authorization: 'Bearer ' + token
+    }
+  }
   dispatch({ type: FETCH_ACCOUNT_START, payload: {} })
   axios
     .get('api/account')
