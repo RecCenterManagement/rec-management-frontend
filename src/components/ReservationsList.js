@@ -7,7 +7,6 @@ import {
   Tabs,
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableRow,
   ButtonGroup,
@@ -17,9 +16,14 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
-  DialogContent
+  DialogContent,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  ExpansionPanelActions,
+  Grid
 } from '@material-ui/core'
-import Reservations from './Reservations'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import {
   get_reservations_by_user_id,
   delete_reservation
@@ -78,23 +82,23 @@ export default function ReservationsList() {
   }
   useEffect(() => {
     if (accountID) {
-      console.log(accountID)
       dispatch(get_reservations_by_user_id(accountID))
     }
   }, [dispatch, accountID])
 
   const handleFilterReservations = () => {
-    if (value === 'PAST') {
-      setFilteredReservations(
-        reservations.filter(
-          res => Date(res.startTime) < date && Date(res.endTime) < date
-        )
-      )
-    } else {
+    if (value === 'APPROVED' || value === 'PENDING' || value === 'DENIED') {
       setFilteredReservations(
         reservations.filter(
           res => res.status === value
           // &&  (new Date(res.startTime) > date && new Date(res.endTime) > date)
+        )
+      )
+    } else {
+      console.log(reservations)
+      setFilteredReservations(
+        reservations.filter(
+          res => Date(res.startTime) < date && Date(res.endTime) < date
         )
       )
     }
@@ -102,7 +106,7 @@ export default function ReservationsList() {
   useEffect(() => {
     handleFilterReservations()
   }, [reservations, value])
-  console.log(reservations)
+
   return (
     <>
       <div className={classes.root}>
@@ -124,46 +128,59 @@ export default function ReservationsList() {
           ['APPROVED', 'PENDING', 'DENIED', 'PAST'].map((panel, index) => {
             return (
               <TabPanel value={value} name={panel} index={index}>
-                <Table aria-label='simple table'>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align='left'>Event</TableCell>
-                      <TableCell align='left'>Estimated Particpants</TableCell>
-                      <TableCell align='left'>Start Time</TableCell>
-                      <TableCell align='left'>End Time</TableCell>
-                      {index === 3 && (
-                        <TableCell align='left'>Status</TableCell>
+                {filteredReservations.map(row => (
+                  <ExpansionPanel>
+                    <ExpansionPanelSummary
+                      key={row.name}
+                      expandIcon={<ExpandMoreIcon />}
+                    >
+                      <Typography>{row.event}</Typography>
+                      {index === 3 && <Typography>Status</Typography>}
+                    </ExpansionPanelSummary>
+
+                    <ExpansionPanelDetails>
+                      <Grid
+                        container
+                        container
+                        direction='column'
+                        justify='flex-start'
+                        spacing={2}
+                      >
+                        <Grid item>
+                          <Typography>
+                            Estimated participants: {row.estimatedParticipants}
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography>
+                            Time: {new Date(row.startTime).toDateString()} -{' '}
+                            {new Date(row.endTime).toDateString()}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+
+                      {row.facitities && (
+                        <>
+                          <Typography>{row.facitities.name}</Typography>
+                          <Typography>{row.facitities.nameS}</Typography>
+                          <Typography>{row.facitities.name}</Typography>
+                        </>
                       )}
-                      <TableCell align='center'>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {filteredReservations.map(row => (
-                      <TableRow key={row.name}>
-                        <TableCell align='left'>{row.event}</TableCell>
-                        <TableCell align='left'>
-                          {row.estimatedParticipants}
-                        </TableCell>
-                        <TableCell align='left'>{row.startTime}</TableCell>
-                        <TableCell align='left'>{row.endTime}</TableCell>
-                        {index === 3 && (
-                          <TableCell align='left'>Status</TableCell>
+                    </ExpansionPanelDetails>
+                    <ExpansionPanelActions>
+                      <ButtonGroup
+                        style={{ display: 'flex', justifyContent: 'right' }}
+                      >
+                        {index === 1 && <Button>Edit</Button>}
+                        {(index === 0 || index === 1) && (
+                          <Button onClick={() => handleOpen('delete', row)}>
+                            Delete Event
+                          </Button>
                         )}
-                        <TableCell align='center'>
-                          <ButtonGroup>
-                            <Button>View</Button>
-                            {index === 1 && <Button>Edit</Button>}
-                            {(index === 0 || index === 1) && (
-                              <Button onClick={() => handleOpen('delete', row)}>
-                                Delete
-                              </Button>
-                            )}
-                          </ButtonGroup>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                      </ButtonGroup>
+                    </ExpansionPanelActions>
+                  </ExpansionPanel>
+                ))}
               </TabPanel>
             )
           })
