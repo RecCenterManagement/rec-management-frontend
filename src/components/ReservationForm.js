@@ -5,13 +5,18 @@ import {
   DialogActions,
   DialogTitle,
   DialogContent,
-  TextField
+  TextField,
+  Select
 } from '@material-ui/core'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { create_reservation, put_reservation } from '../actions/reservations'
+import { get_equipment } from '../actions/equipment'
 
 const ReservationsDialog = props => {
   const { open, handleClose, editable, create } = props
+
+  const equipment = useSelector(state => state.equipment.entities)
+  const [value, setValue] = useState(0)
 
   const dispatch = useDispatch()
 
@@ -26,6 +31,9 @@ const ReservationsDialog = props => {
     equipmentReservations: '',
     facilityObject: {}
   })
+  const [state, setState] = React.useState({
+      selection: ''
+    });
 
   useEffect(
     () => {
@@ -40,14 +48,21 @@ const ReservationsDialog = props => {
           ? props.entity.facilities.name
           : props.entity.facilities,
         facilitiesObject: props.entity.facilities,
-        equipmentReservations: props.entity.equipmentReservations
+        equipmentReservations: props.entity.equipmentReservations,
       })
     },
     [props.entity]
   )
+    const [selection, setSelection] = React.useState('');
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
+    setState({
+          ...state,
+          [name]: event.target.value,
+        });
+    setSelection(event.target.value);
+
   }
 
   const handleSave = () => {
@@ -86,20 +101,22 @@ const ReservationsDialog = props => {
         <TextField
           disabled={!editable}
           style={{ margin: '12px' }}
-          id="name"
+          id="datetime-local"
           label="Start Time"
           value={entity.startTime}
-          type="DateTimeOffset"
+          type="datetime-local"
+          defaultValue="2019-05-24T10:30"
           onChange={handleChange('startTime')}
           fullWidth
         />
         <TextField
           disabled={!editable}
           style={{ margin: '12px' }}
-          id="name"
+          id="datetime-local"
           label="End Time"
           value={entity.endTime}
-          type="datetime"
+          type="datetime-local"
+          defaultValue="2019-05-24T10:30"
           onChange={handleChange('endTime')}
           fullWidth
         />
@@ -123,7 +140,18 @@ const ReservationsDialog = props => {
           onChange={handleChange('facilities')}
           fullWidth
         />
-        <TextField
+        <Select
+          native
+          value={state.selection}
+          onChange={handleChange('selection')}
+          name="selection"
+          value={selection}
+        >
+          <option value={'none'}>Bundles</option>
+          <option value={''}>Customize</option>
+        </Select>
+
+      { /* <TextField
           disabled={!editable}
           style={{ margin: '12px' }}
           id="name"
@@ -132,7 +160,8 @@ const ReservationsDialog = props => {
           type="text"
           onChange={handleChange('equipmentReservations')}
           fullWidth
-        />
+\
+        Insert equipment options here*/}
       </DialogContent>
       {editable && (
         <DialogActions>
@@ -149,3 +178,4 @@ const ReservationsDialog = props => {
 }
 
 export default ReservationsDialog
+
