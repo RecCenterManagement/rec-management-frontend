@@ -114,7 +114,7 @@ const AboutUs = () => {
     </TableRow>
   
     <TableRow>
-        <TableCell>No image available</TableCell>     
+        <TableCell><i>No image available, sorry.</i></TableCell>     
         <TableCell><b>DALE KOLNITYS</b><br />Coordinator, Facility Operations<br />
         <a href="mailto:kolnitys@oakland.edu">kolnitys@oakland.edu</a><br />  (248) 370-4881
     </TableCell>
@@ -153,7 +153,7 @@ const AboutUs = () => {
     </TableRow>
     
     <TableRow>
-        <TableCell>No image available</TableCell>     
+        <TableCell><i>No image available, sorry.</i></TableCell>     
         <TableCell><b>KATHRYN AYER</b><br />Office Manager<br />
         <a href="mailto:kayer@oakland.edu">kayer@oakland.edu</a><br /> (248) 370-4884
     </TableCell>
@@ -176,7 +176,6 @@ const AboutUs = () => {
     </TableRow>
     
    
-    
     </TableBody>
     </table>
     </Paper>
