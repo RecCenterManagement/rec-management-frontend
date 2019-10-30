@@ -32,8 +32,8 @@ export const login = (username, password, rememberMe = false) => {
         }
 
         axios.defaults.headers.common = {
-          'Authorization': 'Bearer ' + jwt
-        };
+          Authorization: 'Bearer ' + jwt
+        }
 
         dispatch(getUserAccount())
       })
@@ -45,6 +45,15 @@ export const login = (username, password, rememberMe = false) => {
 
 export const getUserAccount = () => (dispatch, getState) => {
   dispatch({ type: FETCH_ACCOUNT_START, payload: {} })
+  if (!getState().authentication.idToken) {
+    let token = localStorage.getItem('ou-rcm-auth-token')
+    token = token ? token : sessionStorage.getItem('ou-rcm-auth-token')
+
+    axios.defaults.headers.common = {
+      Authorization: 'Bearer ' + token
+    }
+  }
+
   axios
     .get('api/account')
     .then(result => {
@@ -69,7 +78,7 @@ export const logout = () => dispatch => {
 
 export const clearAuthentication = messageKey => dispatch => {
   clearAuthToken()
-  axios.defaults.headers.common = {};
+  axios.defaults.headers.common = {}
   dispatch(displayAuthError(messageKey))
   dispatch({
     type: CLEAR_AUTH

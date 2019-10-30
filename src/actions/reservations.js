@@ -14,7 +14,7 @@ export const get_reservations = () => {
   return dispatch => {
     dispatch({ type: FETCH_RESERVATIONS_START, payload: {} })
     axios
-      .get('api/reservations')
+      .get('api/reservations?eagerFetch=true')
       .then(result => {
         console.log(result)
         dispatch({ type: RECEIVE_RESERVATIONS, payload: result.data })

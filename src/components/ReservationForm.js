@@ -35,6 +35,7 @@ const ReservationsDialog = props => {
     facilityObject: {}
   })
 
+
   useEffect(
     () => {
       setEntity({

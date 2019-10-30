@@ -159,6 +159,7 @@ const RecCalendar = () => {
     return (now < start && start < maxFutureDate) && (now < end && end < maxFutureDate);
   }
 
+
   // Call this when a new event is created by click-and-drag on the calendar.
   const handleSelectSlot = ({ start, end }) => {
     if (!doesEventOverlap(start, end) && isEventInRange(start, end)) {

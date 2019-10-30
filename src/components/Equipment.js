@@ -53,12 +53,9 @@ const Reservations = props => {
     setOpen(true)
   }
 
-  useEffect(
-    () => {
-      dispatch(get_equipment())
-    },
-    [dispatch]
-  )
+  useEffect(() => {
+    dispatch(get_equipment())
+  }, [dispatch])
 
   return (
     <>
@@ -115,15 +112,12 @@ const EquipmentDialog = props => {
     name: ''
   })
 
-  useEffect(
-    () => {
-      setEntity({
-        id: props.entity.id,
-        name: props.entity.name
-      })
-    },
-    [props.entity]
-  )
+  useEffect(() => {
+    setEntity({
+      id: props.entity.id,
+      name: props.entity.name
+    })
+  }, [props.entity])
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
