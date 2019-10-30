@@ -38,24 +38,24 @@ function App() {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/settings" component={Settings}></Route>
-      <Route path="/users" component={UserManagement}>
-        <Redirect to="/login" />
+      <Route path="/users">
+        {authenticated ? <UserManagement/> : <Redirect to="/login"/>}
       </Route>
-      <Route path="/facilities" component={Facilities}>
-        <Redirect to="/login" />
+      <Route path="/facilities">
+        {authenticated ? <Facilities/> : <Redirect to="/login"/>}
       </Route>
-      <Route path="/reservations" component={Reservations}>
-        <Redirect to="/login" />
+      <Route path="/reservations">
+        {authenticated ? <Reservations/> : <Redirect to="/login"/>}
       </Route>
-      <Route path="/equipment" component={Equipment}>
-        <Redirect to="/login" />
+      <Route path="/equipment">
+        {authenticated ? <Equipment/> : <Redirect to="/login"/>}
       </Route>
-      <Route path="/equipment-reservations" component={EquipmentReservations}>
-        <Redirect to="/login" />
+      <Route path="/equipment-reservations">
+        {authenticated ? <EquipmentReservations/> : <Redirect to="/login"/>}
       </Route>
       <Route path="/membership" component={Membership} />
-      <Route path="/calendar" component={RecCalendar}>
-        <Redirect to="/login" />
+      <Route path="/calendar">
+        {authenticated ? <RecCalendar/> : <Redirect to="/login"/>}
       </Route>
       <Route
         path="/"
