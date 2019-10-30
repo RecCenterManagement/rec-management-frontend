@@ -24,7 +24,7 @@ const Footer = props => {
     <footer
       style={{ backgroundColor: '#212121', color: 'white', paddingTop: 24 }}
     >
-      <Grid container spacing={2}>
+      <Grid container>
         <Grid item xs={12} sm={3} med={3}>
           <div className={classes.footer_column}>
             <strong>Recreation Center</strong>
