@@ -14,19 +14,20 @@ import Equipment from './components/Equipment'
 import RecCalendar from './components/RecCalendar'
 import EquipmentReservations from './components/EquipmentReservations'
 import Membership from './components/Membership'
-
+import ReservationManagement from './components/ReservationManagement'
+ 
 function App() {
   const authenticated = useSelector(
     state => state.authentication.isAuthenticated
   )
   const dispatch = useDispatch()
-
+ 
   if (!authenticated) {
     if (localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY)) {
       dispatch(getUserAccount())
     }
   }
-
+ 
   return (
     <Router>
       <Route
@@ -43,6 +44,7 @@ function App() {
       <Route path="/equipment-reservations" component={EquipmentReservations} />
       <Route path="/membership" component={Membership} />
       <Route path="/calendar" component={RecCalendar} />
+      <Route path="/reservation-management" component={ReservationManagement} />
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}
@@ -50,5 +52,5 @@ function App() {
     </Router>
   )
 }
-
+ 
 export default App
