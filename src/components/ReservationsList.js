@@ -5,10 +5,6 @@ import {
   AppBar,
   Tab,
   Tabs,
-  Table,
-  TableBody,
-  TableHead,
-  TableRow,
   ButtonGroup,
   Button,
   Typography,
@@ -21,7 +17,8 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   ExpansionPanelActions,
-  Grid
+  Grid,
+  Divider
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import {
@@ -29,7 +26,7 @@ import {
   delete_reservation
 } from '../actions/reservations'
 
-function TabPanel (props) {
+function TabPanel(props) {
   const { children, value, index, name, ...other } = props
   return (
     <Typography
@@ -49,10 +46,15 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper
+  },
+  border: {
+    borderLeft: '0.12em solid #0074b7',
+    paddingLeft: '0.5em',
+    marginLeft: '0.75em'
   }
 }))
 
-export default function ReservationsList () {
+export default function ReservationsList() {
   const classes = useStyles()
   const [value, setValue] = React.useState('APPROVED')
   const accountID = useSelector(state => state.authentication.account.id)
@@ -80,24 +82,18 @@ export default function ReservationsList () {
     }
     setSelectedEntity(entity)
   }
-  useEffect(
-    () => {
-      if (accountID) {
-        dispatch(get_reservations_by_user_id(accountID))
-      }
-    },
-    [dispatch, accountID]
-  )
+  useEffect(() => {
+    if (accountID) {
+      dispatch(get_reservations_by_user_id(accountID))
+    }
+  }, [dispatch, accountID])
 
   const handleFilterReservations = () => {
     setFilteredReservations(reservations.filter(res => res.status === value))
   }
-  useEffect(
-    () => {
-      handleFilterReservations()
-    },
-    [reservations, value]
-  )
+  useEffect(() => {
+    handleFilterReservations()
+  }, [reservations, value])
 
   return (
     <>
@@ -116,39 +112,39 @@ export default function ReservationsList () {
         </AppBar>
         {reservations &&
         reservations.filter(res => res.status === value).length !== 0 ? (
-            ['APPROVED', 'PENDING', 'DENIED'].map((panel, index) => {
-              return (
-                <TabPanel value={value} name={panel} index={index}>
-                  {filteredReservations.map(row => (
-                    <ExpansionPanel>
-                      <ExpansionPanelSummary
-                        key={row.name}
-                        expandIcon={<ExpandMoreIcon />}
+          ['APPROVED', 'PENDING', 'DENIED'].map((panel, index) => {
+            return (
+              <TabPanel value={value} name={panel} index={index}>
+                {filteredReservations.map(row => (
+                  <ExpansionPanel>
+                    <ExpansionPanelSummary
+                      key={row.name}
+                      expandIcon={<ExpandMoreIcon />}
+                    >
+                      <Typography>{row.event}</Typography>
+                      {index === 3 && <Typography>Status</Typography>}
+                    </ExpansionPanelSummary>
+
+                    <ExpansionPanelDetails>
+                      <Grid
+                        container
+                        direction='column'
+                        justify='flex-start'
+                        spacing={2}
                       >
-                        <Typography>{row.event}</Typography>
-                        {index === 3 && <Typography>Status</Typography>}
-                      </ExpansionPanelSummary>
-
-                      <ExpansionPanelDetails>
-                        <Grid
-                          container
-                          direction='column'
-                          justify='flex-start'
-                          spacing={2}
-                        >
-                          <Grid item>
-                            <Typography>
+                        <Grid item>
+                          <Typography>
                             Estimated participants: {row.estimatedParticipants}
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Typography>
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography>
                             Time: {new Date(row.startTime).toDateString()} -{' '}
-                              {new Date(row.endTime).toDateString()}
-                            </Typography>
-                          </Grid>
+                            {new Date(row.endTime).toDateString()}
+                          </Typography>
+                        </Grid>
 
-                          {row.equipmentReservations &&
+                        {row.equipmentReservations &&
                           row.equipmentReservations.length !== 0 && (
                             <Grid item>
                               <Typography>Equipment Reservations:</Typography>
@@ -161,7 +157,7 @@ export default function ReservationsList () {
                                   console.log('equipment', equipment)
 
                                   return (
-                                    <Grid item>
+                                    <Grid item className={classes.border}>
                                       <Typography>
                                         {equipment.equipment.name}
                                       </Typography>
@@ -171,44 +167,45 @@ export default function ReservationsList () {
                               </Grid>
                             </Grid>
                           )}
-                          {row.facilities && row.facilities.length !== 0 && (
-                            <Grid item>
-                              <Typography>Facilities: </Typography>
-                              <Grid
-                                container
-                                direction='row'
-                                justify='flex-start'
-                                spacing={2}
-                              >
-                                {row.facilities.map(facility => {
-                                  console.log('facility', facility)
-                                  return (
-                                    <Grid item>
-                                      <Typography>
+                        {row.facilities && row.facilities.length !== 0 && (
+                          <Grid item>
+                            <Typography>Facilities: </Typography>
+                            <Grid
+                              container
+                              direction='row'
+                              justify='flex-start'
+                              spacing={2}
+                              className={classes.border}
+                            >
+                              {row.facilities.map(facility => {
+                                console.log('facility', facility)
+                                return (
+                                  <Grid item className={classes.border}>
+                                    <Typography>
                                       Name: {facility.name}
-                                      </Typography>
-                                      <Typography>
+                                    </Typography>
+                                    <Typography>
                                       Description: {facility.description}
-                                      </Typography>
-                                      <Typography>
+                                    </Typography>
+                                    <Typography>
                                       AV Support: {facility.avSupport}
-                                      </Typography>
-                                      <Typography>
+                                    </Typography>
+                                    <Typography>
                                       Capacity: {facility.capacity}
-                                      </Typography>
-                                      <Typography>
+                                    </Typography>
+                                    <Typography>
                                       Color{facility.colorCode}
-                                      </Typography>
+                                    </Typography>
 
-                                      <Typography>
-                                        {facility.foodAllowed
-                                          ? 'Food Allowed'
-                                          : 'No Food Allowed'}
-                                      </Typography>
-                                      <Typography>
+                                    <Typography>
+                                      {facility.foodAllowed
+                                        ? 'Food Allowed'
+                                        : 'No Food Allowed'}
+                                    </Typography>
+                                    <Typography>
                                       Footage: {facility.footage}
-                                      </Typography>
-                                      {facility.equipmentBundles && (
+                                    </Typography>
+                                    {facility.equipmentBundles && (
                                       <>
                                         <Typography>
                                           EquipmentBundles:
@@ -237,37 +234,37 @@ export default function ReservationsList () {
                                           )}
                                         </Grid>
                                       </>
-                                      )}
-                                    </Grid>
-                                  )
-                                })}
-                              </Grid>
+                                    )}
+                                  </Grid>
+                                )
+                              })}
                             </Grid>
-                          )}
-                        </Grid>
-                      </ExpansionPanelDetails>
-                      <ExpansionPanelActions>
-                        <ButtonGroup
-                          style={{ display: 'flex', justifyContent: 'right' }}
-                        >
-                          {index === 1 && <Button>Edit</Button>}
-                          {(index === 0 || index === 1) && (
-                            <Button onClick={() => handleOpen('delete', row)}>
+                          </Grid>
+                        )}
+                      </Grid>
+                    </ExpansionPanelDetails>
+                    <ExpansionPanelActions>
+                      <ButtonGroup
+                        style={{ display: 'flex', justifyContent: 'right' }}
+                      >
+                        {index === 1 && <Button>Edit</Button>}
+                        {(index === 0 || index === 1) && (
+                          <Button onClick={() => handleOpen('delete', row)}>
                             Delete Event
-                            </Button>
-                          )}
-                        </ButtonGroup>
-                      </ExpansionPanelActions>
-                    </ExpansionPanel>
-                  ))}
-                </TabPanel>
-              )
-            })
-          ) : (
-            <div style={{ padding: '20px' }}>
-              <Typography>No reservations for this criteria</Typography>
-            </div>
-          )}
+                          </Button>
+                        )}
+                      </ButtonGroup>
+                    </ExpansionPanelActions>
+                  </ExpansionPanel>
+                ))}
+              </TabPanel>
+            )
+          })
+        ) : (
+          <div style={{ padding: '20px' }}>
+            <Typography>No reservations for this criteria</Typography>
+          </div>
+        )}
       </div>
       <ConfirmationDialog
         open={openDelte}
@@ -286,15 +283,12 @@ const ConfirmationDialog = props => {
     event: ''
   })
 
-  useEffect(
-    () => {
-      setEntity({
-        id: props.entity.id,
-        event: props.entity.event
-      })
-    },
-    [props.entity]
-  )
+  useEffect(() => {
+    setEntity({
+      id: props.entity.id,
+      event: props.entity.event
+    })
+  }, [props.entity])
   const handleDelete = () => {
     dispatch(delete_reservation(entity.id))
     handleCloseDelte()
