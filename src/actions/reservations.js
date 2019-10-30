@@ -54,7 +54,7 @@ export const create_reservation = entity => {
     entity.facilities = [entity.facilitiesObject]
     delete entity.facilitiesObject
     axios
-    .get('api/reservations?eagerFetch=true',    entity)
+    .post('api/reservations?eagerFetch=true',    entity)
       .then(result => {
         let old_entities = getState().reservations.entities
         old_entities.push(result.data)
@@ -86,14 +86,14 @@ export const delete_reservation = (id) => {
   return dispatch => {
     dispatch({ type: FETCH_RESERVATIONS_START, payload: {} })
     axios
-    .get(`api/reservations?eagerFetch=true/${id}`)
+    .delete(`api/reservations/${id}?eagerFetch=true`)
       .then(result => {
        // console.log(result)
-        dispatch({ type: RECEIVE_RESERVATIONS, payload: result.data })
+        dispatch({ type: DELETE_RESERVATION, payload: result.data })
       })
       .catch(error => {
         console.error(error)
-        dispatch({ type: FETCH_RESERVATIONS_ERROR, payload: error })
+        dispatch({ type: DELETE_RESERVATION_ERROR, payload: error })
       })
   }
 }
