@@ -18,13 +18,13 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelActions,
   Grid,
-  Divider
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import {
   get_reservations_by_user_id,
   delete_reservation
 } from '../actions/reservations'
+import ReservationsDialog from './ReservationForm.js'
 
 function TabPanel(props) {
   const { children, value, index, name, ...other } = props
@@ -71,6 +71,9 @@ export default function ReservationsList() {
   }
   const handleCloseDelte = () => {
     setOpenDelte(false)
+  }
+  const handleClose = () => {
+    setOpen(false)
   }
   const handleOpen = (type, entity) => {
     if (type === 'delete') {
@@ -192,10 +195,10 @@ export default function ReservationsList() {
                                     </Typography>
                                     <Typography>
                                       Capacity: {facility.capacity}
-                                    </Typography>
-                                    <Typography>
-                                      Color{facility.colorCode}
-                                    </Typography>
+                                      </Typography>
+                                      <Typography>
+                                      Color: {facility.colorCode}
+                                      </Typography>
 
                                     <Typography>
                                       {facility.foodAllowed
@@ -219,7 +222,7 @@ export default function ReservationsList() {
                                           {facility.equipmentBundles.map(
                                             equipment => {
                                               console.log(
-                                                'equipment',
+                                                'equipmentbundles',
                                                 equipment
                                               )
 
@@ -239,17 +242,17 @@ export default function ReservationsList() {
                                 )
                               })}
                             </Grid>
-                          </Grid>
-                        )}
-                      </Grid>
-                    </ExpansionPanelDetails>
-                    <ExpansionPanelActions>
-                      <ButtonGroup
-                        style={{ display: 'flex', justifyContent: 'right' }}
-                      >
-                        {index === 1 && <Button>Edit</Button>}
-                        {(index === 0 || index === 1) && (
-                          <Button onClick={() => handleOpen('delete', row)}>
+                            </Grid>
+                          )}
+                        </Grid>
+                      </ExpansionPanelDetails>
+                      <ExpansionPanelActions>
+                        <ButtonGroup
+                          style={{ display: 'flex', justifyContent: 'right' }}
+                        >
+                          {index === 1 && <Button  onClick={() => handleOpen('edit', row)} >Edit</Button>}
+                          {(index === 0 || index === 1) && (
+                            <Button onClick={() => handleOpen('delete', row)}>
                             Delete Event
                           </Button>
                         )}
@@ -270,6 +273,13 @@ export default function ReservationsList() {
         open={openDelte}
         handleCloseDelte={handleCloseDelte}
         entity={selectedEntity}
+      />
+      <ReservationsDialog
+        open={open}
+        handleClose={handleClose}
+        entity={selectedEntity}
+        editable={true}
+        create={false}
       />
     </>
   )
