@@ -6,14 +6,20 @@ import {
   DialogTitle,
   DialogContent,
   TextField,
-  Select
+  FormGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  Checkbox
 } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { create_reservation, put_reservation } from '../actions/reservations'
-import { get_equipment } from '../actions/equipment'
+import { get_facilities } from '../actions/facilities'
 
 const ReservationsDialog = props => {
   const { open, handleClose, editable, create } = props
+
+  const facilities = useSelector(state => state.facilities.entities);
 
   const dispatch = useDispatch()
 
@@ -44,8 +50,9 @@ const ReservationsDialog = props => {
         facilitiesObject: props.entity.facilities,
         equipmentReservations: props.entity.equipmentReservations,
       })
+      dispatch(get_facilities)
     },
-    [props.entity]
+    [dispatch, props.entity]
   )
     const [selection, setSelection] = React.useState('');
 
@@ -61,6 +68,12 @@ const ReservationsDialog = props => {
     }
     handleClose()
   }
+
+    const filtered_facilities = facilities.filter(facility => entity.facilitiesObject.includes(String(facility.id)))
+
+    let facility_names = filtered_facilities.map(e => e.name)
+    let facility_bundle = filtered_facilities.map(e => e.equipmentBundle)
+    const [bundle_checked, set_bundle_checked] = useState({})
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
@@ -87,29 +100,27 @@ const ReservationsDialog = props => {
           fullWidth
         />
         <TextField
-          disabled={!editable}
+          disabled={true}
           style={{ margin: '12px' }}
-          id="datetime-local"
+          id="datetime"
           label="Start Time"
           value={entity.startTime}
-          type="datetime-local"
-          defaultValue="2019-05-24T10:30"
+          type="datetime"
           onChange={handleChange('startTime')}
           fullWidth
         />
         <TextField
-          disabled={!editable}
+          disabled={true}
           style={{ margin: '12px' }}
-          id="datetime-local"
+          id="datetime"
           label="End Time"
           value={entity.endTime}
-          type="datetime-local"
-          defaultValue="2019-05-24T10:30"
+          type="datetime"
           onChange={handleChange('endTime')}
           fullWidth
         />
         <TextField
-          disabled={!editable}
+          disabled={true}
           style={{ margin: '12px' }}
           id="name"
           label="User"
@@ -119,25 +130,33 @@ const ReservationsDialog = props => {
           fullWidth
         />
         <TextField
-          disabled={!editable}
+          disabled={true}
           style={{ margin: '12px' }}
           id="name"
           label="Facilities"
-          value={entity.facilities}
+          value={facility_names}
           type="text"
           onChange={handleChange('facilities')}
           fullWidth
         />
-       <TextField
-          disabled={!editable}
-          style={{ margin: '12px' }}
-          id="name"
-          label="Equipment"
-          value={entity.equipmentReservations}
-          type="text"
-          onChange={handleChange('equipmentReservations')}
-          fullWidth
-          />
+        {facility_bundle || facility_bundle.lenght === 0 &&
+          <FormControl component="fieldset">
+                  <FormLabel component="legend">Equipment Bundles</FormLabel>
+                  <FormGroup>
+                  {facility_bundle.map(e => {
+                              set_bundle_checked(oldState => ({
+                                ...oldState,
+                                [e.id]: false
+                              }));
+                      return(
+                      <FormControlLabel
+                        control={<Checkbox checked={bundle_checked[e.id]} onChange={() => console.log(e.id)} value={e.id} />}
+                        label={e.name}
+                      />)
+                       })}
+            </FormGroup>
+          </FormControl>
+          }
       </DialogContent>
       {editable && (
         <DialogActions>
