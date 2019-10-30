@@ -15,9 +15,6 @@ import { get_equipment } from '../actions/equipment'
 const ReservationsDialog = props => {
   const { open, handleClose, editable, create } = props
 
-  const equipment = useSelector(state => state.equipment.entities)
-  const [value, setValue] = useState(0)
-
   const dispatch = useDispatch()
 
   const [entity, setEntity] = useState({
@@ -31,9 +28,6 @@ const ReservationsDialog = props => {
     equipmentReservations: '',
     facilityObject: {}
   })
-  const [state, setState] = React.useState({
-      selection: ''
-    });
 
   useEffect(
     () => {
@@ -57,12 +51,6 @@ const ReservationsDialog = props => {
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
-    setState({
-          ...state,
-          [name]: event.target.value,
-        });
-    setSelection(event.target.value);
-
   }
 
   const handleSave = () => {
@@ -140,18 +128,7 @@ const ReservationsDialog = props => {
           onChange={handleChange('facilities')}
           fullWidth
         />
-        <Select
-          native
-          value={state.selection}
-          onChange={handleChange('selection')}
-          name="selection"
-          value={selection}
-        >
-          <option value={'none'}>Bundles</option>
-          <option value={''}>Customize</option>
-        </Select>
-
-      { /* <TextField
+       <TextField
           disabled={!editable}
           style={{ margin: '12px' }}
           id="name"
@@ -160,8 +137,7 @@ const ReservationsDialog = props => {
           type="text"
           onChange={handleChange('equipmentReservations')}
           fullWidth
-\
-        Insert equipment options here*/}
+          />
       </DialogContent>
       {editable && (
         <DialogActions>
