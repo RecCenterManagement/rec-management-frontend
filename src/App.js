@@ -20,12 +20,20 @@ function App() {
   const authenticated = useSelector(
     state => state.authentication.isAuthenticated
   )
+  const loading = useSelector(
+    state => state.authentication.loading
+  )
   const dispatch = useDispatch()
 
   if (!authenticated) {
     if (localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY)) {
       dispatch(getUserAccount())
     }
+  }
+
+  console.log(!loading, authenticated)
+  if (loading) {
+    return <div/>
   }
 
   return (
@@ -37,26 +45,14 @@ function App() {
       <Route exact path="/" component={Home} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <Route path="/settings" component={Settings}></Route>
-      <Route path="/users">
-        {authenticated ? <UserManagement/> : <Redirect to="/login"/>}
-      </Route>
-      <Route path="/facilities">
-        {authenticated ? <Facilities/> : <Redirect to="/login"/>}
-      </Route>
-      <Route path="/reservations">
-        {authenticated ? <Reservations/> : <Redirect to="/login"/>}
-      </Route>
-      <Route path="/equipment">
-        {authenticated ? <Equipment/> : <Redirect to="/login"/>}
-      </Route>
-      <Route path="/equipment-reservations">
-        {authenticated ? <EquipmentReservations/> : <Redirect to="/login"/>}
-      </Route>
+      <Route path="/settings" component={Settings}/>
+      <Route path="/users" component={UserManagement}/>
+      <Route path="/facilities" component={Facilities}/>
+      <Route path="/reservations" component={Reservations} />
+      <Route path="/equipment" component={Equipment} />
+      <Route path="/equipment-reservations" component={EquipmentReservations}/>
       <Route path="/membership" component={Membership} />
-      <Route path="/calendar">
-        {authenticated ? <RecCalendar/> : <Redirect to="/login"/>}
-      </Route>
+      <Route path="/calendar" component={RecCalendar} />
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}
