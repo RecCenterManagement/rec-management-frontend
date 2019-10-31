@@ -15,6 +15,7 @@ import Equipment from './components/Equipment'
 import RecCalendar from './components/RecCalendar'
 import EquipmentReservations from './components/EquipmentReservations'
 import Membership from './components/Membership'
+import EquipmentBundle from './components/EquipmentBundle'
 
 function App() {
   const authenticated = useSelector(
@@ -53,6 +54,7 @@ function App() {
       <Route path="/equipment-reservations" component={EquipmentReservations}/>
       <Route path="/membership" component={Membership} />
       <Route path="/calendar" component={RecCalendar} />
+      <Route path="/equipment-bundles" component={EquipmentBundle} />
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}

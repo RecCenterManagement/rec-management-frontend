@@ -5,6 +5,7 @@ import facilities from './facilities-reducer'
 import reservations from './reservations-reducer'
 import equipment from './equipment-reducer'
 import equipment_reservations from './equipment-reservations-reducer'
+import equipment_bundle from './bundle-reducer'
 import register from './register-reducer'
 
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
   equipment,
   equipment_reservations,
   register,
-  userManagement
+  userManagement,
+  equipment_bundle
 })
