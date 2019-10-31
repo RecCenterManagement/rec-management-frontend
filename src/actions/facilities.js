@@ -10,14 +10,9 @@ export const AUTH_KEY = 'ou-rcm-auth-token'
 
 export const get_facilities = () => {
   return dispatch => {
-    let token = localStorage.getItem(AUTH_KEY)
-    token = token ? token : sessionStorage.getItem(AUTH_KEY)
-    var config = {
-      headers: { Authorization: 'Bearer ' + token }
-    }
     dispatch({ type: FETCH_FACILITIES_START, payload: {} })
     axios
-      .get('api/facilities', config)
+      .get('api/facilities')
       .then(result => {
         console.log(result)
         dispatch({ type: RECEIVE_FACILITIES, payload: result.data })
@@ -31,13 +26,8 @@ export const get_facilities = () => {
 
 export const put_facility = entity => {
   return (dispatch, getState) => {
-    let token = localStorage.getItem(AUTH_KEY)
-    token = token ? token : sessionStorage.getItem(AUTH_KEY)
-    var config = {
-      headers: { Authorization: 'Bearer ' + token }
-    }
     axios
-      .put('api/facilities', entity, config)
+      .put('api/facilities', entity)
       .then(result => {
         const old_entities = getState().facilities.entities
         const new_entities = old_entities.map(element => {

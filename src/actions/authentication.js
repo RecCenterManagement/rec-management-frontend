@@ -30,6 +30,11 @@ export const login = (username, password, rememberMe = false) => {
         } else {
           sessionStorage.setItem(AUTH_KEY, jwt)
         }
+
+        axios.defaults.headers.common = {
+          Authorization: 'Bearer ' + jwt
+        }
+
         dispatch(getUserAccount())
       })
       .catch(error => {
@@ -39,15 +44,18 @@ export const login = (username, password, rememberMe = false) => {
 }
 
 export const getUserAccount = () => (dispatch, getState) => {
-  let token = localStorage.getItem(AUTH_KEY)
-  token = token ? token : sessionStorage.getItem(AUTH_KEY)
-  var config = {
-    headers: { Authorization: 'Bearer ' + token }
+  dispatch({ type: FETCH_ACCOUNT_START, payload: {} })
+  if (!getState().authentication.idToken) {
+    let token = localStorage.getItem('ou-rcm-auth-token')
+    token = token ? token : sessionStorage.getItem('ou-rcm-auth-token')
+
+    axios.defaults.headers.common = {
+      Authorization: 'Bearer ' + token
+    }
   }
 
-  dispatch({ type: FETCH_ACCOUNT_START, payload: {} })
   axios
-    .get('api/account', config)
+    .get('api/account')
     .then(result => {
       dispatch({ type: RECEIVE_ACCOUNT, payload: result.data })
     })
@@ -70,6 +78,7 @@ export const logout = () => dispatch => {
 
 export const clearAuthentication = messageKey => dispatch => {
   clearAuthToken()
+  axios.defaults.headers.common = {}
   dispatch(displayAuthError(messageKey))
   dispatch({
     type: CLEAR_AUTH
@@ -78,14 +87,8 @@ export const clearAuthentication = messageKey => dispatch => {
 
 export const saveAccountForm = account => {
   return dispatch => {
-    let token = localStorage.getItem(AUTH_KEY)
-    token = token ? token : sessionStorage.getItem(AUTH_KEY)
-    var config = {
-      headers: { Authorization: 'Bearer ' + token }
-    }
-
     axios
-      .post('/api/account', account, config)
+      .post('/api/account', account)
       .then(data => {
         dispatch({ type: UPDATE_ACCOUNT, payload: account })
       })

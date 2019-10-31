@@ -30,12 +30,9 @@ const Reservations = props => {
   const entities = useSelector(state => state.equipment_reservations.entities)
   const dispatch = useDispatch()
 
-  useEffect(
-    () => {
-      dispatch(get_equipment_reservations())
-    },
-    [dispatch]
-  )
+  useEffect(() => {
+    dispatch(get_equipment_reservations())
+  }, [dispatch])
 
   return (
     <Card className={classes.root}>

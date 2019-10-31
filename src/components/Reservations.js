@@ -48,12 +48,9 @@ const Reservations = props => {
     setOpen(true)
   }
 
-  useEffect(
-    () => {
-      dispatch(get_reservations())
-    },
-    [dispatch]
-  )
+  useEffect(() => {
+    dispatch(get_reservations())
+  }, [dispatch])
 
   return (
     <>

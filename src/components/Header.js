@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 
 export const SignInLogOut = props => {
   /*
-  Invoked when the user presses the 'logout' button. 
+  Invoked when the user presses the 'logout' button.
   Dispatches a logout event to Redux, jumps to homepage and refreshes
   */
   const history = useHistory()
@@ -153,6 +153,7 @@ const Header = () => {
                 anchorEl={anchorRef.current}
                 transition
                 disablePortal
+                style={{ zIndex: 1 }}
               >
                 {({ TransitionProps, placement }) => (
                   <Grow
@@ -167,7 +168,14 @@ const Header = () => {
                         onClickAway={() => setAdminMenu(false)}
                       >
                         <MenuList>
-                          <MenuItem selected={false}>Users</MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/users"
+                            onClick={() => handleEntityClick('users')}
+                            selected={currentEntity === 'users'}
+                          >
+                            Users
+                          </MenuItem>
                           <MenuItem
                             component={Link}
                             to="/facilities"
@@ -199,6 +207,14 @@ const Header = () => {
                             selected={currentEntity === 'equ-res'}
                           >
                             Equipment Reservations
+                          </MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/equipment-bundles"
+                            onClick={() => handleEntityClick('equ-bun')}
+                            selected={currentEntity === 'equ-bun'}
+                          >
+                            Equipment Bundles
                           </MenuItem>
                         </MenuList>
                       </ClickAwayListener>
