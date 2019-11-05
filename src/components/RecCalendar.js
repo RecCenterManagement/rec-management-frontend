@@ -248,6 +248,7 @@ const RecCalendar = () => {
     event: temporaryEvent.title,
     startTime: temporaryEvent.start,
     endTime: temporaryEvent.end,
+    estimatedParticipants: 1,
     facilities: getSelectedFacilities(),
     user: user
   });
@@ -318,9 +319,9 @@ const RecCalendar = () => {
         />
       </div>
       <Fab
-        color="secondary"
+        color="primary"
         onClick={() => setOpen(true)}
-        style={{ position: "absolute", bottom: "0", right: "28px" }}
+        style={{ position: "fixed", bottom: "16px", right: "16px", display: temporaryEvent.start == null ? 'none' : 'flex' }}
       >
         <SaveIcon />
       </Fab>
@@ -329,6 +330,7 @@ const RecCalendar = () => {
         handleClose={() => setOpen(false)}
         editable={true}
         entity={eventToEntity()}
+        facilityObjects={getSelectedFacilities()}
         create={true}
       />
     </div>
