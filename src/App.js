@@ -18,7 +18,6 @@ import Membership from './components/Membership'
 import AboutUs from './components/AboutUs'
 import FacilityHoursAndSchedule from './components/FacilityHoursAndSchedule'
 import StayConnected from './components/StayConnected'
-import GroupExerciseSchedule from './components/GroupExerciseSchedule'
 import EquipmentBundle from './components/EquipmentBundle'
 
 function App() {
@@ -61,7 +60,6 @@ function App() {
       <Route path='/aboutus' component={AboutUs} />
       <Route path='/facilityhours' component={FacilityHoursAndSchedule} />
       <Route path='/stayconnected' component={StayConnected} />
-      <Route path='/groupexerciseschedule' component={GroupExerciseSchedule} />
       <Route path="/equipment-bundles" component={EquipmentBundle} />
       <Route
         path="/"

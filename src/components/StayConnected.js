@@ -20,6 +20,11 @@ const useStyles = makeStyles({
     cont: {
       backgroundColor: '#fafafa'
     },
+    cont2: {
+      backgroundColor: '#fafafa',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
     th: {
       backgroundColor: '#8d6e63'
     }
@@ -30,7 +35,16 @@ const StayConnected = () => {
     const classes = useStyles()
     return (
         <div className = {classes.background}>
-
+          <br />
+            <Container maxWidth="md" className={classes.cont2}>
+              <img src="https://www.oakland.edu/Assets/Oakland/recwell/graphics/sub-page-banners/REC-13599_Stay%20Connected.jpg" 
+              title="Stay Connected" alt="Stay Connected" width="728" height="200"></img>
+            </Container>
+            <br />
+            <Container maxWidth="md" className={classes.cont2}>
+              
+            </Container>
+          <br />
         </div>   
     )
 
