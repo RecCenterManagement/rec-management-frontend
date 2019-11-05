@@ -17,9 +17,11 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   ExpansionPanelActions,
-  Grid
+  Grid,
+  Chip
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+
 import {
   get_reservations_by_user_id,
   delete_reservation
@@ -93,13 +95,22 @@ export default function ReservationsList() {
   }, [dispatch, accountID])
 
   const handleFilterReservations = r => {
-    if (r && r.length !== 0)
-      setFilteredReservations(r.filter(res => res.status === value))
+    if (r && r.length !== 0) {
+      let res = []
+      if (value !== 'PAST') {
+        res = r.filter(
+          res => res.status === value && new Date(res.endTime) >= new Date()
+        )
+      } else {
+        res = r.filter(res => new Date(res.endTime) < new Date())
+      }
+      setFilteredReservations(res)
+    }
   }
   useEffect(() => {
     handleFilterReservations(reservations)
   }, [dispatch, reservations, value])
-  console.log('list', reservations)
+  console.log('list', filteredReservations)
   return (
     <>
       <div className={classes.root}>
@@ -113,11 +124,13 @@ export default function ReservationsList() {
             <Tab value='APPROVED' label='Approved' />
             <Tab value='PENDING' label='Pending' />
             <Tab value='DENIED' label='Denied' />
+            <Tab value='PAST' label='Past' />
           </Tabs>
         </AppBar>
         {reservations &&
-        reservations.filter(res => res.status === value).length !== 0 ? (
-          ['APPROVED', 'PENDING', 'DENIED'].map((panel, index) => {
+        filteredReservations &&
+        filteredReservations.length !== 0 ? (
+          ['APPROVED', 'PENDING', 'DENIED', 'PAST'].map((panel, index) => {
             return (
               <TabPanel value={value} name={panel} index={index}>
                 {filteredReservations.map(row => (
@@ -126,7 +139,26 @@ export default function ReservationsList() {
                       key={row.name}
                       expandIcon={<ExpandMoreIcon />}
                     >
-                      <Typography variant='h5'>{row.event}</Typography>
+                      <Grid
+                        container
+                        direction='row'
+                        justify='flex-start'
+                        spacing={2}
+                        alignItems='center'
+                      >
+                        <Grid item>
+                          <Typography variant='h5'>{row.event}</Typography>
+                        </Grid>
+                        {panel === 'PAST' && (
+                          <Grid item>
+                            <Chip
+                              size='small'
+                              label={row.status}
+                              color={'primary'}
+                            />
+                          </Grid>
+                        )}
+                      </Grid>
                     </ExpansionPanelSummary>
 
                     <ExpansionPanelDetails>
@@ -280,16 +312,18 @@ export default function ReservationsList() {
                       <ButtonGroup
                         style={{ display: 'flex', justifyContent: 'right' }}
                       >
-                        {index === 1 && (
+                        {panel !== 'PAST' && row.status === 'PENDING' && (
                           <Button onClick={() => handleOpen('edit', row)}>
                             Edit
                           </Button>
                         )}
-                        {(index === 0 || index === 1) && (
-                          <Button onClick={() => handleOpen('delete', row)}>
-                            Delete Event
-                          </Button>
-                        )}
+                        {panel !== 'PAST' &&
+                          (row.status === 'PENDING' ||
+                            row.status === 'APPROVED') && (
+                            <Button onClick={() => handleOpen('delete', row)}>
+                              Delete Event
+                            </Button>
+                          )}
                       </ButtonGroup>
                     </ExpansionPanelActions>
                   </ExpansionPanel>
