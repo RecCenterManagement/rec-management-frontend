@@ -26,7 +26,7 @@ import {
   get_reservations_by_user_id,
   delete_reservation
 } from '../actions/reservations'
-import ReservationsDialog from './ReservationForm.js'
+import ReservationsListForm from './ReservationsListForm.js'
 
 function TabPanel(props) {
   const { children, value, index, name, ...other } = props
@@ -218,8 +218,6 @@ export default function ReservationsList() {
                                 justify='flex-start'
                               >
                                 {row.equipmentReservations.map(equipment => {
-                                  console.log('equipment', equipment)
-
                                   return (
                                     <Grid item className={classes.border}>
                                       <Typography variant='h6'>
@@ -342,7 +340,7 @@ export default function ReservationsList() {
         handleCloseDelte={handleCloseDelte}
         entity={selectedEntity}
       />
-      <ReservationsDialog
+      <ReservationsListForm
         open={open}
         handleClose={handleClose}
         entity={selectedEntity}
