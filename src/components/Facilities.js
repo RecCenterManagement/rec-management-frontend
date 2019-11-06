@@ -52,12 +52,9 @@ const Facilities = props => {
     setOpen(true)
   }
 
-  useEffect(
-    () => {
-      dispatch(get_facilities())
-    },
-    [dispatch]
-  )
+  useEffect(() => {
+    dispatch(get_facilities())
+  }, [dispatch])
 
   return (
     <>
@@ -133,21 +130,18 @@ const FacilitiesDialog = props => {
 
   const dispatch = useDispatch()
 
-  useEffect(
-    () => {
-      setEntity({
-        id: props.entity.id,
-        name: props.entity.name,
-        footage: props.entity.footage,
-        capacity: props.entity.capacity,
-        avSupport: props.entity.avSupport,
-        foodAllowed: props.entity.foodAllowed,
-        colorCode: props.entity.colorCode,
-        description: props.entity.description
-      })
-    },
-    [props.entity]
-  )
+  useEffect(() => {
+    setEntity({
+      id: props.entity.id,
+      name: props.entity.name,
+      footage: props.entity.footage,
+      capacity: props.entity.capacity,
+      avSupport: props.entity.avSupport,
+      foodAllowed: props.entity.foodAllowed,
+      colorCode: props.entity.colorCode,
+      description: props.entity.description
+    })
+  }, [props.entity])
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
