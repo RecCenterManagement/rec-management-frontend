@@ -61,7 +61,6 @@ export default function ReservationsList() {
   const [value, setValue] = React.useState('APPROVED')
   const accountID = useSelector(state => state.authentication.account.id)
   const reservations = useSelector(state => state.reservations.entities)
-  const [date, setDate] = useState(new Date())
   const [filteredReservations, setFilteredReservations] = useState([])
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
@@ -110,7 +109,6 @@ export default function ReservationsList() {
   useEffect(() => {
     handleFilterReservations(reservations)
   }, [dispatch, reservations, value])
-  console.log('list', filteredReservations)
   return (
     <>
       <div className={classes.root}>
@@ -241,7 +239,6 @@ export default function ReservationsList() {
                               spacing={2}
                             >
                               {row.facilities.map(facility => {
-                                console.log('facility', facility)
                                 return (
                                   <Grid item className={classes.border}>
                                     <Typography variant='h6'>
@@ -285,7 +282,6 @@ export default function ReservationsList() {
                                                 'equipmentbundles',
                                                 equipment
                                               )
-
                                               return (
                                                 <Grid item>
                                                   <Typography>
