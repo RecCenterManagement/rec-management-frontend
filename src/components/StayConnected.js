@@ -4,6 +4,9 @@ import RecCenterVector from '../static/RecCenter.svg'
 import { Button, Container, Table, TableCell, TableHead,
   TableRow, TableBody, Paper } from '@material-ui/core'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Facebook, Instagram, Youtube, Wordpress, Twitter} from 'mdi-material-ui'
+
+
 
 const useStyles = makeStyles({
     root: {
@@ -38,11 +41,14 @@ const StayConnected = () => {
           <br />
             <Container maxWidth="md" className={classes.cont2}>
               <img src="https://www.oakland.edu/Assets/Oakland/recwell/graphics/sub-page-banners/REC-13599_Stay%20Connected.jpg" 
-              title="Stay Connected" alt="Stay Connected" width="728" height="200"></img>
-            </Container>
-            <br />
-            <Container maxWidth="md" className={classes.cont2}>
-              
+              alt="Stay Connected" width="728" height="200"></img>
+              <h2>Follow University Recreation and Well-Being on Social Media</h2>
+              <br />
+              <Facebook className="fontSizeLarge"/>
+              <Twitter />
+              <Instagram />
+              <Wordpress />
+              <Youtube />       
             </Container>
           <br />
         </div>   
