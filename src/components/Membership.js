@@ -41,12 +41,9 @@ const Membership = () => {
         <br />
         <Container maxWidth="md" className={classes.cont}>
           <br /> <Link to="/register">Click here to register</Link>
-          <br />
-          <br />
           <a>
-            <b>Membership Rates and Information</b>
+            <h2>Membership Rates and Information</h2>
           </a>
-          <br />
           <br />
           <Paper className={classes.root}>
             <Table className={classes.table} aria-label="simple table">
