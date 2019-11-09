@@ -250,6 +250,9 @@ const Header = () => {
                 <MenuItem component={Link} to="/settings">
                   Settings
                 </MenuItem>
+                <MenuItem component={Link} to="/my-reservations">
+                  My Reservations
+                </MenuItem>
                 <MenuItem onClick={() => console.log('HELLO')}>
                   My account
                 </MenuItem>
