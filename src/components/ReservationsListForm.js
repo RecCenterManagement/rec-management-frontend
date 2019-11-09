@@ -26,6 +26,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { create_reservation, put_reservation } from '../actions/reservations'
 import { get_facilities } from '../actions/facilities'
+import { get_equipment} from '../actions/equipment'
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -51,6 +52,7 @@ const ReservationsListForm = props => {
   const { open, handleClose, editable, create } = props
 
   const facilities = useSelector(state => state.facilities.entities)
+  const equipment = useSelector(state => state.equipment.entities)
 
   const dispatch = useDispatch()
 
@@ -62,27 +64,34 @@ const ReservationsListForm = props => {
     endTime: '',
     user: '',
     facilities: [''],
-    equipmentReservations: '',
-    facilityObject: {}
+    equipmentReservations: [''],
+    facilitiesNames: ['']
   })
 
-  useEffect(
-    () => {
-      setEntity({
-        id: props.entity.id,
-        event: props.entity.event,
-        status: props.entity.status,
-        estimatedParticipants: props.entity.estimatedParticipants,
-        startTime: props.entity.startTime,
-        endTime: props.entity.endTime,
-        user: props.entity.user ? props.entity.user.login : props.entity.user,
-        facilities: props.entity.facilities,
-        equipmentReservations: props.entity.equipmentReservations
-      })
-      dispatch(get_facilities())
-    },
-    [dispatch, props.entity]
-  )
+  useEffect(() => {
+    setEntity({
+      id: props.entity.id,
+      event: props.entity.event,
+      status: props.entity.status,
+      estimatedParticipants: props.entity.estimatedParticipants,
+      startTime: props.entity.startTime,
+      endTime: props.entity.endTime,
+      user: props.entity.user ? props.entity.user.login : props.entity.user,
+      facilities: props.entity.facilities,
+      equipmentReservations: props.entity.equipmentReservations,
+      facilitiesNames: props.entity.facilities
+        ? props.entity.facilities.map(f => f.name)
+        : [],
+        equipmentReservationsNames: props.entity.equipmentReservations
+        ? props.entity.equipmentReservations.map(e => e.equipment.name)
+        : []
+    })
+
+  }, [props.entity])
+  useEffect(()=>{
+    dispatch(get_facilities())
+    dispatch(get_equipment())
+  },[dispatch])
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
@@ -105,7 +114,41 @@ const ReservationsListForm = props => {
     handleClose()
   }
 
+  const handleChangeFacilities = name => event => {
+    const facilitiesObject = {}
+    const values = event.target.value
+    const selected = []
+    if (entity && entity.facilitiesNames) {
+      facilities.forEach(
+        facility => (facilitiesObject[facility.name] = facility)
+      )
+      values.forEach(name => {
+        if (facilitiesObject[name]) selected.push(facilitiesObject[name])
+      })
+    }
+    setEntity({ ...entity, [name]: values, facilities: selected })
+  }
 
+  const handleChangeEquipment = name => event => {
+    const equipmentReservationsObject = {}
+    const values = event.target.value
+    const selected = []
+    if (entity && entity.equipmentReservationsNames) {
+      equipment.forEach(
+        e => (equipmentReservationsObject[e.name] = e)
+      )
+      console.log("equipmentReservationsObject",equipmentReservationsObject)
+      console.log('values',values) 
+      values.forEach(name => {
+        if (equipmentReservationsObject[name]) {
+          selected.push({id: equipmentReservationsObject[name].id, count:1, equipment: equipmentReservationsObject[name]} )
+        }
+      })
+      
+      console.log("selected reservations",selected)
+    }
+    setEntity({ ...entity, [name]: values, equipmentReservations: selected })
+  }
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
       <DialogTitle id='form-dialog-title'>Reservation Editor</DialogTitle>
@@ -160,24 +203,54 @@ const ReservationsListForm = props => {
             />
           </Grid>
         </MuiPickersUtilsProvider>
-
+        <FormGroup>
         <FormControl className={classes.formControl}>
           <InputLabel id='facilities'>Facilities</InputLabel>
           <Select
             labelId='facilities-select'
             id='facilities-mutiple-select'
             multiple
-            value={entity.facilities}
-            onChange={handleChange('facilities')}
+            defaultValue={entity.facilitiesNames}
+            value={entity.facilitiesNames}
+            onChange={handleChangeFacilities('facilitiesNames')}
             input={<Input />}
           >
             {facilities.map(facility => (
-              <MenuItem key={facility.id} value={facility}>
+              <MenuItem key={facility.id} value={facility.name}>
                 {facility.name}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel id='equipmentReservations'>Equipment Reservations</InputLabel>
+          <Select
+            labelId='equipmentReservations-select'
+            id='equipmentReservations-mutiple-select'
+            multiple
+            value={entity.equipmentReservationsNames}
+            defaultValue={entity.equipmentReservationsNames}
+            onChange={handleChangeEquipment('equipmentReservationsNames')}
+            input={<Input />}
+          >
+            {equipment.map(e => (
+              <MenuItem key={e.id} value={e.name}>
+                {e.name}
+              </MenuItem>
+            ))}
+          </Select>
+          {entity && entity.equipmentReservations && entity.equipmentReservations.map(e=>
+          
+            <TextField
+              style={{ margin: '12px' }}
+              id='name'
+              label={e&&`${e.equipment.name} Count` }
+              value={e&&e.count}
+              type='number'
+              fullWidth
+            />)}
+        </FormControl>
+        </FormGroup>
       </DialogContent>
       {editable && (
         <DialogActions>
