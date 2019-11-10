@@ -75,8 +75,6 @@ function App() {
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}
       />
-      
-       
     </Router>
   )
 }
