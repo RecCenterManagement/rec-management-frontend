@@ -16,8 +16,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { saveAccountForm } from '../actions/authentication'
 
 const useStyles = makeStyles(theme => ({
+  gridContainer: {
+    padding: "20px"
+  },
   card: {
-    marginTop: '5vh',
     height: '100%',
     display: 'flex',
     flexDirection: 'column'
@@ -64,6 +66,7 @@ const Settings = () => {
   }
 
   return (
+    <div className={ classes.gridContainer }>
     <Grid container spacing={4}>
       <Grid item xs={12} sm={12} md={7}>
         <Card className={classes.card}>
@@ -143,6 +146,7 @@ const Settings = () => {
         </Card>
       </Grid>
     </Grid>
+    </div>
   )
 }
 
