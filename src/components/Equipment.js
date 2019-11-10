@@ -53,9 +53,12 @@ const Reservations = props => {
     setOpen(true)
   }
 
-  useEffect(() => {
-    dispatch(get_equipment())
-  }, [dispatch])
+  useEffect(
+    () => {
+      dispatch(get_equipment())
+    },
+    [dispatch]
+  )
 
   return (
     <>
@@ -66,6 +69,7 @@ const Reservations = props => {
             <TableRow>
               <TableCell align="left">ID</TableCell>
               <TableCell align="left">Name</TableCell>
+              <TableCell align="center">Inventory Size</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -77,6 +81,7 @@ const Reservations = props => {
                     {row.id}
                   </TableCell>
                   <TableCell align="left">{row.name}</TableCell>
+                  <TableCell align="center">{row.inventorySize}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup>
                       <Button onClick={() => handleOpen('view', row)}>
@@ -98,6 +103,10 @@ const Reservations = props => {
         handleClose={handleClose}
         entity={selectedEntity}
         editable={editable}
+        open={open}
+        handleClose={handleClose}
+        entity={selectedEntity}
+        editable={editable}
       />
     </>
   )
@@ -112,12 +121,16 @@ const EquipmentDialog = props => {
     name: ''
   })
 
-  useEffect(() => {
-    setEntity({
-      id: props.entity.id,
-      name: props.entity.name
-    })
-  }, [props.entity])
+  useEffect(
+    () => {
+      setEntity({
+        id: props.entity.id,
+        name: props.entity.name,
+        inventorySize: props.entity.inventorySize
+      })
+    },
+    [props.entity]
+  )
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
@@ -149,6 +162,16 @@ const EquipmentDialog = props => {
           value={entity.name}
           type="text"
           onChange={handleChange('name')}
+          fullWidth
+        />
+        <TextField
+          disabled={!editable}
+          style={{ margin: '12px' }}
+          id="name"
+          label="Inventory Size"
+          value={entity.inventorySize}
+          type="number"
+          onChange={handleChange('inventorySize')}
           fullWidth
         />
       </DialogContent>

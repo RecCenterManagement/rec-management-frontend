@@ -43,18 +43,17 @@ const Facilities = props => {
   }
 
   const handleOpen = (type, entity) => {
-    if (type === 'edit') {
-      setEditable(true)
-    } else {
-      setEditable(false)
-    }
+    setEditable(type === 'edit')
     setSelectedEntity(entity)
     setOpen(true)
   }
 
-  useEffect(() => {
-    dispatch(get_facilities())
-  }, [dispatch])
+  useEffect(
+    () => {
+      dispatch(get_facilities())
+    },
+    [dispatch]
+  )
 
   return (
     <>
@@ -71,6 +70,7 @@ const Facilities = props => {
               <TableCell align="right">Food Allowed</TableCell>
               <TableCell align="right">Color Code</TableCell>
               <TableCell align="right">Description</TableCell>
+              <TableCell align="right">Equipment Bundles</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -88,6 +88,9 @@ const Facilities = props => {
                   <TableCell align="right">{row.foodAllowed}</TableCell>
                   <TableCell align="right">{row.colorCode}</TableCell>
                   <TableCell align="right">{row.description}</TableCell>
+                  <TableCell align="right">
+                    {row.equipmentBundles.map(claim => (claim.equipment.name))}
+                  </TableCell>
                   <TableCell align="center">
                     <ButtonGroup>
                       <Button onClick={() => handleOpen('view', row)}>
@@ -122,7 +125,7 @@ const FacilitiesDialog = props => {
     name: '',
     footage: '',
     capacity: '',
-    avSupport: '',
+    avSupport: false,
     foodAllowed: false,
     colorCode: '',
     description: ''
@@ -130,18 +133,21 @@ const FacilitiesDialog = props => {
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    setEntity({
-      id: props.entity.id,
-      name: props.entity.name,
-      footage: props.entity.footage,
-      capacity: props.entity.capacity,
-      avSupport: props.entity.avSupport,
-      foodAllowed: props.entity.foodAllowed,
-      colorCode: props.entity.colorCode,
-      description: props.entity.description
-    })
-  }, [props.entity])
+  useEffect(
+    () => {
+      setEntity({
+        id: props.entity.id,
+        name: props.entity.name,
+        footage: props.entity.footage,
+        capacity: props.entity.capacity,
+        avSupport: props.entity.avSupport,
+        foodAllowed: props.entity.foodAllowed,
+        colorCode: props.entity.colorCode,
+        description: props.entity.description
+      })
+    },
+    [props.entity]
+  )
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
@@ -153,7 +159,7 @@ const FacilitiesDialog = props => {
   }
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth={true}>
+    <Dialog open={open} onClose={handleClose} fullWidth>
       <DialogTitle id="form-dialog-title">Facilities Editor</DialogTitle>
       <DialogContent>
         <TextField
@@ -183,7 +189,7 @@ const FacilitiesDialog = props => {
           label="Capacity"
           value={entity.capacity}
           type="number"
-          onChange={handleChange}
+          onChange={handleChange('capacity')}
           fullWidth
         />
         <TextField
