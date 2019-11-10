@@ -15,10 +15,7 @@ import Equipment from './components/Equipment'
 import RecCalendar from './components/RecCalendar'
 import EquipmentReservations from './components/EquipmentReservations'
 import Membership from './components/Membership'
-<<<<<<< HEAD
 import ReservationManagement from './components/ReservationManagement'
- 
-=======
 import ReservationsList from './components/ReservationsList'
 import AboutUs from './components/AboutUs'
 import FacilityHoursAndSchedule from './components/FacilityHoursAndSchedule'
@@ -26,7 +23,6 @@ import StayConnected from './components/StayConnected'
 import GroupExerciseSchedule from './components/GroupExerciseSchedule'
 import EquipmentBundle from './components/EquipmentBundle'
 
->>>>>>> master
 function App() {
   const authenticated = useSelector(
     state => state.authentication.isAuthenticated
