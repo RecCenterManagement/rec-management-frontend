@@ -247,13 +247,13 @@ const Header = () => {
                 open={menuOpen}
                 onClose={handleClose}
               >
-                <MenuItem component={Link} to="/settings">
+                <MenuItem component={Link} onClick={handleClose} to="/settings">
                   Settings
                 </MenuItem>
-                <MenuItem component={Link} to="/my-reservations">
+                <MenuItem component={Link} onClick={handleClose} to="/my-reservations">
                   My Reservations
                 </MenuItem>
-                <MenuItem onClick={() => console.log('HELLO')}>
+                <MenuItem onClick={handleClose}>
                   My account
                 </MenuItem>
               </Menu>
