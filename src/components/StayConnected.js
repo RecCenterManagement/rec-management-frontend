@@ -40,15 +40,30 @@ const StayConnected = () => {
         <div className = {classes.background}>
           <br />
             <Container maxWidth="md" className={classes.cont2}>
-              <img src="https://www.oakland.edu/Assets/Oakland/recwell/graphics/sub-page-banners/REC-13599_Stay%20Connected.jpg" 
-              alt="Stay Connected" width="728" height="200"></img>
               <h2>Follow University Recreation and Well-Being on Social Media</h2>
-              <br />
-              <Facebook className="fontSizeLarge"/>
-              <Twitter />
-              <Instagram />
-              <Wordpress />
-              <Youtube />       
+              <a>
+                <a href="https://www.facebook.com/ourecwell" target="_blank"><Facebook className="fontSizeLarge"/>Facebook</a> |   
+                <a href="https://twitter.com/OURecWell" target="_blank"><Twitter className="fontSizeLarge" />Twitter</a> | 
+                <a href="https://www.instagram.com/ourecwell/" target="_blank" title="Instagram Link"><Instagram className="fontSizeLarge" />Instagram</a> |
+                <a href="http://ourecwell.wordpress.com/" target="_blank"><Wordpress className="fontSizeLarge" />WordPress</a> |
+                <a href="http://www.youtube.com/user/OUCampusRecreation" target="_blank"><Youtube className="fontSizeLarge" />YouTube</a>  
+                </a> 
+              <hr /> <br />
+              <a>
+                Thank you for your interest in signing up for the University Recreation and Well-Being email list!
+                You will receive the Recreation and Well-Being Periodic Newsletter, as well as get periodic updates 
+                on University Recreation and Well-Being Programs and Service Promotions, and Recreation Center hour changes/closures.  
+                <br />
+                Get connected today by signing up for the distribution list by completing the form below.  When you sign up you will 
+                also be able to opt-in for the following targeted messages:
+                <br />
+                Newsletter - 3-4 times a year, University Recreation and Well-Being will produce a newsletter with information about 
+                the department highlights, programs, services, and announcements. Modified Building Operational Hours - This targeted 
+                audience subset will receive updates on changes to the building operational hours due to planned closures, Holiday Hours, 
+                and Break Hours.  These announcements are generally sent out one week prior to the change in hours. Aquatic Center Swim 
+                Meet Closures - This targeted audience subset will receive updates on when the Aquatic Center will be closed due to swim meets. 
+                These announcements are generally sent out one week prior to the swim meet.
+              </a>    
             </Container>
           <br />
         </div>   
