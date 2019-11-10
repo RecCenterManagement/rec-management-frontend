@@ -37,20 +37,19 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export const SignInLogOut = props => {
-
   /*
-  Invoked when the user presses the 'logout' button. 
+  Invoked when the user presses the 'logout' button.
   Dispatches a logout event to Redux, jumps to homepage and refreshes
   */
-  const history = useHistory();
-  const dispatch = useDispatch();
+  const history = useHistory()
+  const dispatch = useDispatch()
   function handleLogOut() {
     dispatch(logout())
     history.push('/')
-    window.location.reload();
+    window.location.reload()
   }
 
-  return (props.authenticated ? (
+  return props.authenticated ? (
     <Button
       component={Link}
       style={{ marginLeft: '20px' }}
@@ -61,26 +60,26 @@ export const SignInLogOut = props => {
       Log Out
     </Button>
   ) : (
-      <>
-        <Button
-          component={Link}
-          to="/login"
-          style={{ marginLeft: '20px', marginRight: '20px' }}
-          variant="outlined"
-          color="secondary"
-        >
-          Log In
+    <>
+      <Button
+        component={Link}
+        to="/login"
+        style={{ marginLeft: '20px', marginRight: '20px' }}
+        variant="outlined"
+        color="secondary"
+      >
+        Log In
       </Button>
-        <Button
-          component={Link}
-          to="/register"
-          variant="outlined"
-          color="secondary"
-        >
-          Register
+      <Button
+        component={Link}
+        to="/register"
+        variant="outlined"
+        color="secondary"
+      >
+        Register
       </Button>
-      </>
-    ))
+    </>
+  )
 }
 
 const Header = () => {
@@ -154,6 +153,7 @@ const Header = () => {
                 anchorEl={anchorRef.current}
                 transition
                 disablePortal
+                style={{ zIndex: 1 }}
               >
                 {({ TransitionProps, placement }) => (
                   <Grow
@@ -168,7 +168,14 @@ const Header = () => {
                         onClickAway={() => setAdminMenu(false)}
                       >
                         <MenuList>
-                          <MenuItem selected={false}>Users</MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/users"
+                            onClick={() => handleEntityClick('users')}
+                            selected={currentEntity === 'users'}
+                          >
+                            Users
+                          </MenuItem>
                           <MenuItem
                             component={Link}
                             to="/facilities"
@@ -200,6 +207,14 @@ const Header = () => {
                             selected={currentEntity === 'equ-res'}
                           >
                             Equipment Reservations
+                          </MenuItem>
+                          <MenuItem
+                            component={Link}
+                            to="/equipment-bundles"
+                            onClick={() => handleEntityClick('equ-bun')}
+                            selected={currentEntity === 'equ-bun'}
+                          >
+                            Equipment Bundles
                           </MenuItem>
                         </MenuList>
                       </ClickAwayListener>
@@ -234,6 +249,9 @@ const Header = () => {
               >
                 <MenuItem component={Link} to="/settings">
                   Settings
+                </MenuItem>
+                <MenuItem component={Link} to="/my-reservations">
+                  My Reservations
                 </MenuItem>
                 <MenuItem onClick={() => console.log('HELLO')}>
                   My account

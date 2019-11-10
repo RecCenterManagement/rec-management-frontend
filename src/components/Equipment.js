@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { get_equipment } from '../actions/equipment'
+import { get_equipment, put_equipment } from '../actions/equipment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,12 +53,9 @@ const Reservations = props => {
     setOpen(true)
   }
 
-  useEffect(
-    () => {
-      dispatch(get_equipment())
-    },
-    [dispatch]
-  )
+  useEffect(() => {
+    dispatch(get_equipment())
+  }, [dispatch])
 
   return (
     <>
@@ -107,21 +104,29 @@ const Reservations = props => {
 }
 
 const EquipmentDialog = props => {
-  const { open, handleClose, entity, editable } = props
+  const { open, handleClose, editable } = props
+  const dispatch = useDispatch()
 
-  const [name, setName] = useState(props.entity.name)
+  const [entity, setEntity] = useState({
+    id: 0,
+    name: ''
+  })
 
-  useEffect(
-    () => {
-      setName(props.entity.name)
-    },
-    [props.entity.name]
-  )
+  useEffect(() => {
+    setEntity({
+      id: props.entity.id,
+      name: props.entity.name
+    })
+  }, [props.entity])
 
-  const handleChange = event => {
-    setName(event.target.value)
+  const handleChange = name => event => {
+    setEntity({ ...entity, [name]: event.target.value })
   }
-  console.log(editable)
+
+  const handleSave = () => {
+    dispatch(put_equipment(entity))
+    handleClose()
+  }
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
@@ -141,18 +146,18 @@ const EquipmentDialog = props => {
           style={{ margin: '12px' }}
           id="name"
           label="Entity Name"
-          value={name}
+          value={entity.name}
           type="text"
-          onChange={handleChange}
+          onChange={handleChange('name')}
           fullWidth
         />
       </DialogContent>
       {editable && (
         <DialogActions>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleSave} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleSave} color="secondary">
             Save
           </Button>
         </DialogActions>

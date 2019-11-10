@@ -1,10 +1,8 @@
 import {
-  FETCH_FACILITIES_START,
-  RECEIVE_FACILITIES,
-  FETCH_FACILITIES_ERROR,
-  PUT_FACILITY,
-  PUT_FACILITY_ERROR
-} from '../actions/facilities'
+  FETCH_EQUIPMENT_BUNDLE_START,
+  RECEIVE_EQUIPMENT_BUNDLE,
+  FETCH_EQUIPMENT_BUNDLE_ERROR
+} from '../actions/equipment-bundle'
 
 const initial_state = {
   loading: false,
@@ -17,23 +15,18 @@ const initial_state = {
 
 export default function reducer(state = initial_state, action) {
   switch (action.type) {
-    case FETCH_FACILITIES_START: {
+    case FETCH_EQUIPMENT_BUNDLE_START: {
       return { ...state, loading: true, errorMessage: '' }
     }
-    case RECEIVE_FACILITIES: {
+    case RECEIVE_EQUIPMENT_BUNDLE: {
       return { ...state, entities: action.payload, loading: false }
     }
-    case FETCH_FACILITIES_ERROR: {
+    case FETCH_EQUIPMENT_BUNDLE_ERROR: {
       return { ...state, loading: true }
-    }
-    case PUT_FACILITY: {
-      return { ...state, entities: action.payload }
-    }
-    case PUT_FACILITY_ERROR: {
-      return { ...state, errorMessage: action.payload }
     }
     default: {
       return state
     }
   }
 }
+

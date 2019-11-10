@@ -48,12 +48,9 @@ const Reservations = props => {
     setOpen(true)
   }
 
-  useEffect(
-    () => {
-      dispatch(get_reservations())
-    },
-    [dispatch]
-  )
+  useEffect(() => {
+    dispatch(get_reservations())
+  }, [dispatch])
 
   return (
     <>
@@ -87,7 +84,7 @@ const Reservations = props => {
                   </TableCell>
                   <TableCell align="left">{row.startTime}</TableCell>
                   <TableCell align="left">{row.endTime}</TableCell>
-                  <TableCell align="left">{row.user.login}</TableCell>
+                  <TableCell align="left">{row.login}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup>
                       <Button onClick={() => handleOpen('view', row)}>
@@ -109,6 +106,7 @@ const Reservations = props => {
         handleClose={handleClose}
         entity={selectedEntity}
         editable={editable}
+        create={false}
       />
     </>
   )
