@@ -13,6 +13,7 @@ import Facilities from './components/Facilities'
 import Reservations from './components/Reservations'
 import Equipment from './components/Equipment'
 import RecCalendar from './components/RecCalendar'
+import ReservationSubmitted from './components/ReservationSubmitted'
 import EquipmentReservations from './components/EquipmentReservations'
 import Membership from './components/Membership'
 import ReservationManagement from './components/ReservationManagement'
@@ -65,6 +66,7 @@ function App() {
       <Route path='/facilityhours' component={FacilityHoursAndSchedule} />
       <Route path='/stayconnected' component={StayConnected} />
       <Route path="/equipment-bundles" component={EquipmentBundle} />
+      <Route path="/calendar/submitted" component={ReservationSubmitted} />
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}
