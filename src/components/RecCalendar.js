@@ -232,9 +232,7 @@ const RecCalendar = () => {
   // Filter the list of EXISTING events into a list filtered by facility.
   // Memoization caches the result until the list of reservations or selected facilities changes.
   const getFilteredEvents = () => {
-    console.log(`FINAL: ${getSelectedFacilities()}`);
     return generateEvents().filter(event => {
-      console.log(event.facilities);
       return (
         event.facilities.filter(value => {
           return getSelectedFacilities().includes(value.toString());
@@ -330,7 +328,6 @@ const RecCalendar = () => {
         handleClose={() => setOpen(false)}
         editable={true}
         entity={eventToEntity()}
-        facilityObjects={getSelectedFacilities()}
         create={true}
       />
     </div>

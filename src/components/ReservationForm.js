@@ -37,7 +37,7 @@ const ReservationsDialog = props => {
   })
 
   // Facilities currently selected.
-  const filteredFacilities = allFacilities.filter(facility => entity.facilities.includes(String(facility.id)))
+  const filteredFacilities = allFacilities.filter(facility => entity.facilities != null && entity.facilities.includes(String(facility.id)))
 
   useEffect(
     () => {
