@@ -62,9 +62,7 @@ const ReservationsDialog = props => {
   }
 
   const getCapacity = () => {
-    // Capacity cannot currently be set on facilities. Fix it!
-    return 10;
-    //return filteredFacilities.reduce((sum, facility) => (sum + facility.capacity), 0);
+    return filteredFacilities.reduce((sum, facility) => (sum + facility.capacity), 0);
   }
 
   const isFormValid = () => {
@@ -108,11 +106,11 @@ const ReservationsDialog = props => {
           disabled={!editable}
           style={{ margin: '12px' }}
           id="name"
-          error={!(entity.estimatedParticipants > 0 && entity.estimatedParticipants <= getCapacity()) }
+          error={(entity.estimatedParticipants > getCapacity()) }
           label="Estimated Participants"
           value={entity.estimatedParticipants}
           type="number"
-          helperText={(entity.estimatedParticipants > 0 ? (entity.estimatedParticipants > getCapacity() ? "Over capacity" : "Required") : "This field is required.")}
+          helperText={(entity.estimatedParticipants > getCapacity() ? "Over capacity" : "This field is required.")}
           onChange={handleChange('estimatedParticipants')}
           fullWidth
         />
