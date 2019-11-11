@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Card,
@@ -10,14 +10,16 @@ import {
   TextField,
   CardActions,
   CardHeader,
-  Grid
+  Grid,
+  Input,
+  InputLabel
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveAccountForm } from '../actions/authentication'
-
+import { get_all_profile_pictures } from '../actions/profile-pictures-action'
 const useStyles = makeStyles(theme => ({
   gridContainer: {
-    padding: "20px"
+    padding: '20px'
   },
   card: {
     height: '100%',
@@ -37,6 +39,7 @@ const useStyles = makeStyles(theme => ({
 const Settings = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const [image, setImage] = useState('')
 
   const account = useSelector(state => state.authentication.account)
 
@@ -46,13 +49,28 @@ const Settings = () => {
     email: account.email,
     username: account.login
   })
+  const profilePicture = useSelector(state =>
+    state.profile_pictures.entities.filter(e => e.user.id === account.id)
+  )
 
   const { firstName, lastName, email, username } = form_field
-
+  useEffect(() => {
+    dispatch(get_all_profile_pictures())
+  },[dispatch])
   const handleChange = name => event => {
     set_form_field({ ...form_field, [name]: event.target.value })
   }
 
+  const handleUpload = event => {
+    const file = event.target.files[0]
+    if (file) {
+      const fr = new FileReader()
+      fr.readAsDataURL(file)
+      fr.onload = () => {
+        setImage(fr.result)
+      }
+    }
+  }
   const handleSubmit = () => {
     dispatch(
       saveAccountForm({
@@ -64,7 +82,7 @@ const Settings = () => {
       })
     )
   }
-
+  profilePicture && console.log(profilePicture)
   return (
     <div className={classes.gridContainer}>
       <Grid container spacing={4}>
@@ -77,71 +95,89 @@ const Settings = () => {
             <CardContent>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <TextField
-                  id="outlined-name"
-                  label="First Name"
+                  id='outlined-name'
+                  label='First Name'
                   className={classes.textField}
                   value={firstName}
                   onChange={handleChange('firstName')}
-                  margin="normal"
-                  variant="outlined"
+                  margin='normal'
+                  variant='outlined'
                 />
                 <TextField
-                  id="outlined-name"
-                  label="Last Name"
+                  id='outlined-name'
+                  label='Last Name'
                   className={classes.textField}
                   value={lastName}
                   onChange={handleChange('lastName')}
-                  margin="normal"
-                  variant="outlined"
+                  margin='normal'
+                  variant='outlined'
                 />
                 <TextField
-                  id="outlined-name"
-                  label="Email Address"
+                  id='outlined-name'
+                  label='Email Address'
                   className={classes.textField}
                   value={email}
                   onChange={handleChange('email')}
-                  margin="normal"
-                  variant="outlined"
+                  margin='normal'
+                  variant='outlined'
                 />
               </div>
             </CardContent>
-            <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <CardActions
+              style={{ display: 'flex', justifyContent: 'flex-end' }}
+            >
               <Button
-                size="medium"
-                color="secondary"
+                size='medium'
+                color='secondary'
                 onClick={() => handleSubmit()}
               >
                 Save
-            </Button>
+              </Button>
             </CardActions>
           </Card>
         </Grid>
         <Grid item xs={12} sm={12} md={5}>
           <Card className={classes.card}>
-            <CardHeader className={classes.cardHeader} title="Profile Picture" />
+            <CardHeader
+              className={classes.cardHeader}
+              title='Profile Picture'
+            />
             <CardActionArea>
               <CardMedia
                 className={classes.media}
                 image={account.imageUrl}
-                title="Contemplative Reptile"
+                title='Contemplative Reptile'
               />
             </CardActionArea>
             <CardContent>
-              <Typography variant="body2" color="textSecondary" component="p">
+              <Typography variant='body2' color='textSecondary' component='p'>
                 Thinking of changing your look? Click the button below to switch
                 to a fancy new profile picture
-            </Typography>
+              </Typography>
             </CardContent>
-            <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button size="small" color="secondary">
-                Edit
-            </Button>
-              <Button size="small" color="secondary">
+            <CardActions
+              style={{ display: 'flex', justifyContent: 'flex-end' }}
+            >
+              <Input
+                accept='image/*'
+                className={classes.input}
+                style={{ display: 'none' }}
+                id='raised-button-file'
+                multiple
+                type='file'
+                onChange={e => handleUpload(e)}
+              />
+              <InputLabel htmlFor='raised-button-file'>
+                <Button color='secondary' variant='raised' component='span'>
+                  Upload
+                </Button>
+              </InputLabel>
+              <Button size='small' color='secondary'>
                 Save
-            </Button>
-              <Button size="small" color="secondary">
+              </Button>
+              <Button size='small' color='secondary'>
                 Cancel
-            </Button>
+              </Button>
             </CardActions>
           </Card>
         </Grid>
