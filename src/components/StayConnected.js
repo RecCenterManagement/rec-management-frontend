@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: '#efebe9'
     },
     background: {
-      backgroundColor: '#343434'
+      backgroundColor: '#8e774d'
     },
     cont2: {
       backgroundColor: '#fafafa',
