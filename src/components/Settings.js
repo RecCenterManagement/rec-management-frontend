@@ -55,9 +55,14 @@ const Settings = () => {
   const allProfilePictures = useSelector(
     state => state.profile_pictures.entities
   )
+  let [img] = useSelector(state =>
+    state.profile_pictures.entities.filter(
+      picture => picture.user.id === account.id
+    )
+  )
   const [uploadInfo, setUploadInfo] = useState(null)
 
-  const [image, setImage] = useState(null)
+  const [image, setImage] = useState(img)
   const [pictureData, setPictureData] = useState({
     id: Math.floor(Math.random() * 1000),
     user: {
@@ -71,7 +76,6 @@ const Settings = () => {
       login: account.login
     }
   })
-
 
   const { firstName, lastName, email, username } = form_field
 
@@ -93,17 +97,11 @@ const Settings = () => {
       })
     )
   }
-  const loadInitialImg = () =>{
-    if(allProfilePictures){
-      allProfilePictures.filter(picture => {
-        if(picture.user.id === account.id ){
-        return `data:${picture.imageDataContentType};base64,${picture.imageData}`
-        }
-    })}
-    
-  }
+ 
   const handleUpload = event => {
-   // const id =account.imageUrl && account.imageUrl.replace('/content/user-profile-picture/', '')
+    const id =
+      account.imageUrl &&
+      account.imageUrl.replace('/content/user-profile-picture/', '')
     const file = event.target.files[0]
     if (file) {
       const fr = new FileReader()
@@ -115,7 +113,12 @@ const Settings = () => {
         )
         setUploadInfo({ image: fr.result, name: file.name })
         setImage({ ...image, imageData, imageDataContentType })
-        setPictureData({ ...pictureData, imageData, imageDataContentType })
+        setPictureData({
+          ...pictureData,
+          id: 1053,
+          imageData,
+          imageDataContentType
+        })
       }
       fr.readAsDataURL(file)
     }
@@ -124,23 +127,27 @@ const Settings = () => {
     if (pictureData.id) {
       dispatch(put_profile_picture(pictureData))
       console.log('uploading')
+
     } else {
       create_profile_picture(pictureData)
       console.log('creating')
-
     }
-    setUploadInfo(null)
+    setUploadInfo({...uploadInfo, name:null})
   }
 
   const handleCancel = () => {
     setUploadInfo(null)
   }
   const handleDelete = () => {
-    const id = account.imageUrl && account.imageUrl.replace('/content/user-profile-picture/', '')
+    const id = img
+      ? img.id
+      :( account.imageUrl?
+        account.imageUrl.replace('/content/user-profile-picture/', '') :'')
     dispatch(delete_profile_picture(id))
     setUploadInfo(null)
+    img=null
   }
-  console.log("image",loadInitialImg())
+  console.log('image', img)
   return (
     <div className={classes.gridContainer}>
       <Grid container spacing={4}>
@@ -206,7 +213,8 @@ const Settings = () => {
                 image={
                   uploadInfo && uploadInfo.image
                     ? uploadInfo.image
-                    :loadInitialImg()
+                    : img &&
+                      `data:${img.imageDataContentType};base64,${img.imageData}`
                 }
                 title='Contemplative Reptile'
               />
@@ -249,7 +257,7 @@ const Settings = () => {
                   </Button>
                 </>
               )}
-              {account && account.imageUrl && (
+              {img && (
                 <Button size='small' onClick={handleDelete}>
                   Delete
                 </Button>
