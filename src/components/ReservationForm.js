@@ -83,7 +83,7 @@ const ReservationsDialog = props => {
       dispatch(put_reservation(entity))
     }
     handleClose()
-    history.push('/calendar/submitted')
+    history.push('/submitted')
   }
 
 

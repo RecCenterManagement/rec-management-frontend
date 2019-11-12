@@ -60,13 +60,13 @@ function App() {
       <Route path="/equipment" component={Equipment} />
       <Route path="/equipment-reservations" component={EquipmentReservations}/>
       <Route path="/membership" component={Membership} />
-      <Route path="/calendar" component={RecCalendar} />
       <Route path="/reservation-management" component={ReservationManagement} />
       <Route path='/aboutus' component={AboutUs} />
       <Route path='/facilityhours' component={FacilityHoursAndSchedule} />
       <Route path='/stayconnected' component={StayConnected} />
       <Route path="/equipment-bundles" component={EquipmentBundle} />
-      <Route path="/calendar/submitted" component={ReservationSubmitted} />
+      <Route path="/calendar" component={RecCalendar} />
+      <Route path="/submitted" component={ReservationSubmitted} />
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}

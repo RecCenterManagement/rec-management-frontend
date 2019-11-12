@@ -225,7 +225,7 @@ const RecCalendar = () => {
       end: new Date(reservation.endTime),
       desc: `${reservation.estimatedParticipants} participants`,
       temporary: false,
-      facilities: [1] // TODO: Temporary
+      facilities: reservation.facilities // TODO: Temporary
     }));
   }, [reservations]);
 
@@ -235,7 +235,8 @@ const RecCalendar = () => {
     return generateEvents().filter(event => {
       return (
         event.facilities.filter(value => {
-          return getSelectedFacilities().includes(value.toString());
+          if (value == null) return false;
+          return getSelectedFacilities().includes(value.id.toString());
         }).length !== 0
       );
     });

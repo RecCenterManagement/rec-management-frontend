@@ -50,10 +50,11 @@ export const create_reservation = entity => {
   return (dispatch, getState) => {
     delete entity.id
     entity.user = getState().authentication.account
-    entity.facilities = [entity.facilitiesObject]
-    delete entity.facilitiesObject
+    // Reformat facility list.
+    entity.facilities = entity.facilities.map((id) => ({ id }));
+    console.log(entity.facilities);
     axios
-      .post('api/reservations?eagerFetch=true', entity)
+      .post('api/reservations', entity)
       .then(result => {
         let old_entities = getState().reservations.entities
         old_entities.push(result.data)
