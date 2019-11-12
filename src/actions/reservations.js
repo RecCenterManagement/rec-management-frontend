@@ -16,6 +16,7 @@ export const get_reservations = () => {
     dispatch({ type: FETCH_RESERVATIONS_START, payload: {} })
     axios
       .get('api/reservations?eagerFetch=true')
+<<<<<<< HEAD
       .then(result => {
         // console.log(result)
         dispatch({ type: RECEIVE_RESERVATIONS, payload: result.data })
@@ -70,6 +71,8 @@ export const get_reservations_by_user_id = userId => {
     dispatch({ type: FETCH_RESERVATIONS_START, payload: {} })
     axios
       .get(`api/reservations?eagerFetch=true&userId.equals=${userId}`)
+=======
+>>>>>>> edc752399a50ecb95e9497863ce6136f9c2b38be
       .then(result => {
         // console.log(result)
         dispatch({ type: RECEIVE_RESERVATIONS, payload: result.data })

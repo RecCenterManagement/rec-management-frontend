@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import PropTypes from 'prop-types'
 import { makeStyles,} from '@material-ui/core/styles'
 import { 
@@ -22,6 +23,7 @@ import {
     Button,
     ButtonGroup,
 } from '@material-ui/core'
+import { get_reservations } from '../actions/reservations'
 
 const ReservationManagement = () => {
 
@@ -54,6 +56,7 @@ const ReservationManagement = () => {
         };
     }
 
+    /*
     function createData(id, event, estimated_participants, start_time, end_time, status, actions) {
         return { id, event, estimated_participants, start_time, end_time, status, actions };
     }
@@ -73,6 +76,7 @@ const ReservationManagement = () => {
         createData(12,'Nougat', 360, 19.0, 9, 'DENIED'),
         createData(13,'Oreo', 437, 18.0, 63, 'DENIED'),
     ];
+    */
 
     function desc(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
@@ -197,6 +201,41 @@ const ReservationManagement = () => {
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+    const reservations = useSelector(state => state.reservations.entities)
+
+    const [rows, setRows] = useState([])
+    const [pending, setPending] = useState([])
+    const [approved, setApproved] = useState([])
+    const [denied, setDenied] = useState([])
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(get_reservations())
+    }, [])
+
+    useEffect(() => {
+        const resPred = status => res => status == res.status
+        setPending(reservations.filter(resPred('PENDING')))
+        setApproved(reservations.filter(resPred('APPROVED')))
+        setDenied(reservations.filter(resPred('DENIED')))
+    }, [reservations])
+
+    useEffect(() => {
+        // value: 0 -> pending, 1 -> approved, 2 -> denied
+        switch (value) {
+            case 0:
+                setRows(pending);
+                break;
+            case 1:
+                setRows(approved);
+                break;
+            case 2:
+                setRows(denied);
+                break;
+        }
+    }, [pending, approved, denied, value]);
 
     const handleRequestSort = (event, property) => {
         const isDesc = orderBy === property && order === 'desc';
