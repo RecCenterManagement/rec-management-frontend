@@ -40,7 +40,7 @@ const Membership = () => {
       <div className={classes.background}>
         <br />
         <Container maxWidth="md" className={classes.cont}>
-          <br /> <Link to="/register">Click here to register</Link>
+         <br />
           <a>
             <h2>Membership Rates and Information</h2>
           </a>

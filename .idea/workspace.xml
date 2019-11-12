@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d28cae7a-81fa-4c31-9f81-336c79663623" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/components/ReservationForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ReservationForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/FacilityHoursAndSchedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FacilityHoursAndSchedule.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/StayConnected.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/StayConnected.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +16,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="9772b25c66e6a01f7a08e1ad1ed735316e4aa548" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
