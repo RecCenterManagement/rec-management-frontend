@@ -81,7 +81,7 @@ const Settings = () => {
 
   useEffect(() => {
     dispatch(get_all_profile_pictures())
-  }, [dispatch])
+  }, [dispatch,uploadInfo])
 
   const handleChange = name => event => {
     set_form_field({ ...form_field, [name]: event.target.value })
@@ -145,7 +145,6 @@ const Settings = () => {
         account.imageUrl.replace('/content/user-profile-picture/', '') :'')
     dispatch(delete_profile_picture(id))
     setUploadInfo(null)
-    img=null
   }
   console.log('image', img)
   return (
