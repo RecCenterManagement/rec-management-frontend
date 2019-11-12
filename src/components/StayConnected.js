@@ -2,10 +2,9 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import RecCenterVector from '../static/RecCenter.svg'
 import { Button, Container, Table, TableCell, TableHead,
-  TableRow, TableBody, Paper } from '@material-ui/core'
+  TableRow, TableBody, Paper, Fab } from '@material-ui/core'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { Facebook, Instagram, Youtube, Wordpress, Twitter} from 'mdi-material-ui'
-
 
 
 const useStyles = makeStyles(theme => ({
@@ -42,13 +41,11 @@ const StayConnected = () => {
             <Container maxWidth="md" className={classes.cont2}>
               <br />
               <h2>Follow University Recreation and Well-Being on Social Media</h2>
-              <a>
-                <a href="https://www.facebook.com/ourecwell" target="_blank"><Facebook />Facebook</a> |   
-                <a href="https://twitter.com/OURecWell" target="_blank"><Twitter />Twitter</a> | 
-                <a href="https://www.instagram.com/ourecwell/" target="_blank" title="Instagram Link"><Instagram />Instagram</a> |
-                <a href="http://ourecwell.wordpress.com/" target="_blank"><Wordpress />WordPress</a> |
-                <a href="http://www.youtube.com/user/OUCampusRecreation" target="_blank"><Youtube />YouTube</a>  
-                </a> 
+                <Fab color="secondary" href="https://www.facebook.com/ourecwell" target="_blank" > <Facebook /> </Fab> {'   '}
+                <Fab color="secondary" href="https://twitter.com/OURecWell" target="_blank"><Twitter /></Fab> {'   '}
+                <Fab color="secondary"href="https://www.instagram.com/ourecwell/" target="_blank"><Instagram /></Fab> {'   '}
+                <Fab color="secondary"href="http://ourecwell.wordpress.com/" target="_blank"><Wordpress /></Fab> {'   '}
+                <Fab color="secondary"href="http://www.youtube.com/user/OUCampusRecreation" target="_blank"><Youtube /></Fab> {'   '}
               <hr /> <br />
               <a>
                 <b>Thank you</b> for your interest in being on the University Recreation and Well-Being email list!
@@ -77,8 +74,8 @@ const StayConnected = () => {
                 <b>You must register an account and be logged in to be on the email list.</b>
                 <br />
                 <i>You can unsubscribe at any time.</i><br /><br />
-                <Button variant="contained" color="primary" className={classes.signupButton}>
-                  Subscribe to the Email list
+                <Button variant="contained" color="primary" className={classes.signupButton} component={Link}  to="/register">
+                  Click Here to Register
                 </Button><br /><br />
               </a>    
             </Container>

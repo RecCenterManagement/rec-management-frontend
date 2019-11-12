@@ -11,6 +11,7 @@
     "axios": "^0.19.0",
     "mdi-material-ui": "^6.8.0",
     "date-fns": "^2.0.0-beta.5",
+    "mdi-material-ui": "^6.8.0",
     "moment": "^2.24.0",
     "react": "^16.10.2",
     "react-big-calendar": "^0.22.1",
