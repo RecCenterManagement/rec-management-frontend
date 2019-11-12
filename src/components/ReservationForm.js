@@ -74,7 +74,7 @@ const ReservationsDialog = props => {
     if (!isFormValid()) {
       return;
     }
-    
+
     if (create) {
       dispatch(create_reservation(entity))
     } else {
