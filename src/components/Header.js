@@ -253,9 +253,6 @@ const Header = () => {
                 <MenuItem component={Link} onClick={handleClose} to="/my-reservations">
                   My Reservations
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  My account
-                </MenuItem>
               </Menu>
             </div>
           )}

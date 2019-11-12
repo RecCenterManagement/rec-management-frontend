@@ -1,7 +1,8 @@
-import React, { useEffect , useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
+  Collapse,
   Table,
   TableBody,
   TableCell,
@@ -19,7 +20,11 @@ import {
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { get_equipment_bundle, put_equipment_bundle } from '../actions/equipment-bundle'
+import {
+  get_equipment_bundle,
+  put_equipment_bundle
+} from '../actions/equipment-bundle'
+import { get_equipment } from '../actions/equipment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,7 +41,6 @@ const EquipmentBundle = props => {
   const classes = useStyles()
   const entities = useSelector(state => state.equipment_bundle.entities)
   const dispatch = useDispatch()
-
 
   const [open, setOpen] = useState(false)
   const [selectedEntity, setSelectedEntity] = useState({})
@@ -56,55 +60,58 @@ const EquipmentBundle = props => {
     setOpen(true)
   }
 
-  useEffect(() => {
-    dispatch(get_equipment_bundle())
-  }, [dispatch])
+  useEffect(
+    () => {
+      dispatch(get_equipment_bundle())
+    },
+    [dispatch]
+  )
 
   return (
     <>
-    <Card className={classes.root}>
-      <CardHeader className={classes.cardHeader} title="Equipment Bundles" />
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">ID</TableCell>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="left">Equipment</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {entities &&
-            entities.map(row => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.id}
-                </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="left">
-                  {row.claims.map(claim => (claim.equipment.name))}
-                </TableCell>
-                <TableCell align="center">
-                  <ButtonGroup>
+      <Card className={classes.root}>
+        <CardHeader className={classes.cardHeader} title="Equipment Bundles" />
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">ID</TableCell>
+              <TableCell align="left">Name</TableCell>
+              <TableCell align="left">Equipment</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {entities &&
+              entities.map(row => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.id}
+                  </TableCell>
+                  <TableCell align="left">{row.name}</TableCell>
+                  <TableCell align="left">
+                    {row.claims.map(claim => claim.equipment.name)}
+                  </TableCell>
+                  <TableCell align="center">
+                    <ButtonGroup>
                       <Button onClick={() => handleOpen('view', row)}>
                         View
                       </Button>
                       <Button onClick={() => handleOpen('edit', row)}>
                         Edit
                       </Button>
-                    <Button>Delete</Button>
-                  </ButtonGroup>
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-    </Card>
-    <BundleDialog
-      open={open}
-      handleClose={handleClose}
-      entity={selectedEntity}
-      editable={editable}
-    />
+                      <Button>Delete</Button>
+                    </ButtonGroup>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </Card>
+      <BundleDialog
+        open={open}
+        handleClose={handleClose}
+        entity={selectedEntity}
+        editable={editable}
+      />
     </>
   )
 }
@@ -118,15 +125,24 @@ const BundleDialog = props => {
     claims: []
   })
 
+  const [claimDictionary, setClaimDictionary] = useState({})
+
+  const equipment = useSelector(state => state.equipment.entities)
+  const [expanded, setExpanded] = useState(false)
+
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    setEntity({
-      id: props.entity.id,
-      name: props.entity.name,
-      claims: props.entity.claims,
-    })
-  }, [props.entity])
+  useEffect(
+    () => {
+      setEntity({
+        id: props.entity.id,
+        name: props.entity.name,
+        claims: props.entity.claims
+      })
+      dispatch(get_equipment())
+    },
+    [props.entity]
+  )
 
   const removeEquipment = id => {
     setEntity(oldState => ({
@@ -158,14 +174,44 @@ const BundleDialog = props => {
           onChange={handleChange('name')}
           fullWidth
         />
-        <div style={{display: 'flex', flexDirection: 'column', marginTop: 12}}>
+        <div
+          style={{ display: 'flex', flexDirection: 'column', marginTop: 12 }}
+        >
           <Typography>Equipment List:</Typography>
-          <div style={{marginBottom: 12}}>
-            {entity.claims && entity.claims.map(claim => (
-              <Chip variant="outlined" label={claim.equipment.name} onDelete={() => removeEquipment(claim.equipment.id)} />
-            ))}
+          <div style={{ marginBottom: 12 }}>
+            {entity.claims &&
+              entity.claims.map(claim => (
+                <Chip
+                  variant="outlined"
+                  label={claim.equipment.name}
+                  onDelete={() => removeEquipment(claim.equipment.id)}
+                />
+              ))}
           </div>
-          {editable && <Button style={{width: 'max-content'}} color="secondary">Add Equipment</Button>}
+          {editable && (
+            <>
+              <Button
+                style={{ width: 'max-content' }}
+                color="secondary"
+                onClick={() => setExpanded(!expanded)}
+              >
+                Add Equipment
+              </Button>
+              <Collapse in={expanded}>
+                {equipment &&
+                 equipment.map(element => (
+                   <TextField
+                      style={{ margin: '12px' }}
+                      id={element.name}
+                      label={element.name}
+                      value={0}
+                      type="number"
+                      onChange={handleChange(element.name)}
+                    />
+                 ))}
+              </Collapse>
+            </>
+          )}
         </div>
       </DialogContent>
       {editable && (
@@ -183,4 +229,3 @@ const BundleDialog = props => {
 }
 
 export default EquipmentBundle
-
