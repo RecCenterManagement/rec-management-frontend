@@ -232,9 +232,7 @@ const RecCalendar = () => {
   // Filter the list of EXISTING events into a list filtered by facility.
   // Memoization caches the result until the list of reservations or selected facilities changes.
   const getFilteredEvents = () => {
-    console.log(`FINAL: ${getSelectedFacilities()}`);
     return generateEvents().filter(event => {
-      console.log(event.facilities);
       return (
         event.facilities.filter(value => {
           return getSelectedFacilities().includes(value.toString());
@@ -248,6 +246,7 @@ const RecCalendar = () => {
     event: temporaryEvent.title,
     startTime: temporaryEvent.start,
     endTime: temporaryEvent.end,
+    estimatedParticipants: 1,
     facilities: getSelectedFacilities(),
     user: user
   });
@@ -318,9 +317,9 @@ const RecCalendar = () => {
         />
       </div>
       <Fab
-        color="secondary"
+        color="primary"
         onClick={() => setOpen(true)}
-        style={{ position: "absolute", bottom: "0", right: "28px" }}
+        style={{ position: "fixed", bottom: "16px", right: "16px", display: temporaryEvent.start == null ? 'none' : 'flex' }}
       >
         <SaveIcon />
       </Fab>

@@ -15,6 +15,7 @@ import Equipment from './components/Equipment'
 import RecCalendar from './components/RecCalendar'
 import EquipmentReservations from './components/EquipmentReservations'
 import Membership from './components/Membership'
+import ReservationsList from './components/ReservationsList'
 import AboutUs from './components/AboutUs'
 import FacilityHoursAndSchedule from './components/FacilityHoursAndSchedule'
 import StayConnected from './components/StayConnected'
@@ -53,6 +54,7 @@ function App() {
       <Route path="/users" component={UserManagement}/>
       <Route path="/facilities" component={Facilities}/>
       <Route path="/reservations" component={Reservations} />
+      <Route path="/my-reservations" component={ReservationsList} />
       <Route path="/equipment" component={Equipment} />
       <Route path="/equipment-reservations" component={EquipmentReservations}/>
       <Route path="/membership" component={Membership} />

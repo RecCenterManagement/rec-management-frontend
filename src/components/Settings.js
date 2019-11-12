@@ -16,8 +16,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { saveAccountForm } from '../actions/authentication'
 
 const useStyles = makeStyles(theme => ({
+  gridContainer: {
+    padding: "20px"
+  },
   card: {
-    marginTop: '5vh',
     height: '100%',
     display: 'flex',
     flexDirection: 'column'
@@ -64,85 +66,87 @@ const Settings = () => {
   }
 
   return (
-    <Grid container spacing={4}>
-      <Grid item xs={12} sm={12} md={7}>
-        <Card className={classes.card}>
-          <CardHeader
-            className={classes.cardHeader}
-            title={`${username} profile`}
-          />
-          <CardContent>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <TextField
-                id="outlined-name"
-                label="First Name"
-                className={classes.textField}
-                value={firstName}
-                onChange={handleChange('firstName')}
-                margin="normal"
-                variant="outlined"
-              />
-              <TextField
-                id="outlined-name"
-                label="Last Name"
-                className={classes.textField}
-                value={lastName}
-                onChange={handleChange('lastName')}
-                margin="normal"
-                variant="outlined"
-              />
-              <TextField
-                id="outlined-name"
-                label="Email Address"
-                className={classes.textField}
-                value={email}
-                onChange={handleChange('email')}
-                margin="normal"
-                variant="outlined"
-              />
-            </div>
-          </CardContent>
-          <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
-              size="medium"
-              color="secondary"
-              onClick={() => handleSubmit()}
-            >
-              Save
-            </Button>
-          </CardActions>
-        </Card>
-      </Grid>
-      <Grid item xs={12} sm={12} md={5}>
-        <Card className={classes.card}>
-          <CardHeader className={classes.cardHeader} title="Profile Picture" />
-          <CardActionArea>
-            <CardMedia
-              className={classes.media}
-              image={account.imageUrl}
-              title="Contemplative Reptile"
+    <div className={classes.gridContainer}>
+      <Grid container spacing={4}>
+        <Grid item xs={12} sm={12} md={7}>
+          <Card className={classes.card}>
+            <CardHeader
+              className={classes.cardHeader}
+              title={`${username} profile`}
             />
-          </CardActionArea>
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Thinking of changing your look? Click the button below to switch
-              to a fancy new profile picture
+            <CardContent>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <TextField
+                  id="outlined-name"
+                  label="First Name"
+                  className={classes.textField}
+                  value={firstName}
+                  onChange={handleChange('firstName')}
+                  margin="normal"
+                  variant="outlined"
+                />
+                <TextField
+                  id="outlined-name"
+                  label="Last Name"
+                  className={classes.textField}
+                  value={lastName}
+                  onChange={handleChange('lastName')}
+                  margin="normal"
+                  variant="outlined"
+                />
+                <TextField
+                  id="outlined-name"
+                  label="Email Address"
+                  className={classes.textField}
+                  value={email}
+                  onChange={handleChange('email')}
+                  margin="normal"
+                  variant="outlined"
+                />
+              </div>
+            </CardContent>
+            <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                size="medium"
+                color="secondary"
+                onClick={() => handleSubmit()}
+              >
+                Save
+            </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={12} md={5}>
+          <Card className={classes.card}>
+            <CardHeader className={classes.cardHeader} title="Profile Picture" />
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image={account.imageUrl}
+                title="Contemplative Reptile"
+              />
+            </CardActionArea>
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Thinking of changing your look? Click the button below to switch
+                to a fancy new profile picture
             </Typography>
-          </CardContent>
-          <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button size="small" color="secondary">
-              Edit
+            </CardContent>
+            <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button size="small" color="secondary">
+                Edit
             </Button>
-            <Button size="small" color="secondary">
-              Save
+              <Button size="small" color="secondary">
+                Save
             </Button>
-            <Button size="small" color="secondary">
-              Cancel
+              <Button size="small" color="secondary">
+                Cancel
             </Button>
-          </CardActions>
-        </Card>
+            </CardActions>
+          </Card>
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   )
 }
 
