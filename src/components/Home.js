@@ -22,12 +22,17 @@ const useStyles = makeStyles(theme => ({
     height: '150px',
     marginBottom: '15px',
     transition: 'background-color 0.5s ease',
+    backgroundColor: theme.palette.secondary.main,
+     color: theme.palette.secondary.contrastText,
+     [theme.breakpoints.down('lg')]: {
+      width: '200px'
+         },
     [theme.breakpoints.down('md')]: {
-      backgroundColor: theme.palette.secondary.main,
-      color: theme.palette.secondary.contrastText
-    },
+      width: '150px'
+                 },
     [theme.breakpoints.down('xs')]: {
-      height: '75px'
+      height: '75px',
+      width: '100%'
     }
   },
   homeButtonContainer: {
