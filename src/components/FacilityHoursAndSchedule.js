@@ -15,7 +15,7 @@ const useStyles = makeStyles({
       backgroundColor: '#efebe9'
     },
     background: {
-      backgroundColor: '#343434'
+      backgroundColor: '#8e774d'
     },
     cont: {
       backgroundColor: '#fafafa'
