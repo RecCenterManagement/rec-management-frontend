@@ -15,6 +15,7 @@ import Equipment from './components/Equipment'
 import RecCalendar from './components/RecCalendar'
 import EquipmentReservations from './components/EquipmentReservations'
 import Membership from './components/Membership'
+import ReservationManagement from './components/ReservationManagement'
 import ReservationsList from './components/ReservationsList'
 import AboutUs from './components/AboutUs'
 import FacilityHoursAndSchedule from './components/FacilityHoursAndSchedule'
@@ -29,7 +30,7 @@ function App() {
     state => state.authentication.loading
   )
   const dispatch = useDispatch()
-
+ 
   if (!authenticated) {
     if (localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY)) {
       dispatch(getUserAccount())
@@ -59,6 +60,7 @@ function App() {
       <Route path="/equipment-reservations" component={EquipmentReservations}/>
       <Route path="/membership" component={Membership} />
       <Route path="/calendar" component={RecCalendar} />
+      <Route path="/reservation-management" component={ReservationManagement} />
       <Route path='/aboutus' component={AboutUs} />
       <Route path='/facilityhours' component={FacilityHoursAndSchedule} />
       <Route path='/stayconnected' component={StayConnected} />
@@ -67,10 +69,8 @@ function App() {
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}
       />
-      
-       
     </Router>
   )
 }
-
+ 
 export default App
