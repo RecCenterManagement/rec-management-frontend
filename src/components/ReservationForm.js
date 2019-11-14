@@ -63,6 +63,8 @@ const ReservationsDialog = props => {
   }
 
   const getCapacity = () => {
+    console.log("CAPACITY");
+    console.log(filteredFacilities);
     return filteredFacilities.reduce((sum, facility) => (sum + facility.capacity), 0);
   }
 

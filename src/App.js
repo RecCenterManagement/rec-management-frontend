@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Login from './components/Login'
 import Home from './components/Home'
 import Header from './components/Header'
@@ -12,7 +12,8 @@ import Footer from './components/Footer'
 import Facilities from './components/Facilities'
 import Reservations from './components/Reservations'
 import Equipment from './components/Equipment'
-import RecCalendar from './components/RecCalendar'
+import RecCalendarCreate from './components/RecCalendarCreate'
+import RecCalendarView from './components/RecCalendarView'
 import ReservationSubmitted from './components/ReservationSubmitted'
 import EquipmentReservations from './components/EquipmentReservations'
 import Membership from './components/Membership'
@@ -65,7 +66,8 @@ function App() {
       <Route path='/facilityhours' component={FacilityHoursAndSchedule} />
       <Route path='/stayconnected' component={StayConnected} />
       <Route path="/equipment-bundles" component={EquipmentBundle} />
-      <Route path="/calendar" component={RecCalendar} />
+      <Route path="/calendar" component={RecCalendarView} />
+      <Route path="/create-reservation" component={RecCalendarCreate} />
       <Route path="/submitted" component={ReservationSubmitted} />
       <Route
         path="/"

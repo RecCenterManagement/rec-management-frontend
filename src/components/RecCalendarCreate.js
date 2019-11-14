@@ -13,6 +13,8 @@ import RecCalendarToolbar from "./RecCalendarToolbar";
 // Handler for class names.
 import clsx from "clsx";
 
+const MONTHS_IN_FUTURE = 3;
+
 const useStyles = makeStyles(theme => ({
   temporaryEvent: {
     backgroundColor: "#909090",
@@ -21,24 +23,25 @@ const useStyles = makeStyles(theme => ({
     }
   },
   pastEvent: {
-    backgroundColor: "#666",
-    borderTop: "1px solid #111",
+    backgroundColor: "#888",
+    borderTop: "1px solid #FFF",
+    color: "#FFF",
     "&.rbc-time-slot": {
-      borderTop: "1px solid #111"  
+      borderTop: "1px solid #FFF"  
     },
     "& .rbc-timeslot-group, & .rbc-time-content > * + * > *": {
-      borderLeft: "1px solid #111",
-      borderBottom: "1px solid #111"  
+      borderLeft: "1px solid #FFF",
+      borderBottom: "1px solid #FFF"  
     },
     ".rbc-today &": {
-      backgroundColor: "#888",
-      borderTop: "1px solid #333",
+      backgroundColor: "#CCC",
+      borderTop: "1px solid #FFF",
       "&.rbc-time-slot": {
-        borderTop: "1px solid #333"  
+        borderTop: "1px solid #FFF"  
       },
       "& .rbc-timeslot-group, & .rbc-time-content > * + * > *": {
-        borderLeft: "1px solid #333",
-        borderBottom: "1px solid #333"  
+        borderLeft: "1px solid #FFF",
+        borderBottom: "1px solid #FFF"  
       },
     }
   },
@@ -155,7 +158,8 @@ const RecCalendar = () => {
   const isEventInRange = (start, end) => {
     const now = new Date();
     const maxFutureDate = new Date();
-    maxFutureDate.setMonth(maxFutureDate.getMonth() + 3);
+    // Three months
+    maxFutureDate.setMonth(maxFutureDate.getMonth() + MONTHS_IN_FUTURE);
     return (now < start && start < maxFutureDate) && (now < end && end < maxFutureDate);
   }
 
@@ -192,7 +196,7 @@ const RecCalendar = () => {
     const today = new Date();
     today.setMinutes(0, 0, 0);
     const maxFutureDate = new Date();
-    maxFutureDate.setMonth(maxFutureDate.getMonth() + 3);
+    maxFutureDate.setMonth(maxFutureDate.getMonth() + MONTHS_IN_FUTURE);
 
     const inDateRange = today < date && date < maxFutureDate;
 
@@ -206,7 +210,7 @@ const RecCalendar = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const maxFutureDate = new Date();
-    maxFutureDate.setMonth(maxFutureDate.getMonth() + 3);
+    maxFutureDate.setMonth(maxFutureDate.getMonth() + MONTHS_IN_FUTURE);
 
     const inDateRange = today <= date && date < maxFutureDate;
     return {
