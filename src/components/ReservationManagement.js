@@ -43,19 +43,6 @@ const ReservationManagement = () => {
         );
     }
 
-    TabPanel.propTypes = {
-        children: PropTypes.node,
-        index: PropTypes.any.isRequired,
-        value: PropTypes.any.isRequired,
-    };
-
-    function a11yProps(index) {
-        return {
-          id: `simple-tab-${index}`,
-          'aria-controls': `simple-tabpanel-${index}`,
-        };
-    }
-
     function desc(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
             return -1;
@@ -87,7 +74,7 @@ const ReservationManagement = () => {
         { id: 'startTime', numeric: true, disablePadding: false, label: 'Start Time' },
         { id: 'endTime', numeric: true, disablePadding: false, label: 'End Time' },
         { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
-        {id: 'actions', numeric: false, disablePadding: false, label: 'Actions'}
+        { id: 'actions', numeric: false, disablePadding: false, label: 'Actions'}
     ];
 
     function EnhancedTableHead(props) {
@@ -169,9 +156,12 @@ const ReservationManagement = () => {
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [approveButton, setApproveButton] = useState(false)
+    const [denyButton, setDenyButton] = useState(false)
+    const [viewButton, setViewButton] = useState(false)
+    const [selectedEntity, setSelectedEntity] = useState({})
 
     const reservations = useSelector(state => state.reservations.entities)
-
     const [rows, setRows] = useState([])
     const [pending, setPending] = useState([])
     const [approved, setApproved] = useState([])
@@ -216,15 +206,6 @@ const ReservationManagement = () => {
         setOrderBy(property);
     };
 
-    const handleSelectAllClick = event => {
-        if (event.target.checked) {
-            const newSelecteds = rows.map(n => n.name);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
-    };
-
     const handleClick = (event, name) => {
         const selectedIndex = selected.indexOf(name);
         let newSelected = [];
@@ -264,7 +245,20 @@ const ReservationManagement = () => {
     const handleChangeDense = event => {
         setDense(event.target.checked);
     };
+/*
+    const handleButtons = (type, entity) => {
+        if (type === 'deny'){
 
+        } else if (type === 'approve'){
+
+        } else if (type === 'view') {
+
+        } else {
+            set
+        }
+        setSelectedEntity(entity)
+    }
+*/
     const isSelected = name => selected.indexOf(name) !== -1;
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -274,10 +268,10 @@ const ReservationManagement = () => {
             <div className={classes.tabRoot}>
                 <AppBar position="static">
                     <Tabs value={value} onChange={handleTabChange} aria-label="simple tabs example" >
-                        <Tab label="Pending" {...a11yProps(0)} />
-                        <Tab label="Approved" {...a11yProps(1)} />
-                        <Tab label="Denied" {...a11yProps(2)} />
-                        <Tab label="All" {...a11yProps(3)} />
+                        <Tab label="Pending" />
+                        <Tab label="Approved"/>
+                        <Tab label="Denied" />
+                        <Tab label="All" />
                     </Tabs>
                 </AppBar>
                 <TabPanel value={value} index={0}>
@@ -296,7 +290,6 @@ const ReservationManagement = () => {
                                         numSelected={selected.length}
                                         order={order}
                                         orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
                                         rowCount={rows.length}
                                     />
@@ -380,7 +373,6 @@ const ReservationManagement = () => {
                                         numSelected={selected.length}
                                         order={order}
                                         orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
                                         rowCount={rows.length}
                                     />
@@ -461,7 +453,6 @@ const ReservationManagement = () => {
                                         numSelected={selected.length}
                                         order={order}
                                         orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
                                         rowCount={rows.length}
                                     />
@@ -542,7 +533,6 @@ const ReservationManagement = () => {
                                         numSelected={selected.length}
                                         order={order}
                                         orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
                                         rowCount={rows.length}
                                     />
@@ -567,13 +557,6 @@ const ReservationManagement = () => {
                                                         <TableCell align="right">{row.startTime}</TableCell>
                                                         <TableCell align="right">{row.endTime}</TableCell>
                                                         <TableCell align="right">{row.status}</TableCell>
-                                                        <TableCell align="right">
-                                                            {row.actions}
-                                                            <ButtonGroup fullWidth aria-label="full width outlined button group">
-                                                                <Button color="secondary">Approve</Button>
-                                                                <Button color="secondary">View</Button>
-                                                            </ButtonGroup>
-                                                        </TableCell>
                                                     </TableRow>
                                                 );
                                             })
