@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import { useDispatch, useSelector } from 'react-redux'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import { Button, MenuList } from '@material-ui/core'
+import { Button, MenuList, useMediaQuery, useTheme } from '@material-ui/core'
 import RecDrawer from './RecDrawer'
 import Grow from '@material-ui/core/Grow'
 import Paper from '@material-ui/core/Paper'
@@ -92,6 +92,9 @@ const Header = () => {
   if (roles) {
     isAdmin = roles.includes('ROLE_ADMIN')
   }
+  
+  const materialTheme = useTheme();
+  const titleVisible = useMediaQuery(materialTheme.breakpoints.up('sm'));
   const [menuOpen, setMenuOpen] = useState(false)
   const [drawer, setDrawer] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
@@ -127,7 +130,8 @@ const Header = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
+          {titleVisible && (
+            <Typography
             variant="h6"
             className={classes.title}
             component={Link}
@@ -135,6 +139,7 @@ const Header = () => {
           >
             RecCenterManagement
           </Typography>
+          )}
           {authenticated && (
             <div>
               <Button
