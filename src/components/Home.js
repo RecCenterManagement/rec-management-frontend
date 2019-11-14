@@ -33,6 +33,10 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       height: '75px',
       width: '100%'
+    },
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.dark,
+      borderColor: theme.palette.secondary.dark
     }
   },
   homeButtonContainer: {

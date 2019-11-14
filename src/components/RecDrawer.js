@@ -26,17 +26,16 @@ const RecDrawer = props => {
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <List>
-        
-        <ListItem button component={Link} to="/aboutus">
+        <ListItem button component={Link} to="/aboutus" onClick={props.onClose}>
           <ListItemText primary="About" />
         </ListItem>
-        <ListItem button component={Link} to="/facilityhours">
+        <ListItem button component={Link} to="/facilityhours" onClick={props.onClose}>
           <ListItemText primary="Facility Hours" />
         </ListItem>
-        <ListItem button component={Link} to="/stayconnected">
+        <ListItem button component={Link} to="/stayconnected" onClick={props.onClose}>
           <ListItemText primary="Stay Connected" />
         </ListItem>
-       
+
         <Divider />
         <ListItem button onClick={() => set_facilities_open(!facilities_open)}>
           <ListItemText primary="Recreation Facilities" />
