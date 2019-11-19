@@ -1,8 +1,8 @@
 import {
-  FETCH_EQUIPMENT_RESERVATIONS_START,
-  RECEIVE_EQUIPMENT_RESERVATIONS,
-  FETCH_EQUIPMENT_RESERVATIONS_ERROR
+  GET_EQUIPMENT_RESERVATIONS,
+  DELETE_EQUIPMENT_RESERVATIONS
 } from '../actions/equipment-reservations'
+import { REQUEST, SUCCESS, FAILURE } from './actions-util'
 
 const initial_state = {
   loading: false,
@@ -15,17 +15,26 @@ const initial_state = {
 
 export default function reducer(state = initial_state, action) {
   switch (action.type) {
-    case FETCH_EQUIPMENT_RESERVATIONS_START: {
+    case REQUEST(GET_EQUIPMENT_RESERVATIONS):
+      // Set loading = true.
       return { ...state, loading: true, errorMessage: '' }
-    }
-    case RECEIVE_EQUIPMENT_RESERVATIONS: {
+    case REQUEST(DELETE_EQUIPMENT_RESERVATIONS):
+      // Set updating = true.
+      return { ...state, updating: true, errorMessage: '' }
+
+    case SUCCESS(GET_EQUIPMENT_RESERVATIONS):
+      // Store the result.
       return { ...state, entities: action.payload, loading: false }
-    }
-    case FETCH_EQUIPMENT_RESERVATIONS_ERROR: {
-      return { ...state, loading: true }
-    }
-    default: {
+    case SUCCESS(DELETE_EQUIPMENT_RESERVATIONS):
+      return { ...state, updating: false }
+
+    case FAILURE(GET_EQUIPMENT_RESERVATIONS):
+      // Case fallthrough.
+    case FAILURE(DELETE_EQUIPMENT_RESERVATIONS):
+      // Store the error.
+      return { ...state, loading: false, update: false, errorMessage: action.payload }
+
+    default:
       return state
-    }
   }
 }
