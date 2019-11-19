@@ -27,6 +27,7 @@ const useStyles = makeStyles({
   },
   center: {
     textAlign: 'center',
+    margin: 'auto',
   }
 })
 

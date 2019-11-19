@@ -24,6 +24,9 @@ const useStyles = makeStyles({
   },
   th: {
     backgroundColor: '#8d6e63'
+  },
+  textcenter: {
+      textAlign: 'center',
   }
 })
 
@@ -33,7 +36,8 @@ const AquaticCenter = () => {
         <div className={classes.background}>
             <br />
             <Container maxWidth="md" className={classes.cont}>
-                <h1>Aquatic Center</h1>
+                
+                <h1 className={classes.textcenter}>Aquatic Center</h1>
                 <hr />
                 <br />
             </Container>

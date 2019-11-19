@@ -22,6 +22,13 @@ import FacilityHoursAndSchedule from './components/FacilityHoursAndSchedule'
 import StayConnected from './components/StayConnected'
 import EquipmentBundle from './components/EquipmentBundle'
 import AquaticCenter from './components/AquaticCenter'
+import RecreationCenter from './components/RecreationCenter'
+import FitnessCourt from './components/FitnessCourt'
+import OutdoorComplex from './components/OutdoorComplex'
+import PlannedProjects from './components/PlannedProjects'
+import Policies from './components/Policies'
+
+
 
 function App() {
   const authenticated = useSelector(
@@ -67,6 +74,12 @@ function App() {
       <Route path='/stayconnected' component={StayConnected} />
       <Route path="/equipment-bundles" component={EquipmentBundle} />
       <Route path="/aquaticcenter" component={AquaticCenter} />
+      <Route path="/recreationcenter" component={RecreationCenter} />
+      <Route path="/fitnesscourt" component={FitnessCourt} />
+      <Route path="/outdoorcomplex" component={OutdoorComplex} />
+      <Route path="/plannedprojects" component={PlannedProjects} />
+      <Route path="/policies" component={Policies} />
+      
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}
