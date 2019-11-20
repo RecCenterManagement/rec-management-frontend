@@ -27,7 +27,6 @@ import {
   delete_reservation
 } from '../actions/reservations'
 import ReservationsListForm from './ReservationsListForm.js'
-import ReservationsRecreationForm from './ReservationsRecreationForm.js'
 
 function TabPanel(props) {
   const { children, value, index, name, ...other } = props
