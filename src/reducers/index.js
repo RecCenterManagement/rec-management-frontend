@@ -8,6 +8,7 @@ import equipment_reservations from './equipment-reservations-reducer'
 import equipment_bundle from './bundle-reducer'
 import register from './register-reducer'
 import profile_pictures from './profile-picture-reducer'
+import membership from './membership-reducer'
 
 export default combineReducers({
   authentication,
@@ -18,5 +19,6 @@ export default combineReducers({
   register,
   userManagement,
   equipment_bundle,
-  profile_pictures
+  profile_pictures,
+  membership,
 })
