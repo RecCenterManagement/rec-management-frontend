@@ -1,8 +1,13 @@
 import {
   FETCH_TOKEN_START,
   RECEIVE_TOKEN,
+  FETCH_TOKEN_ERROR,
   FETCH_ACCOUNT_START,
   RECEIVE_ACCOUNT,
+  FETCH_ACCOUNT_ERROR,
+  LOGOUT,
+  CLEAR_AUTH,
+  ERROR_MESSAGE,
   UPDATE_ACCOUNT,
   UPDATE_ACCOUNT_ERROR
 } from '../actions/authentication'
@@ -28,17 +33,36 @@ export default function reducer(state = initial_state, action) {
     case RECEIVE_TOKEN: {
       return { ...state, idToken: action.payload, loading: false }
     }
+    case FETCH_TOKEN_ERROR: {
+      return {
+        ...state,
+        errorMessage: action.payload,
+        loading: false,
+        loginError: true
+      }
+    }
     case FETCH_ACCOUNT_START: {
       return { ...state, loading: true }
+    }
+    case FETCH_ACCOUNT_ERROR: {
+      return {
+        ...state,
+        errorMessage: action.payload,
+        loading: false,
+        loginError: true,
+      }
     }
     case RECEIVE_ACCOUNT: {
       return {
         ...state,
         account: action.payload,
         isAuthenticated: true,
-        loading: false
+        loading: false,
+        loginSuccess: true,
+        loginError:false,
       }
     }
+    
     case UPDATE_ACCOUNT: {
       return {
         ...state,
