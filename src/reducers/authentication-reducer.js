@@ -38,7 +38,8 @@ export default function reducer(state = initial_state, action) {
         ...state,
         errorMessage: action.payload,
         loading: false,
-        loginError: true
+        loginError: true,
+        loginSuccess: false
       }
     }
     case FETCH_ACCOUNT_START: {
@@ -50,6 +51,7 @@ export default function reducer(state = initial_state, action) {
         errorMessage: action.payload,
         loading: false,
         loginError: true,
+        loginSuccess: false
       }
     }
     case RECEIVE_ACCOUNT: {
