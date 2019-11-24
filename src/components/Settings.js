@@ -22,6 +22,8 @@ import {
   create_profile_picture,
   delete_profile_picture
 } from '../actions/profile-pictures-action'
+import MembershipStatus from './MembershipStatus'
+
 const useStyles = makeStyles(theme => ({
   gridContainer: {
     padding: '20px'
@@ -81,7 +83,7 @@ const Settings = () => {
 
   useEffect(() => {
     dispatch(get_all_profile_pictures())
-  }, [dispatch,uploadInfo])
+  }, [dispatch, uploadInfo])
 
   const handleChange = name => event => {
     set_form_field({ ...form_field, [name]: event.target.value })
@@ -97,7 +99,7 @@ const Settings = () => {
       })
     )
   }
- 
+
   const handleUpload = event => {
     const id =
       account.imageUrl &&
@@ -132,7 +134,7 @@ const Settings = () => {
       create_profile_picture(pictureData)
       console.log('creating')
     }
-    setUploadInfo({...uploadInfo, name:null})
+    setUploadInfo({ ...uploadInfo, name: null })
   }
 
   const handleCancel = () => {
@@ -141,8 +143,8 @@ const Settings = () => {
   const handleDelete = () => {
     const id = img
       ? img.id
-      :( account.imageUrl?
-        account.imageUrl.replace('/content/user-profile-picture/', '') :'')
+      : (account.imageUrl ?
+        account.imageUrl.replace('/content/user-profile-picture/', '') : '')
     dispatch(delete_profile_picture(id))
     setUploadInfo(null)
   }
@@ -150,7 +152,7 @@ const Settings = () => {
   return (
     <div className={classes.gridContainer}>
       <Grid container spacing={4}>
-        <Grid item xs={12} sm={12} md={7}>
+        <Grid item xs={12} sm={12} md={4}>
           <Card className={classes.card}>
             <CardHeader
               className={classes.cardHeader}
@@ -200,7 +202,7 @@ const Settings = () => {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={12} md={5}>
+        <Grid item xs={12} sm={12} md={4}>
           <Card className={classes.card}>
             <CardHeader
               className={classes.cardHeader}
@@ -213,7 +215,7 @@ const Settings = () => {
                   uploadInfo && uploadInfo.image
                     ? uploadInfo.image
                     : img &&
-                      `data:${img.imageDataContentType};base64,${img.imageData}`
+                    `data:${img.imageDataContentType};base64,${img.imageData}`
                 }
                 title='Contemplative Reptile'
               />
@@ -263,6 +265,9 @@ const Settings = () => {
               )}
             </CardActions>
           </Card>
+        </Grid>
+        <Grid item xs={12} sm={12} md={4}>
+          <MembershipStatus className={classes.card}/>
         </Grid>
       </Grid>
     </div>
