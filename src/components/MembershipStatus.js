@@ -11,7 +11,12 @@ const useStyles = makeStyles(theme => ({
         color: 'black'
     },
     contentSection: {
-        margin: '20px'
+        margin: '8px'
+    },
+    statusHeader: {
+        fontSize: '1.5rem',
+        fontWeight: '400',
+
     }
 }))
 
@@ -28,7 +33,7 @@ const membershipTypeToString = type => {
     }
 }
 
-const MembershipStatus = () => {
+const MembershipStatus = props => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const history = useHistory()
@@ -62,37 +67,33 @@ const MembershipStatus = () => {
     }, [membership])
 
     return (
-        <Card>
-            <CardHeader title={`Your Membership Status`} className={classes.cardHeader} />
+        <Card className={props.className}>
+            <CardHeader title={`Membership Status`} className={classes.cardHeader} />
             <CardContent>
-                <Grid container direction="row" spacing={0}>
-                    <Grid item>
-                        <section className={classes.contentSection}>
-                            <h2>{membershipStatus}</h2>
-                            {membership == null &&
-                                <Button
-                                    size='medium'
-                                    color='secondary'
-                                    onClick={() => history.push('/membership')}
-                                >
-                                    Read more
-                                </Button>
-                            }
-                        </section>
-                    </Grid>
-                    <Grid item>
-                        <section className={classes.contentSection}>
-                            <h2>Membership type</h2>
-                            <p>{membershipType}</p>
-                        </section>
-                    </Grid>
-                    <Grid item>
-                        <section className={classes.contentSection}>
-                            <h2>Expiration date</h2>
-                            <p>{expirationDate}</p>
-                        </section>
-                    </Grid>
-                </Grid>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <section className={classes.contentSection}>
+                        <h2 className={classes.statusHeader}>
+                            {membershipStatus}
+                        </h2>
+                        {membership == null &&
+                            <Button
+                                size='medium'
+                                color='secondary'
+                                onClick={() => history.push('/membership')}
+                            >
+                                Read more
+                            </Button>
+                        }
+                    </section>
+                    <section className={classes.contentSection}>
+                        <h2 className={classes.statusHeader}>Membership type</h2>
+                        <p>{membershipType}</p>
+                    </section>
+                    <section className={classes.contentSection}>
+                        <h2 className={classes.statusHeader}>Expiration date</h2>
+                        <p>{expirationDate}</p>
+                    </section>
+                </div>
             </CardContent>
         </Card>
     )

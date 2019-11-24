@@ -152,7 +152,7 @@ const Settings = () => {
   return (
     <div className={classes.gridContainer}>
       <Grid container spacing={4}>
-        <Grid item xs={12} sm={12} md={7}>
+        <Grid item xs={12} sm={12} md={4}>
           <Card className={classes.card}>
             <CardHeader
               className={classes.cardHeader}
@@ -202,7 +202,7 @@ const Settings = () => {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={12} md={5}>
+        <Grid item xs={12} sm={12} md={4}>
           <Card className={classes.card}>
             <CardHeader
               className={classes.cardHeader}
@@ -266,8 +266,8 @@ const Settings = () => {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={12} md={7}>
-          <MembershipStatus />
+        <Grid item xs={12} sm={12} md={4}>
+          <MembershipStatus className={classes.card}/>
         </Grid>
       </Grid>
     </div>
