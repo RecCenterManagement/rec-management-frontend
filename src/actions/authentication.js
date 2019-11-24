@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { error, success } from './notification'
 
 // Authentication action constants
 export const FETCH_TOKEN_START = 'authentication/FETCH_TOKEN_START'
@@ -35,10 +36,12 @@ export const login = (username, password, rememberMe = false) => {
           Authorization: 'Bearer ' + jwt
         }
 
+        dispatch(success("Logged in successfully."));
         dispatch(getUserAccount())
       })
-      .catch(error => {
-        dispatch({ type: FETCH_TOKEN_ERROR, payload: error })
+      .catch(errorData => {
+        dispatch({ type: FETCH_TOKEN_ERROR, payload: errorData })
+        dispatch(error("Login failed."));
       })
   }
 }
@@ -99,11 +102,12 @@ export const saveAccountForm = account => {
     axios
       .post('/api/account', account)
       .then(data => {
-        dispatch({ type: UPDATE_ACCOUNT, payload: account })
+        dispatch({ type: UPDATE_ACCOUNT, payload: account });
+        dispatch(success("Account updated successfully."));
       })
-      .catch(err => {
-        console.error(err)
+      .catch(errorData => {
         dispatch({ type: UPDATE_ACCOUNT_ERROR })
+        dispatch(error("Failed to update account."));
       })
   }
 }

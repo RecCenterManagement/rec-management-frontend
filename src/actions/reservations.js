@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { SUCCESS, REQUEST, FAILURE} from './actions-util'
+import { success, warning, error } from './notification'
 
 export const GET_RESERVATIONS = 'reservations/GET_RESERVATIONS'
 export const PUT_RESERVATION = 'reservations/PUT_RESERVATION'
@@ -19,6 +20,7 @@ export const get_reservations = () => {
       .catch(error => {
         console.error(error)
         dispatch({ type: FAILURE(GET_RESERVATIONS), payload: error })
+        dispatch(warning("Failed to fetch reservations."));
       })
   }
 }
@@ -35,10 +37,12 @@ export const put_reservation = entity => {
           return element.id === entity.id ? entity : element
         })
         dispatch({ type: SUCCESS(PUT_RESERVATION), payload: new_entities })
+        dispatch(success("Updated reservation successfully."));
       })
-      .catch(error => {
+      .catch(errorData => {
         console.error(error)
-        dispatch({ type: FAILURE(PUT_RESERVATION), payload: error })
+        dispatch({ type: FAILURE(PUT_RESERVATION), payload: errorData })
+        dispatch(error("Failed to update reservation."));
       })
       .finally(() => {
         // Call in both cases, error or success.
@@ -61,10 +65,12 @@ export const create_reservation = entity => {
         let old_entities = getState().reservations.entities
         old_entities.push(result.data)
         dispatch({ type: SUCCESS(CREATE_RESERVATION), payload: old_entities })
+        dispatch(success("Created reservation successfully."));
       })
       .catch(error => {
         console.error(error)
         dispatch({ type: FAILURE(CREATE_RESERVATION), payload: error })
+        dispatch(error("Failed to create reservation."));
       })
       .finally(() => {
         // Call in both cases, error or success.
@@ -85,6 +91,7 @@ export const get_reservations_by_user_id = userId => {
       .catch(error => {
         console.error(error)
         dispatch({ type: FAILURE(GET_RESERVATIONS), payload: error })
+        dispatch(warning("Failed to fetch reservations."));
       })
   }
 }
@@ -96,9 +103,11 @@ export const delete_reservation = id => async dispatch => {
       .delete(`api/reservations/${id}?eagerFetch=true`)
       .then(result => {
         dispatch({ type: SUCCESS(DELETE_RESERVATION), payload: result.data })
+        dispatch(success("Deleted reservation successfully."));
       })
       .catch(error => {
         dispatch({ type: FAILURE(DELETE_RESERVATION), payload: error })
+        dispatch(error("Failed to delete reservation."));
       })
       .finally(() => {
         // Call in both cases, error or success.

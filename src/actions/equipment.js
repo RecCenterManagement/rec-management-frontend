@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { SUCCESS, REQUEST, FAILURE} from './actions-util'
+import { success, error, warning } from './notification'
 
 export const GET_EQUIPMENT = 'equipment/GET_EQUIPMENT'
 export const PUT_EQUIPMENT = 'equipment/PUT_EQUIPMENT'
@@ -15,8 +16,9 @@ export const get_equipment = () => {
       .then(result => {
         dispatch({ type: SUCCESS(GET_EQUIPMENT), payload: result.data })
       })
-      .catch(error => {
-        dispatch({ type: FAILURE(GET_EQUIPMENT), payload: error })
+      .catch(errorData => {
+        dispatch({ type: FAILURE(GET_EQUIPMENT), payload: errorData })
+        dispatch(warning("Failed to fetch equipment."));
       })
   }
 }
@@ -32,10 +34,11 @@ export const put_equipment = entity => {
           return element.id === entity.id ? entity : element
         })
         dispatch({ type: SUCCESS(PUT_EQUIPMENT), payload: new_entities })
+        dispatch(success("Updated equipment successfully."));
       })
-      .catch(error => {
-        console.error(error)
-        dispatch({ type: FAILURE(PUT_EQUIPMENT), payload: error })
+      .catch(errorData => {
+        dispatch({ type: FAILURE(PUT_EQUIPMENT), payload: errorData })
+        dispatch(error("Failed to update equipment."));
       })
       .finally(() => {
         // Call in both cases, error or success.
@@ -52,10 +55,11 @@ export const delete_equipment = id => {
       .delete(`api/equipment/${id}`)
       .then(result => {
         dispatch({ type: SUCCESS(DELETE_EQUIPMENT), payload: result.data })
+        dispatch(success("Deleted equipment successfully."));
       })
-      .catch(error => {
-        console.error(error)
-        dispatch({ type: FAILURE(DELETE_EQUIPMENT), payload: error })
+      .catch(errorData => {
+        dispatch({ type: FAILURE(DELETE_EQUIPMENT), payload: errorData })
+        dispatch(error("Failed to delete equipment."));
       })
       .finally(() => {
         // Call in both cases, error or success.
