@@ -21,7 +21,6 @@ import AboutUs from './components/AboutUs'
 import FacilityHoursAndSchedule from './components/FacilityHoursAndSchedule'
 import StayConnected from './components/StayConnected'
 import EquipmentBundle from './components/EquipmentBundle'
-import MembershipStatus from './components/MembershipStatus'
 
 function App() {
   const authenticated = useSelector(
@@ -65,8 +64,7 @@ function App() {
       <Route path='/aboutus' component={AboutUs} />
       <Route path='/facilityhours' component={FacilityHoursAndSchedule} />
       <Route path='/stayconnected' component={StayConnected} />
-      <Route path="/equipment-bundles" component={EquipmentBundle} />
-      <Route path="/membership-status" component={MembershipStatus} />
+      <Route path="/equipment-bundles" component={EquipmentBundle} />>
       <Route
         path="/"
         render={props => props.location.pathname !== '/login' && <Footer />}
