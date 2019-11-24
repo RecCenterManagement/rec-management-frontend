@@ -71,12 +71,17 @@ function Register() {
     state => state.register.registrationFailure
   )
   const handleChange = name => event => {
+    name === 'email' && emailChecker(event.target.value)
     setState({ ...state, [name]: event.target.value })
     event.preventDefault()
   }
 
   const handleRegister = (login, email, firstPassword) => {
     dispatch(register(login, email, firstPassword))
+  }
+  const emailChecker = email => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(String(email).toLowerCase())
   }
 
   return (
@@ -86,13 +91,17 @@ function Register() {
           vertical: 'bottom',
           horizontal: 'left'
         }}
-        open={registrationFailure||registrationSuccess}
+        open={registrationFailure || registrationSuccess}
         autoHideDuration={6000}
         message={
-          
-        
-        <span id='message-id'>{registrationSuccess? 'Registration success!': registrationFailure?'Registration failure':''}</span>
-      }
+          <span id='message-id'>
+            {registrationSuccess
+              ? 'Registration success! Please check your email to verify your account.'
+              : registrationFailure
+              ? 'An error occured during your registration. Please try again.'
+              : ''}
+          </span>
+        }
       />
       <Grid container>
         <Grid item xs={12} md={4}>
@@ -118,6 +127,12 @@ function Register() {
                   margin='normal'
                   variant='outlined'
                   value={state.email}
+                  error={state.email !== '' && !emailChecker(state.email)}
+                  helperText={
+                    state.email !== '' &&
+                    !emailChecker(state.email) &&
+                    'Please input a valid email'
+                  }
                   onChange={handleChange('email')}
                 />
                 <TextField
