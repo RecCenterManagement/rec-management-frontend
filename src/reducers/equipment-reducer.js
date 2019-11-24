@@ -1,4 +1,4 @@
-import { SUCCESS, REQUEST, FAILURE} from './actions-util'
+import { SUCCESS, REQUEST, FAILURE} from '../actions/actions-util'
 import {
   GET_EQUIPMENT,
   PUT_EQUIPMENT,

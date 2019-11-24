@@ -3,7 +3,7 @@ import {
   PUT_EQUIPMENT_BUNDLE,
   DELETE_EQUIPMENT_BUNDLE
 } from '../actions/equipment-bundle'
-import { SUCCESS, REQUEST, FAILURE} from './actions-util'
+import { SUCCESS, REQUEST, FAILURE} from '../actions/actions-util'
 
 const initial_state = {
   loading: false,

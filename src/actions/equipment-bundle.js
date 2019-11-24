@@ -39,3 +39,23 @@ export const put_equipment_bundle = () => {
       })
   }
 }
+
+export const delete_equipment_bundle = id => {
+  return dispatch => {
+    dispatch({ type: REQUEST(DELETE_EQUIPMENT_BUNDLE), payload: {} })
+    axios
+      .delete(`api/equipment-bundles/${id}`)
+      .then(result => {
+        dispatch({ type: SUCCESS(DELETE_EQUIPMENT_BUNDLE), payload: result })
+      })
+      .catch(error => {
+        console.error(error)
+        dispatch({ type: FAILURE(DELETE_EQUIPMENT_BUNDLE), payload: error })
+      })
+      .finally(() => {
+        // Call in both cases, error or success.
+        // Triggers only after the request completes, avoiding code duplication.
+        dispatch(get_equipment_bundle())
+      })
+  }
+}

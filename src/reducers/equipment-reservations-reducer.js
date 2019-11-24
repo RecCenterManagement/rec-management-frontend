@@ -2,7 +2,7 @@ import {
   GET_EQUIPMENT_RESERVATIONS,
   DELETE_EQUIPMENT_RESERVATIONS
 } from '../actions/equipment-reservations'
-import { REQUEST, SUCCESS, FAILURE } from './actions-util'
+import { REQUEST, SUCCESS, FAILURE } from '../actions/actions-util'
 
 const initial_state = {
   loading: false,

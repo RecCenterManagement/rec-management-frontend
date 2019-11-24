@@ -3,7 +3,7 @@ import {
   PUT_FACILITY,
   DELETE_FACILITY
 } from '../actions/facilities'
-import { REQUEST, SUCCESS, FAILURE } from './actions-util'
+import { REQUEST, SUCCESS, FAILURE } from '../actions/actions-util'
 
 const initial_state = {
   loading: false,
