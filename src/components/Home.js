@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import RecCenterVector from '../static/RecCenter.svg'
 import { Button } from '@material-ui/core'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import RecCalendar from './RecCalendar'
+import { useSelector } from 'react-redux'
+import RecCalendar from './RecCalendarCreate'
 
 const useStyles = makeStyles(theme => ({
   backgroundHome: {
@@ -86,7 +87,10 @@ export const SignInLogOut = props =>
 const Membership = () => <div>Yo yoyyu</div>
 
 const Home = () => {
-  const classes = useStyles()
+  const classes = useStyles();
+  const authenticated = useSelector(
+    state => state.authentication.isAuthenticated
+  );
 
   return (
     <>
@@ -108,8 +112,19 @@ const Home = () => {
             color="secondary"
             variant="outlined"
           >
-            Room Reservation
+            View Reservations
           </Button>
+          { authenticated && (
+            <Button
+              component={Link}
+              to="/create-reservation"
+              className={classes.homeButton}
+              color="secondary"
+              variant="outlined"
+            >
+              Create Reservation
+            </Button>
+          ) }
           <Button
             className={classes.homeButton}
             color="secondary"

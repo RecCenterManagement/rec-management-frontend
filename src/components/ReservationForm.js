@@ -12,6 +12,7 @@ import {
   FormLabel,
   Checkbox
 } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { create_reservation, put_reservation } from '../actions/reservations'
 import { get_facilities } from '../actions/facilities'
@@ -62,6 +63,8 @@ const ReservationsDialog = props => {
   }
 
   const getCapacity = () => {
+    console.log("CAPACITY");
+    console.log(filteredFacilities);
     return filteredFacilities.reduce((sum, facility) => (sum + facility.capacity), 0);
   }
 
@@ -69,6 +72,7 @@ const ReservationsDialog = props => {
     return entity.estimatedParticipants > 0 && (entity.estimatedParticipants <= getCapacity());
   }
 
+  let history = useHistory()
   const handleSave = () => {
     // Validation
     if (!isFormValid()) {
@@ -81,6 +85,7 @@ const ReservationsDialog = props => {
       dispatch(put_reservation(entity))
     }
     handleClose()
+    history.push('/submitted')
   }
 
 
