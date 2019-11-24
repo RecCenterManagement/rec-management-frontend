@@ -53,7 +53,7 @@ export const delete_facility = id => {
     axios
       .delete(`api/facilities/${id}`)
       .then(result => {
-        dispatch({ type: SUCCESS(DELETE_FACILITY), payload: result })
+        dispatch({ type: SUCCESS(DELETE_FACILITY), payload: result.data })
       })
       .catch(error => {
         console.error(error)

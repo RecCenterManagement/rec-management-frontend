@@ -75,7 +75,8 @@ const Reservations = props => {
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody>           
+            { console.log(Object.keys(entities)) }
             {entities &&
               entities.map(row => (
                 <TableRow key={row.name}>

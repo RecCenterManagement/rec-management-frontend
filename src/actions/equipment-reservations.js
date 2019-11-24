@@ -32,7 +32,7 @@ export const delete_equipment_reservation = id => {
     axios
       .delete(`api/equipment-reservations/${id}`)
       .then(result => {
-        dispatch({ type: SUCCESS(DELETE_EQUIPMENT_RESERVATIONS), payload: result })
+        dispatch({ type: SUCCESS(DELETE_EQUIPMENT_RESERVATIONS), payload: result.data })
       })
       .catch(error => {
         console.error(error)

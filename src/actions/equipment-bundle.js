@@ -46,7 +46,7 @@ export const delete_equipment_bundle = id => {
     axios
       .delete(`api/equipment-bundles/${id}`)
       .then(result => {
-        dispatch({ type: SUCCESS(DELETE_EQUIPMENT_BUNDLE), payload: result })
+        dispatch({ type: SUCCESS(DELETE_EQUIPMENT_BUNDLE), payload: result.data })
       })
       .catch(error => {
         console.error(error)

@@ -51,7 +51,7 @@ export const delete_equipment = id => {
     axios
       .delete(`api/equipment/${id}`)
       .then(result => {
-        dispatch({ type: SUCCESS(DELETE_EQUIPMENT), payload: result })
+        dispatch({ type: SUCCESS(DELETE_EQUIPMENT), payload: result.data })
       })
       .catch(error => {
         console.error(error)

@@ -95,7 +95,7 @@ export const delete_reservation = id => async dispatch => {
     payload: axios
       .delete(`api/reservations/${id}?eagerFetch=true`)
       .then(result => {
-        dispatch({ type: SUCCESS(DELETE_RESERVATION), payload: result })
+        dispatch({ type: SUCCESS(DELETE_RESERVATION), payload: result.data })
       })
       .catch(error => {
         dispatch({ type: FAILURE(DELETE_RESERVATION), payload: error })
