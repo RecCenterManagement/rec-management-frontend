@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { get_equipment, put_equipment } from '../actions/equipment'
+import { get_equipment, put_equipment, delete_equipment } from '../../actions/equipment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,6 +53,10 @@ const Reservations = props => {
     setOpen(true)
   }
 
+  const handleDelete = (entity) => {
+    dispatch(delete_equipment(entity.id))
+  }
+
   useEffect(() => {
     dispatch(get_equipment())
   }, [dispatch])
@@ -85,7 +89,7 @@ const Reservations = props => {
                       <Button onClick={() => handleOpen('edit', row)}>
                         Edit
                       </Button>
-                      <Button>Delete</Button>
+                      <Button onClick={() => handleDelete(row)}>Delete</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>

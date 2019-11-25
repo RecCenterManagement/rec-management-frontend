@@ -22,9 +22,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   get_equipment_bundle,
-  put_equipment_bundle
-} from '../actions/equipment-bundle'
-import { get_equipment } from '../actions/equipment'
+  put_equipment_bundle,
+  delete_equipment_bundle
+} from '../../actions/equipment-bundle'
+import { get_equipment } from '../../actions/equipment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,6 +59,10 @@ const EquipmentBundle = props => {
     }
     setSelectedEntity(entity)
     setOpen(true)
+  }
+
+  const handleDelete = (entity) => {
+    dispatch(delete_equipment_bundle(entity.id))
   }
 
   useEffect(
@@ -98,7 +103,7 @@ const EquipmentBundle = props => {
                       <Button onClick={() => handleOpen('edit', row)}>
                         Edit
                       </Button>
-                      <Button>Delete</Button>
+                      <Button onClick={() => handleDelete(row)}>Delete</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>

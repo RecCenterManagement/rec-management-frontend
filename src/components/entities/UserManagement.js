@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllUsers, updateUser, deleteUser } from '../actions/user-management'
+import { getAllUsers, updateUser, deleteUser } from '../../actions/user-management'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -69,7 +69,6 @@ const UserManagement = props => {
   }
   const handleDelete = login => {
     dispatch(deleteUser(login))
-    dispatch(getAllUsers())
   }
 
   return (

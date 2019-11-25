@@ -12,8 +12,8 @@ import {
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { get_reservations } from '../actions/reservations'
-import ReservationsDialog from './ReservationForm.js'
+import { get_reservations, delete_reservation } from '../../actions/reservations'
+import ReservationsDialog from '../ReservationForm.js'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,12 +52,16 @@ const Reservations = props => {
     dispatch(get_reservations())
   }, [dispatch])
 
+  const handleDelete = (row) => {
+    dispatch(delete_reservation(row.id))
+  }
+
   return (
     <>
       <Card className={classes.root}>
         <CardHeader
           className={classes.cardHeader}
-          title="Reservation Entities"
+          title="Reservations"
         />
         <Table aria-label="simple table">
           <TableHead>
@@ -93,7 +97,7 @@ const Reservations = props => {
                       <Button onClick={() => handleOpen('edit', row)}>
                         Edit
                       </Button>
-                      <Button>Delete</Button>
+                      <Button onClick={() => handleDelete(row)}>Delete</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>
