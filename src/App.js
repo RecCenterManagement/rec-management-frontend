@@ -86,7 +86,7 @@ function App() {
         <Route path="/recreationcenter" component={RecreationCenter} />
         <Route path="/fitnesscourt" component={FitnessCourt} />
         <Route path="/outdoorcomplex" component={OutdoorComplex} />
-        <Route path="/plannedprojects" component={PlannedP
+        <Route path="/plannedprojects" component={PlannedProjects} />
         <Route
           path="/"
           render={props => props.location.pathname !== "/login" && <Footer />}
