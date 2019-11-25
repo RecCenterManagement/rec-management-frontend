@@ -24,6 +24,10 @@ const useStyles = makeStyles({
   },
   th: {
     backgroundColor: '#8d6e63'
+  },
+  center: {
+    textAlign: 'center',
+    margin: 'auto',
   }
 })
 
@@ -35,8 +39,9 @@ const AboutUs = () => {
             <br />
                 <Container maxWidth="md" className={classes.cont}>
                 <br />
-                <a>
+                <a className={classes.center}>
                     <h1>About Us</h1>
+                    <hr />
                 </a>  
                 <p>
                 The <b>University Recreation and Well-Being</b> is a department within the Division of Student Affairs.<br /><br />

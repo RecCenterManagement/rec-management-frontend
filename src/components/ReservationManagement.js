@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import PropTypes from 'prop-types'
 import { makeStyles,} from '@material-ui/core/styles'
 import { 
     Container,
@@ -23,7 +22,9 @@ import {
     Button,
     ButtonGroup,
 } from '@material-ui/core'
-import { get_reservations } from '../actions/reservations'
+import { get_reservations, put_reservation } from '../actions/reservations'
+import ReservationsDialog from './ReservationForm.js'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 const ReservationManagement = () => {
 
@@ -41,19 +42,6 @@ const ReservationManagement = () => {
             <Box p={3}>{children}</Box>
           </Typography>
         );
-    }
-
-    TabPanel.propTypes = {
-        children: PropTypes.node,
-        index: PropTypes.any.isRequired,
-        value: PropTypes.any.isRequired,
-    };
-
-    function a11yProps(index) {
-        return {
-          id: `simple-tab-${index}`,
-          'aria-controls': `simple-tabpanel-${index}`,
-        };
     }
 
     function desc(a, b, orderBy) {
@@ -87,7 +75,7 @@ const ReservationManagement = () => {
         { id: 'startTime', numeric: true, disablePadding: false, label: 'Start Time' },
         { id: 'endTime', numeric: true, disablePadding: false, label: 'End Time' },
         { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
-        {id: 'actions', numeric: false, disablePadding: false, label: 'Actions'}
+        { id: 'actions', numeric: false, disablePadding: false, label: 'Actions'}
     ];
 
     function EnhancedTableHead(props) {
@@ -102,7 +90,7 @@ const ReservationManagement = () => {
                     {headCells.map(headCell => (
                         <TableCell
                             key={headCell.id}
-                            align={headCell.numeric ? 'right' : 'left'}
+                            align={headCell.numeric ? 'center' : 'center'} // header alignment (probably doesn't need to be conditional ternary operator)
                             padding={headCell.disablePadding ? 'none' : 'default'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
@@ -159,6 +147,11 @@ const ReservationManagement = () => {
             backgroudColor: '#8d6e63',
             color: '#8d6e63',
         },
+        createReservation:{
+            backgroudColor: '#8d6e63',
+            color: '#8d6e63',
+            align: "right",
+        },
     }));
 
     const classes = useStyles();
@@ -171,14 +164,40 @@ const ReservationManagement = () => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const reservations = useSelector(state => state.reservations.entities)
-
     const [rows, setRows] = useState([])
     const [pending, setPending] = useState([])
     const [approved, setApproved] = useState([])
     const [denied, setDenied] = useState([])
     const [all, setAll] = useState([])
+    const [editable, setEditable] = useState('view')
+    const [open, setOpen] = useState(false)
+    const [selectedEntity, setSelectedEntity] = useState({})
 
     const dispatch = useDispatch()
+
+    const handleApproval = (reservation) => {
+        reservation.status = 'APPROVED'
+        dispatch(put_reservation(reservation))
+    }
+
+    const handleDenial = (reservation) => {
+        reservation.status = 'DENIED'
+        dispatch(put_reservation(reservation))
+    }
+
+    const handleOpen = (type, entity) => {
+        if (type === 'edit') {
+          setEditable(true)
+        } else {
+          setEditable(false)
+        }
+        setSelectedEntity(entity)
+        setOpen(true)
+      }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
 
     useEffect(() => {
         dispatch(get_reservations())
@@ -214,15 +233,6 @@ const ReservationManagement = () => {
         const isDesc = orderBy === property && order === 'desc';
         setOrder(isDesc ? 'asc' : 'desc');
         setOrderBy(property);
-    };
-
-    const handleSelectAllClick = event => {
-        if (event.target.checked) {
-            const newSelecteds = rows.map(n => n.name);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
     };
 
     const handleClick = (event, name) => {
@@ -274,12 +284,30 @@ const ReservationManagement = () => {
             <div className={classes.tabRoot}>
                 <AppBar position="static">
                     <Tabs value={value} onChange={handleTabChange} aria-label="simple tabs example" >
-                        <Tab label="Pending" {...a11yProps(0)} />
-                        <Tab label="Approved" {...a11yProps(1)} />
-                        <Tab label="Denied" {...a11yProps(2)} />
-                        <Tab label="All" {...a11yProps(3)} />
+                        <Tab label="Pending" />
+                        <Tab label="Approved"/>
+                        <Tab label="Denied" />
+                        <Tab label="All" />
                     </Tabs>
                 </AppBar>
+                {/*
+                <br />
+                <Grid 
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <ButtonGroup>
+                        <Button 
+                            color="secondary"
+                            component={Link}
+                            to="/calendar"> 
+                            + Create New Reservation
+                        </Button>
+                    </ButtonGroup>
+                </Grid>
+                */}
                 <TabPanel value={value} index={0}>
                     <Container>
                         <Paper className={classes.paper} color={classes.palette} >
@@ -296,16 +324,15 @@ const ReservationManagement = () => {
                                         numSelected={selected.length}
                                         order={order}
                                         orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
                                         rowCount={rows.length}
                                     />
+                                    {rows.length !== 0 ? (
                                     <TableBody>
                                         {stableSort(rows, getSorting(order, orderBy))
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((row) => {
                                                 const isItemSelected = isSelected(row.name);
-
                                                 return (
                                                     <TableRow
                                                         hover
@@ -315,19 +342,19 @@ const ReservationManagement = () => {
                                                         key={row.name}
                                                         selected={isItemSelected}
                                                     >
-                                                        <TableCell component="th" scope="row" padding="right">{row.id}</TableCell>
-                                                        <TableCell align="right">{row.event}</TableCell>
-                                                        <TableCell align="right">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="right">{row.startTime}</TableCell>
-                                                        <TableCell align="right">{row.endTime}</TableCell>
-                                                        <TableCell align="right">{row.status}</TableCell>
-                                                        <TableCell align="right">
+                                                        <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
+                                                        <TableCell align="center">{row.event}</TableCell>
+                                                        <TableCell align="center">{row.estimatedParticipants}</TableCell>
+                                                        <TableCell align="center">{new Date (row.startTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">{new Date (row.endTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">{row.status}</TableCell>
+                                                        <TableCell align="center">
                                                             {row.actions}
                                                             <Grid item>
                                                                 <ButtonGroup size="small" aria-label="small outlined button group">
-                                                                    <Button color="secondary">Approve</Button>
-                                                                    <Button color="secondary">Deny</Button>
-                                                                    <Button color="secondary">View</Button>
+                                                                    <Button onClick={() => handleApproval(row)} color="secondary">Approve</Button>
+                                                                    <Button onClick={() => handleDenial(row)} color="secondary">Deny</Button>
+                                                                    <Button onClick={() => handleOpen('edit', row)} color="secondary">Edit</Button>
                                                                 </ButtonGroup>
                                                             </Grid>
                                                         </TableCell>
@@ -341,7 +368,19 @@ const ReservationManagement = () => {
                                             </TableRow>
                                         )}
                                     </TableBody>
+                                    ) : (
+                                        <div style={{ padding: '20px' }}>
+                                          <Typography>No reservations for this criteria</Typography>
+                                        </div>
+                                      )}
                                 </Table>
+                                <ReservationsDialog
+                                    open={open}
+                                    handleClose={handleClose}
+                                    entity={selectedEntity}
+                                    editable={editable}
+                                    create={false}
+                                />
                             </div>
                             <TablePagination
                                 rowsPerPageOptions={[5, 10, 25]}
@@ -365,6 +404,7 @@ const ReservationManagement = () => {
                         />
                     </Container>
                 </TabPanel>
+                
                 <TabPanel value={value} index={1}>
                     <Container>
                         <Paper className={classes.paper}>
@@ -380,10 +420,10 @@ const ReservationManagement = () => {
                                         numSelected={selected.length}
                                         order={order}
                                         orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
                                         rowCount={rows.length}
                                     />
+                                    {rows.length !== 0 ? (
                                     <TableBody>
                                         {stableSort(rows, getSorting(order, orderBy))
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -399,17 +439,17 @@ const ReservationManagement = () => {
                                                         key={row.name}
                                                         selected={isItemSelected}
                                                     >
-                                                        <TableCell component="th" scope="row" padding="right">{row.id}</TableCell>
-                                                        <TableCell align="right">{row.event}</TableCell>
-                                                        <TableCell align="right">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="right">{row.startTime}</TableCell>
-                                                        <TableCell align="right">{row.endTime}</TableCell>
-                                                        <TableCell align="right">{row.status}</TableCell>
-                                                        <TableCell align="right">
+                                                        <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
+                                                        <TableCell align="center">{row.event}</TableCell>
+                                                        <TableCell align="center">{row.estimatedParticipants}</TableCell>
+                                                        <TableCell align="center">{new Date (row.startTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">{new Date (row.endTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">{row.status}</TableCell>
+                                                        <TableCell align="center">
                                                             {row.actions}   
                                                             <ButtonGroup fullWidth aria-label="full width outlined button group">
-                                                                <Button color="secondary">Deny</Button>
-                                                                <Button color="secondary">View</Button>
+                                                                <Button onClick={() => handleDenial(row)} color="secondary">Deny</Button>
+                                                                <Button onClick={() => handleOpen('edit', row)} color="secondary">Edit</Button>
                                                             </ButtonGroup>
                                                         </TableCell>
                                                     </TableRow>
@@ -422,7 +462,19 @@ const ReservationManagement = () => {
                                             </TableRow>
                                         )}
                                     </TableBody>
+                                    ) : (
+                                        <div style={{ padding: '20px' }}>
+                                          <Typography>No reservations for this criteria</Typography>
+                                        </div>
+                                      )}
                                 </Table>
+                                <ReservationsDialog
+                                    open={open}
+                                    handleClose={handleClose}
+                                    entity={selectedEntity}
+                                    editable={editable}
+                                    create={false}
+                                />
                             </div>
                             <TablePagination
                                 rowsPerPageOptions={[5, 10, 25]}
@@ -461,10 +513,10 @@ const ReservationManagement = () => {
                                         numSelected={selected.length}
                                         order={order}
                                         orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
                                         rowCount={rows.length}
                                     />
+                                    {rows.length !== 0 ? (
                                     <TableBody>
                                         {stableSort(rows, getSorting(order, orderBy))
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -480,17 +532,17 @@ const ReservationManagement = () => {
                                                         key={row.name}
                                                         selected={isItemSelected}
                                                     >
-                                                        <TableCell component="th" scope="row" padding="right">{row.id}</TableCell>
-                                                        <TableCell align="right">{row.event}</TableCell>
-                                                        <TableCell align="right">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="right">{row.startTime}</TableCell>
-                                                        <TableCell align="right">{row.endTime}</TableCell>
-                                                        <TableCell align="right">{row.status}</TableCell>
-                                                        <TableCell align="right">
+                                                        <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
+                                                        <TableCell align="center">{row.event}</TableCell>
+                                                        <TableCell align="center">{row.estimatedParticipants}</TableCell>
+                                                        <TableCell align="center">{new Date (row.startTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">{new Date (row.endTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">{row.status}</TableCell>
+                                                        <TableCell align="center">
                                                             {row.actions}
                                                             <ButtonGroup fullWidth aria-label="full width outlined button group">
-                                                                <Button color="secondary">Approve</Button>
-                                                                <Button color="secondary">View</Button>
+                                                                <Button onClick={() => handleApproval(row)}color="secondary">Approve</Button>
+                                                                <Button onClick={() => handleOpen('edit', row)} color="secondary">Edit</Button>
                                                             </ButtonGroup>
                                                         </TableCell>
                                                     </TableRow>
@@ -503,7 +555,19 @@ const ReservationManagement = () => {
                                             </TableRow>
                                         )}
                                     </TableBody>
+                                    ) : (
+                                        <div style={{ padding: '20px' }}>
+                                          <Typography>No reservations for this criteria</Typography>
+                                        </div>
+                                      )}
                                 </Table>
+                                <ReservationsDialog
+                                    open={open}
+                                    handleClose={handleClose}
+                                    entity={selectedEntity}
+                                    editable={editable}
+                                    create={false}
+                                />
                             </div>
                             <TablePagination
                                 rowsPerPageOptions={[5, 10, 25]}
@@ -542,10 +606,10 @@ const ReservationManagement = () => {
                                         numSelected={selected.length}
                                         order={order}
                                         orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
                                         rowCount={rows.length}
                                     />
+                                    {rows.length !== 0 ? (
                                     <TableBody>
                                         {stableSort(rows, getSorting(order, orderBy))
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -561,17 +625,16 @@ const ReservationManagement = () => {
                                                         key={row.name}
                                                         selected={isItemSelected}
                                                     >
-                                                        <TableCell component="th" scope="row" padding="right">{row.id}</TableCell>
-                                                        <TableCell align="right">{row.event}</TableCell>
-                                                        <TableCell align="right">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="right">{row.startTime}</TableCell>
-                                                        <TableCell align="right">{row.endTime}</TableCell>
-                                                        <TableCell align="right">{row.status}</TableCell>
-                                                        <TableCell align="right">
+                                                        <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
+                                                        <TableCell align="center">{row.event}</TableCell>
+                                                        <TableCell align="center">{row.estimatedParticipants}</TableCell>
+                                                        <TableCell align="center">{new Date (row.startTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">{new Date (row.endTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">{row.status}</TableCell>
+                                                        <TableCell align="center">
                                                             {row.actions}
                                                             <ButtonGroup fullWidth aria-label="full width outlined button group">
-                                                                <Button color="secondary">Approve</Button>
-                                                                <Button color="secondary">View</Button>
+                                                                <Button onClick={() => handleOpen('view', row)} color="secondary">View</Button>
                                                             </ButtonGroup>
                                                         </TableCell>
                                                     </TableRow>
@@ -584,6 +647,11 @@ const ReservationManagement = () => {
                                             </TableRow>
                                         )}
                                     </TableBody>
+                                    ) : (
+                                        <div style={{ padding: '20px' }}>
+                                          <Typography>No reservations for this criteria</Typography>
+                                        </div>
+                                      )}
                                 </Table>
                             </div>
                             <TablePagination
