@@ -29,7 +29,7 @@ const membershipTypeToString = type => {
         case "COMMUNITY":
             return "Community"
         default:
-            return "Unkown"
+            return "Unknown"
     }
 }
 
@@ -49,7 +49,7 @@ const MembershipStatus = props => {
     }, [account])
 
     useEffect(() => {
-        if (membership == null) {
+        if (membership === null) {
             setMembershipStatus("No current membership")
             setMembershipType("N/A")
             setExpirationDate("N/A")
@@ -75,7 +75,7 @@ const MembershipStatus = props => {
                         <h2 className={classes.statusHeader}>
                             {membershipStatus}
                         </h2>
-                        {membership == null &&
+                        {membership === null &&
                             <Button
                                 size='medium'
                                 color='secondary'
