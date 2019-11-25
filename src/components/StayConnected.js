@@ -29,6 +29,11 @@ const useStyles = makeStyles(theme => ({
     },
     signupButton: {
       margin: theme.spacing(1)
+
+    },
+    center: {
+      textAlign: 'center',
+      margin: 'auto',
     }
   }
 ))
@@ -40,20 +45,25 @@ const StayConnected = () => {
           <br />
             <Container maxWidth="md" className={classes.cont2}>
               <br />
-              <h2>Follow University Recreation and Well-Being on Social Media</h2>
-                <Fab color="secondary" href="https://www.facebook.com/ourecwell" target="_blank" > <Facebook /> </Fab> {'   '}
-                <Fab color="secondary" href="https://twitter.com/OURecWell" target="_blank"><Twitter /></Fab> {'   '}
-                <Fab color="secondary"href="https://www.instagram.com/ourecwell/" target="_blank"><Instagram /></Fab> {'   '}
-                <Fab color="secondary"href="http://ourecwell.wordpress.com/" target="_blank"><Wordpress /></Fab> {'   '}
-                <Fab color="secondary"href="http://www.youtube.com/user/OUCampusRecreation" target="_blank"><Youtube /></Fab> {'   '}
-              <hr /> <br />
+              <h2 className={classes.center}>Follow University Recreation and Well-Being on Social Media</h2>
+              <hr />
+              <a>
+                Click the buttons below to follow the Rec Center on social media:
+                <br /><br />
+                <Fab color="primary" href="https://www.facebook.com/ourecwell" target="_blank" > <Facebook /> </Fab> {'   '}
+                <Fab color="primary" href="https://twitter.com/OURecWell" target="_blank"><Twitter /></Fab> {'   '}
+                <Fab color="primary"href="https://www.instagram.com/ourecwell/" target="_blank"><Instagram /></Fab> {'   '}
+                <Fab color="primary"href="http://ourecwell.wordpress.com/" target="_blank"><Wordpress /></Fab> {'   '}
+                <Fab color="primary"href="http://www.youtube.com/user/OUCampusRecreation" target="_blank"><Youtube /></Fab> {'   '}
+              </a>
+              <br /><br />
               <a>
                 <b>Thank you</b> for your interest in being on the University Recreation and Well-Being email list!
                 You will receive the Recreation and Well-Being Periodic Newsletter, as well as get periodic updates 
                 on University Recreation and Well-Being Programs and Service Promotions, and Recreation Center hour changes/closures.  
                 <br /><br />
-                Get connected today by clicking on the button below for the distribution list by completing the form below.  When you sign up you will 
-                also be able to opt-in for the following targeted messages:
+                Get connected today by clicking on the button below to register an account. By having an account, you will
+                also be able to receive the following targeted messages:
                 <br />
                 <ul>
                   <li>
@@ -71,7 +81,7 @@ const StayConnected = () => {
                   </li>
                 </ul>
                 <br />
-                <b>You must register an account and be logged in to be on the email list.</b>
+                <b>You must register an account to be on the email list. By registering, you'll be automatically added to the list.</b>
                 <br />
                 <i>You can unsubscribe at any time.</i><br /><br />
                 <Button variant="contained" color="primary" className={classes.signupButton} component={Link}  to="/register">
