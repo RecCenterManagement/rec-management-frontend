@@ -140,17 +140,18 @@ const BundleDialog = props => {
     if (equipment && props.entity.claims) {
       let temp_dictionary = {}
       for (const e of equipment) {
-        temp_dictionary[e.name] = 0
+        temp_dictionary[e.name] = {id: e.id, count: 0}
       }
       props.entity.claims.forEach(x => {
-        temp_dictionary[x.equipment.name] = x.count
+        temp_dictionary[x.equipment.name] = {id: x.equipment.id, count: x.count}
       })
       setClaimDictionary(temp_dictionary)
     }
   }, [props.entity])
 
   const removeEquipment = name => {
-    setClaimDictionary({ ...claimDictionary, [name]: 0 })
+    const id = claimDictionary[name].id
+    setClaimDictionary({ ...claimDictionary, [name]: {id, count: 0 }})
   }
 
   const handleChange = name => event => {
@@ -158,19 +159,34 @@ const BundleDialog = props => {
   }
 
   const handleEquipmentChange = name => event => {
+    const id = claimDictionary[name].id 
     event.target.value >= 0 &&
       setClaimDictionary({
         ...claimDictionary,
-        [name]: parseInt(event.target.value)
+        [name]: {id, count: parseInt(event.target.value)}
       })
   }
 
   const handleSave = () => {
-    dispatch(put_equipment_bundle(entity))
+    console.log(claimDictionary)
+    const new_claims = []
+    Object.keys(claimDictionary).forEach(key => {
+      if (claimDictionary[key].count > 0) {
+        new_claims.push({
+          count: claimDictionary[key].count,
+          equipment: {
+            id: claimDictionary[key].id,
+            name: key
+          }
+        })
+      }
+    })
+    let new_entity = entity
+    new_entity.claims = new_claims
+    dispatch(put_equipment_bundle(new_entity))
     handleClose()
   }
 
-  console.log('rerender')
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle id='form-dialog-title'>Bundle Editor</DialogTitle>
@@ -191,7 +207,7 @@ const BundleDialog = props => {
           <Typography>Equipment List:</Typography>
           <div style={{ marginBottom: 12 }}>
             {Object.keys(claimDictionary).map(key => {
-              if (claimDictionary[key] != 0) {
+              if (claimDictionary[key].count != 0) {
                 return (
                   <Chip
                     variant='outlined'
@@ -218,7 +234,7 @@ const BundleDialog = props => {
                       style={{ margin: '12px' }}
                       id={element.name}
                       label={element.name}
-                      value={claimDictionary[element.name] || 0}
+                      value={claimDictionary[element.name] && claimDictionary[element.name].count || 0}
                       type='number'
                       onChange={handleEquipmentChange(element.name)}
                     />

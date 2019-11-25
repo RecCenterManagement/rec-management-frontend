@@ -27,10 +27,10 @@ export const get_equipment_bundle = () => {
   }
 }
 
-export const put_equipment_bundle = () => {
+export const put_equipment_bundle = entity => {
   return dispatch => {
     axios
-      .get('api/equipment-bundles')
+      .put('api/equipment-bundles', entity)
       .then(result => {
         dispatch({ type: PUT_EQUIPMENT_BUNDLE, payload: result.data })
       })
