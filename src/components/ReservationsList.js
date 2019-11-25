@@ -66,7 +66,7 @@ export default function ReservationsList() {
   const [open, setOpen] = useState(false)
   const [openDelte, setOpenDelte] = useState(false)
   const [selectedEntity, setSelectedEntity] = useState({})
-
+  const [recreate, setRecreate] = useState(false)
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
@@ -76,12 +76,15 @@ export default function ReservationsList() {
   }
   const handleClose = () => {
     setOpen(false)
+    setRecreate(false)
   }
   const handleOpen = (type, entity) => {
     if (type === 'delete') {
       setOpenDelte(true)
     } else if (type === 'edit') {
       setOpen(true)
+    } else if (type === 'recreate') {
+      setRecreate(true)
     } else {
       setOpen(true)
     }
@@ -198,8 +201,13 @@ export default function ReservationsList() {
                           </Grid>
                           <Grid item>
                             <Typography>
-                              {new Date(row.startTime).toDateString()} -
-                              {new Date(row.endTime).toDateString()}
+                              {new Date(row.startTime).toDateString() +
+                                ' ' +
+                                new Date(row.startTime).toLocaleTimeString() +
+                                '  - ' +
+                                new Date(row.endTime).toLocaleTimeString() +
+                                ' ' +
+                                new Date(row.endTime).toDateString()}
                             </Typography>
                           </Grid>
                         </Grid>
@@ -217,6 +225,7 @@ export default function ReservationsList() {
                               >
                                 {row.equipmentReservations.map(equipment => {
                                   return (
+                                    equipment &&
                                     <Grid item className={classes.border}>
                                       <Typography variant='h6'>
                                         {equipment.equipment.name}
@@ -227,7 +236,7 @@ export default function ReservationsList() {
                               </Grid>
                             </Grid>
                           )}
-                        {row.facilities && row.facilities.length !== 0 && (
+                        {row.facilities && row.facilities.length !== 0 && row.facilities[0]!==null && (
                           <Grid item>
                             <Typography gutterBottom variant='h6'>
                               Facilities:
@@ -239,7 +248,9 @@ export default function ReservationsList() {
                               spacing={2}
                             >
                               {row.facilities.map(facility => {
+                                
                                 return (
+                                  facility &&
                                   <Grid item className={classes.border}>
                                     <Typography variant='h6'>
                                       {facility.name}
@@ -318,6 +329,11 @@ export default function ReservationsList() {
                               Delete Event
                             </Button>
                           )}
+                        {panel == 'PAST' && (
+                          <Button onClick={() => handleOpen('recreate', row)}>
+                            Recreate Event
+                          </Button>
+                        )}
                       </ButtonGroup>
                     </ExpansionPanelActions>
                   </ExpansionPanel>
@@ -342,6 +358,13 @@ export default function ReservationsList() {
         entity={selectedEntity}
         editable
         create={false}
+      />
+      <ReservationsListForm
+        open={recreate}
+        handleClose={handleClose}
+        entity={selectedEntity}
+        editable
+        create={true}
       />
     </>
   )
