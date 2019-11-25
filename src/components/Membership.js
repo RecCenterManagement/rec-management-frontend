@@ -27,6 +27,9 @@ const useStyles = makeStyles({
   },
   th: {
     backgroundColor: '#8d6e63'
+  },
+  textcenter: {
+    textAlign: 'center',
   }
 })
 
@@ -39,7 +42,8 @@ const Membership = () => {
         <Container maxWidth='md' className={classes.cont}>
           <br />
           <a>
-            <h2>Membership Rates and Information</h2>
+            <h1 className={classes.textcenter}>Membership Rates and Information</h1>
+            <hr />
           </a>
           <br />
           <Paper className={classes.root}>

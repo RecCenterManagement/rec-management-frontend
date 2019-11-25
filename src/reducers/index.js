@@ -5,18 +5,20 @@ import facilities from './facilities-reducer'
 import reservations from './reservations-reducer'
 import equipment from './equipment-reducer'
 import equipment_reservations from './equipment-reservations-reducer'
-import equipment_bundle from './bundle-reducer'
+import equipment_bundle from './equipment-bundle-reducer'
 import register from './register-reducer'
 import profile_pictures from './profile-picture-reducer'
+import membership from './membership-reducer'
 
 export default combineReducers({
   authentication,
   facilities,
   reservations,
   equipment,
+  equipment_bundle,
   equipment_reservations,
   register,
   userManagement,
-  equipment_bundle,
-  profile_pictures
+  profile_pictures,
+  membership
 })

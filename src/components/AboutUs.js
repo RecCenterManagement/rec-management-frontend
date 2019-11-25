@@ -28,6 +28,10 @@ const useStyles = makeStyles({
   },
   th: {
     backgroundColor: '#8d6e63'
+  },
+  center: {
+    textAlign: 'center',
+    margin: 'auto',
   }
 })
 

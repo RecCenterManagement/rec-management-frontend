@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { get_equipment_reservations } from '../actions/equipment-reservations'
+import { get_equipment_reservations, delete_equipment_reservation } from '../../actions/equipment-reservations'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,9 +34,13 @@ const Reservations = props => {
     dispatch(get_equipment_reservations())
   }, [dispatch])
 
+  const handleDelete = (row) => {
+    dispatch(delete_equipment_reservation(row.id))
+  }
+
   return (
     <Card className={classes.root}>
-      <CardHeader className={classes.cardHeader} title="Reservation Entities" />
+      <CardHeader className={classes.cardHeader} title="Equipment-Reservation Links" />
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -59,9 +63,7 @@ const Reservations = props => {
                 <TableCell align="left">{row.reservation.event}</TableCell>
                 <TableCell align="center">
                   <ButtonGroup>
-                    <Button>View</Button>
-                    <Button>Save</Button>
-                    <Button>Delete</Button>
+                    <Button onClick={() => handleDelete(row)}>Delete</Button>
                   </ButtonGroup>
                 </TableCell>
               </TableRow>
