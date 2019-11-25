@@ -1,29 +1,36 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Home from "./components/Home";
-import Header from "./components/Header";
-import Settings from "./components/Settings";
-import { useSelector, useDispatch } from "react-redux";
-import { AUTH_KEY, getUserAccount } from "./actions/authentication";
-import Register from "./components/Register";
-import UserManagement from "./components/entities/UserManagement";
-import Footer from "./components/Footer";
-import Facilities from "./components/entities/Facilities";
-import Reservations from "./components/entities/Reservations";
-import Equipment from "./components/entities/Equipment";
-import RecCalendarCreate from "./components/RecCalendarCreate";
-import RecCalendarView from "./components/RecCalendarView";
-import ReservationSubmitted from "./components/ReservationSubmitted";
-import EquipmentReservations from "./components/entities/EquipmentReservations";
-import Membership from "./components/Membership";
-import ReservationManagement from "./components/ReservationManagement";
-import ReservationsList from "./components/ReservationsList";
-import AboutUs from "./components/AboutUs";
-import FacilityHoursAndSchedule from "./components/FacilityHoursAndSchedule";
-import StayConnected from "./components/StayConnected";
-import EquipmentBundle from "./components/entities/EquipmentBundle";
-import Notification from "./components/Notification";
+import React from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Login from './components/Login'
+import Home from './components/Home'
+import Header from './components/Header'
+import Settings from './components/Settings'
+import { useSelector, useDispatch } from 'react-redux'
+import { AUTH_KEY, getUserAccount } from './actions/authentication'
+import Register from './components/Register'
+import UserManagement from './components/entities/UserManagement'
+import Footer from './components/Footer'
+import Facilities from './components/entities/Facilities'
+import Reservations from './components/entities/Reservations'
+import Equipment from './components/entities/Equipment'
+import RecCalendarCreate from './components/RecCalendarCreate'
+import RecCalendarView from './components/RecCalendarView'
+import ReservationSubmitted from './components/ReservationSubmitted'
+import EquipmentReservations from './components/entities/EquipmentReservations'
+import Membership from './components/Membership'
+import ReservationManagement from './components/ReservationManagement'
+import ReservationsList from './components/ReservationsList'
+import AboutUs from './components/AboutUs'
+import FacilityHoursAndSchedule from './components/FacilityHoursAndSchedule'
+import StayConnected from './components/StayConnected'
+import EquipmentBundle from './components/entities/EquipmentBundle'
+import AquaticCenter from './components/AquaticCenter'
+import RecreationCenter from './components/RecreationCenter'
+import FitnessCourt from './components/FitnessCourt'
+import OutdoorComplex from './components/OutdoorComplex'
+import PlannedProjects from './components/PlannedProjects'
+import Policies from './components/Policies'
+import Notification from "./components/Notification"
+
 
 function App() {
   const authenticated = useSelector(
@@ -75,6 +82,11 @@ function App() {
         <Route path="/calendar" component={RecCalendarView} />
         <Route path="/create-reservation" component={RecCalendarCreate} />
         <Route path="/submitted" component={ReservationSubmitted} />
+        <Route path="/aquaticcenter" component={AquaticCenter} />
+        <Route path="/recreationcenter" component={RecreationCenter} />
+        <Route path="/fitnesscourt" component={FitnessCourt} />
+        <Route path="/outdoorcomplex" component={OutdoorComplex} />
+        <Route path="/plannedprojects" component={PlannedP
         <Route
           path="/"
           render={props => props.location.pathname !== "/login" && <Footer />}

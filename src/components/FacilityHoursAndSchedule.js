@@ -22,6 +22,9 @@ const useStyles = makeStyles({
     },
     th: {
       backgroundColor: '#8d6e63'
+    },
+    center: {
+      textAlign: 'center',
     }
   })
 
@@ -32,8 +35,9 @@ const useStyles = makeStyles({
             <br />
             <Container maxWidth="md" className={classes.cont}>
               <br />
-              <a>
+              <a className={classes.center}>
                 <h1>Facility Hours and Schedule</h1>
+                <hr />
               </a>
               <p>
                 Please note that the hours may change for any reason at any time.

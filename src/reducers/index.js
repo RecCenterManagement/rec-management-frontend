@@ -9,6 +9,8 @@ import equipment_bundle from './equipment-bundle-reducer'
 import register from './register-reducer'
 import profile_pictures from './profile-picture-reducer'
 import notification from './notification-reducer';
+import membership from './membership-reducer'
+
 
 export default combineReducers({
   notification,
@@ -20,5 +22,6 @@ export default combineReducers({
   equipment_reservations,
   register,
   userManagement,
-  profile_pictures
+  profile_pictures,
+  membership
 })
