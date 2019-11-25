@@ -24,15 +24,14 @@ export default function reducer(state = initial_state, action) {
     case REQUEST(DELETE_EQUIPMENT):
       // Set updating = true.
       return { ...state, updating: true, errorMessage: '' }
-        
-    case SUCCESS(GET_EQUIPMENT):
-      // Store the result.
-      return { ...state, entities: action.payload, loading: false }
-    case SUCCESS(PUT_EQUIPMENT):
-      // Case fallthrough.
-    case SUCCESS(DELETE_EQUIPMENT):
-        return { ...state, updating: false }
-              
+      case SUCCESS(GET_EQUIPMENT):
+        // Store the result.
+        return { ...state, entities: action.payload, loading: false }
+        case SUCCESS(PUT_EQUIPMENT):
+          // Case fallthrough.
+          case SUCCESS(DELETE_EQUIPMENT):
+            return { ...state, updating: false }
+            
     case FAILURE(GET_EQUIPMENT):
       // Case fallthrough.
     case FAILURE(PUT_EQUIPMENT):

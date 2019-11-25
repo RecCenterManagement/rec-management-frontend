@@ -19,11 +19,6 @@ export const get_equipment_reservations = () => {
         dispatch({ type: FAILURE(GET_EQUIPMENT_RESERVATIONS), payload: errorData });
         dispatch(warning("Failed to fetch equipment-reservation links."));
       })
-      .finally(() => {
-        // Call in both cases, error or success.
-        // Triggers only after the request completes, avoiding code duplication.
-        dispatch(get_equipment_reservations())
-      })
   }
 }
 

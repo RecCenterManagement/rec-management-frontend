@@ -58,8 +58,16 @@ export const delete_equipment = id => {
         dispatch(success("Deleted equipment successfully."));
       })
       .catch(errorData => {
+        const message = errorData.response.data.detail;
+        console.log(message);
+        if (message.match(/FK_EQUIPMENT_RESERVATION_EQUIPMENT_ID/)) {
+          dispatch(warning("Equipment is being used by reservations."));
+        } else if (message.match(/FK_EQUIPMENT_BUNDLE_CLAIM_EQUIPMENT_ID/)) {
+          dispatch(warning("Equipment is being used by equipment bundles."));
+        } else {
+          dispatch(error("Failed to delete equipment."));
+        }
         dispatch({ type: FAILURE(DELETE_EQUIPMENT), payload: errorData })
-        dispatch(error("Failed to delete equipment."));
       })
       .finally(() => {
         // Call in both cases, error or success.
