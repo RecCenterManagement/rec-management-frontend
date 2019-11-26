@@ -11,6 +11,7 @@ import {
   Snackbar,
   SnackbarContent
 } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
 import { register, reset } from '../actions/registration'
 
 const useStyles = makeStyles(theme => ({
@@ -64,6 +65,8 @@ function Register() {
   const classes = useStyles()
   const dispatch = useDispatch()
   useEffect(() => () => reset(), [])
+  let history = useHistory()
+
   const registrationSuccess = useSelector(
     state => state.register.registrationSuccess
   )
@@ -78,6 +81,7 @@ function Register() {
 
   const handleRegister = (login, email, firstPassword) => {
     dispatch(register(login, email, firstPassword))
+    history.push('/')
   }
   const emailChecker = email => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
