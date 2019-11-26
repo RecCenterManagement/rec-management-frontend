@@ -1,30 +1,31 @@
 import axios from 'axios'
+import { SUCCESS, REQUEST, FAILURE} from './actions-util'
+import { success, error, warning } from './notification'
 
-export const FETCH_EQUIPMENT_START = 'equipment/FETCH_EQUIPMENT_START'
-export const RECEIVE_EQUIPMENT = 'equipment/RECEIVE_EQUIPMENT'
-export const FETCH_EQUIPMENT_ERROR = 'equipment/FETCH_EQUIPMENT_ERROR'
+export const GET_EQUIPMENT = 'equipment/GET_EQUIPMENT'
 export const PUT_EQUIPMENT = 'equipment/PUT_EQUIPMENT'
-export const PUT_EQUIPMENT_ERROR = 'equipment/PUT_EQUIPMENT_ERROR'
+export const DELETE_EQUIPMENT = 'equipment/DELETE_EQUIPMENT'
 
 export const AUTH_KEY = 'ou-rcm-auth-token'
 
 export const get_equipment = () => {
   return dispatch => {
-    dispatch({ type: FETCH_EQUIPMENT_START, payload: {} })
+    dispatch({ type: REQUEST(GET_EQUIPMENT), payload: {} })
     axios
       .get('api/equipment')
       .then(result => {
-        dispatch({ type: RECEIVE_EQUIPMENT, payload: result.data })
+        dispatch({ type: SUCCESS(GET_EQUIPMENT), payload: result.data })
       })
-      .catch(error => {
-        console.error(error)
-        dispatch({ type: FETCH_EQUIPMENT_ERROR, payload: error })
+      .catch(errorData => {
+        dispatch({ type: FAILURE(GET_EQUIPMENT), payload: errorData })
+        dispatch(warning("Failed to fetch equipment."));
       })
   }
 }
 
 export const put_equipment = entity => {
   return (dispatch, getState) => {
+    dispatch({ type: REQUEST(PUT_EQUIPMENT), payload: {} })
     axios
       .put('api/equipment', entity)
       .then(result => {
@@ -32,11 +33,46 @@ export const put_equipment = entity => {
         const new_entities = old_entities.map(element => {
           return element.id === entity.id ? entity : element
         })
-        dispatch({ type: PUT_EQUIPMENT, payload: new_entities })
+        dispatch({ type: SUCCESS(PUT_EQUIPMENT), payload: new_entities })
+        dispatch(success("Updated equipment successfully."));
       })
-      .catch(error => {
-        console.error(error)
-        dispatch({ type: PUT_EQUIPMENT_ERROR, payload: error })
+      .catch(errorData => {
+        dispatch({ type: FAILURE(PUT_EQUIPMENT), payload: errorData })
+        dispatch(error("Failed to update equipment."));
+      })
+      .finally(() => {
+        // Call in both cases, error or success.
+        // Triggers only after the request completes, avoiding code duplication.
+        dispatch(get_equipment())
+      })
+  }
+}
+
+export const delete_equipment = id => {
+  return dispatch => {
+    dispatch({ type: REQUEST(DELETE_EQUIPMENT), payload: {} })
+    axios
+      .delete(`api/equipment/${id}`)
+      .then(result => {
+        dispatch({ type: SUCCESS(DELETE_EQUIPMENT), payload: result.data })
+        dispatch(success("Deleted equipment successfully."));
+      })
+      .catch(errorData => {
+        const message = errorData.response.data.detail;
+        console.log(message);
+        if (message.match(/FK_EQUIPMENT_RESERVATION_EQUIPMENT_ID/)) {
+          dispatch(warning("Equipment is being used by reservations."));
+        } else if (message.match(/FK_EQUIPMENT_BUNDLE_CLAIM_EQUIPMENT_ID/)) {
+          dispatch(warning("Equipment is being used by equipment bundles."));
+        } else {
+          dispatch(error("Failed to delete equipment."));
+        }
+        dispatch({ type: FAILURE(DELETE_EQUIPMENT), payload: errorData })
+      })
+      .finally(() => {
+        // Call in both cases, error or success.
+        // Triggers only after the request completes, avoiding code duplication.
+        dispatch(get_equipment())
       })
   }
 }

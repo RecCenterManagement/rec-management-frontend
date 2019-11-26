@@ -94,7 +94,6 @@ const UserManagement = props => {
   }
   const handleDelete = login => {
     dispatch(deleteUser(login))
-    dispatch(getAllUsers())
   }
 
   return (

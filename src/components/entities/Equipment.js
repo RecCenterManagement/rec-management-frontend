@@ -8,12 +8,16 @@ import {
   TableHead,
   TableRow,
   ButtonGroup,
-  Button
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  TextField
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { get_reservations } from '../actions/reservations'
-import ReservationsDialog from './ReservationForm.js'
+import { get_equipment, put_equipment, delete_equipment } from '../../actions/equipment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,8 +32,9 @@ const useStyles = makeStyles(theme => ({
 
 const Reservations = props => {
   const classes = useStyles()
-  const entities = useSelector(state => state.reservations.entities)
+  const entities = useSelector(state => state.equipment.entities)
   const dispatch = useDispatch()
+
   const [open, setOpen] = useState(false)
   const [selectedEntity, setSelectedEntity] = useState({})
   const [editable, setEditable] = useState('view')
@@ -48,26 +53,23 @@ const Reservations = props => {
     setOpen(true)
   }
 
+  const handleDelete = (entity) => {
+    dispatch(delete_equipment(entity.id))
+  }
+
   useEffect(() => {
-    dispatch(get_reservations())
+    dispatch(get_equipment())
   }, [dispatch])
 
   return (
     <>
       <Card className={classes.root}>
-        <CardHeader
-          className={classes.cardHeader}
-          title="Reservation Entities"
-        />
+        <CardHeader className={classes.cardHeader} title="Equipment Entities" />
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">ID</TableCell>
-              <TableCell align="left">Event</TableCell>
-              <TableCell align="left">Estimated Particpants</TableCell>
-              <TableCell align="left">Start Time</TableCell>
-              <TableCell align="left">End Time</TableCell>
-              <TableCell align="left">User</TableCell>
+              <TableCell align="left">Name</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -78,13 +80,7 @@ const Reservations = props => {
                   <TableCell component="th" scope="row">
                     {row.id}
                   </TableCell>
-                  <TableCell align="left">{row.event}</TableCell>
-                  <TableCell align="left">
-                    {row.estimatedParticipants}
-                  </TableCell>
-                  <TableCell align="left">{row.startTime}</TableCell>
-                  <TableCell align="left">{row.endTime}</TableCell>
-                  <TableCell align="left">{row.login}</TableCell>
+                  <TableCell align="left">{row.name}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup>
                       <Button onClick={() => handleOpen('view', row)}>
@@ -93,7 +89,7 @@ const Reservations = props => {
                       <Button onClick={() => handleOpen('edit', row)}>
                         Edit
                       </Button>
-                      <Button>Delete</Button>
+                      <Button onClick={() => handleDelete(row)}>Delete</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>
@@ -101,14 +97,76 @@ const Reservations = props => {
           </TableBody>
         </Table>
       </Card>
-      <ReservationsDialog
+      <EquipmentDialog
         open={open}
         handleClose={handleClose}
         entity={selectedEntity}
         editable={editable}
-        create={false}
       />
     </>
+  )
+}
+
+const EquipmentDialog = props => {
+  const { open, handleClose, editable } = props
+  const dispatch = useDispatch()
+
+  const [entity, setEntity] = useState({
+    id: 0,
+    name: ''
+  })
+
+  useEffect(() => {
+    setEntity({
+      id: props.entity.id,
+      name: props.entity.name
+    })
+  }, [props.entity])
+
+  const handleChange = name => event => {
+    setEntity({ ...entity, [name]: event.target.value })
+  }
+
+  const handleSave = () => {
+    dispatch(put_equipment(entity))
+    handleClose()
+  }
+
+  return (
+    <Dialog open={open} onClose={handleClose} fullWidth={true}>
+      <DialogTitle id="form-dialog-title">Equipment Editor</DialogTitle>
+      <DialogContent>
+        <TextField
+          style={{ margin: '12px' }}
+          id="id"
+          label="Entity ID"
+          type="text"
+          fullWidth
+          disabled
+          value={entity.id}
+        />
+        <TextField
+          disabled={!editable}
+          style={{ margin: '12px' }}
+          id="name"
+          label="Entity Name"
+          value={entity.name}
+          type="text"
+          onChange={handleChange('name')}
+          fullWidth
+        />
+      </DialogContent>
+      {editable && (
+        <DialogActions>
+          <Button onClick={handleSave} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleSave} color="secondary">
+            Save
+          </Button>
+        </DialogActions>
+      )}
+    </Dialog>
   )
 }
 

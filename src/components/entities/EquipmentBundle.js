@@ -22,9 +22,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   get_equipment_bundle,
-  put_equipment_bundle
-} from '../actions/equipment-bundle'
-import { get_equipment } from '../actions/equipment'
+  put_equipment_bundle,
+  delete_equipment_bundle
+} from '../../actions/equipment-bundle'
+import { get_equipment } from '../../actions/equipment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,6 +61,10 @@ const EquipmentBundle = props => {
     setOpen(true)
   }
 
+  const handleDelete = (entity) => {
+    dispatch(delete_equipment_bundle(entity.id))
+  }
+
   useEffect(
     () => {
       dispatch(get_equipment_bundle())
@@ -70,27 +75,28 @@ const EquipmentBundle = props => {
   return (
     <>
       <Card className={classes.root}>
-        <CardHeader className={classes.cardHeader} title="Equipment Bundles" />
-        <Table aria-label="simple table">
+        <CardHeader className={classes.cardHeader} title='Equipment Bundles' />
+        <Table aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell align="left">ID</TableCell>
-              <TableCell align="left">Name</TableCell>
-              <TableCell align="left">Equipment</TableCell>
+              <TableCell align='left'>ID</TableCell>
+              <TableCell align='left'>Name</TableCell>
+              <TableCell align='left'>Equipment</TableCell>
+              <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {entities &&
               entities.map(row => (
                 <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {row.id}
                   </TableCell>
-                  <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="left">
+                  <TableCell align='left'>{row.name}</TableCell>
+                  <TableCell align='left'>
                     {row.claims.map(claim => claim.equipment.name)}
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align='center'>
                     <ButtonGroup>
                       <Button onClick={() => handleOpen('view', row)}>
                         View
@@ -98,7 +104,7 @@ const EquipmentBundle = props => {
                       <Button onClick={() => handleOpen('edit', row)}>
                         Edit
                       </Button>
-                      <Button>Delete</Button>
+                      <Button onClick={() => handleDelete(row)}>Delete</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>
@@ -132,45 +138,74 @@ const BundleDialog = props => {
 
   const dispatch = useDispatch()
 
-  useEffect(
-    () => {
-      setEntity({
-        id: props.entity.id,
-        name: props.entity.name,
-        claims: props.entity.claims
+  useEffect(() => {
+    setEntity({
+      id: props.entity.id,
+      name: props.entity.name,
+      claims: props.entity.claims
+    })
+    dispatch(get_equipment())
+    if (equipment && props.entity.claims) {
+      let temp_dictionary = {}
+      for (const e of equipment) {
+        temp_dictionary[e.name] = {id: e.id, count: 0}
+      }
+      props.entity.claims.forEach(x => {
+        temp_dictionary[x.equipment.name] = {id: x.equipment.id, count: x.count}
       })
-      dispatch(get_equipment())
-    },
-    [props.entity]
-  )
+      setClaimDictionary(temp_dictionary)
+    }
+  }, [props.entity])
 
-  const removeEquipment = id => {
-    setEntity(oldState => ({
-      ...oldState,
-      claims: oldState.claims.filter(e => e.id !== id)
-    }))
+  const removeEquipment = name => {
+    const id = claimDictionary[name].id
+    setClaimDictionary({ ...claimDictionary, [name]: {id, count: 0 }})
   }
 
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
   }
 
+  const handleEquipmentChange = name => event => {
+    const id = claimDictionary[name].id 
+    event.target.value >= 0 &&
+      setClaimDictionary({
+        ...claimDictionary,
+        [name]: {id, count: parseInt(event.target.value)}
+      })
+  }
+
   const handleSave = () => {
-    dispatch(put_equipment_bundle(entity))
+    console.log(claimDictionary)
+    const new_claims = []
+    Object.keys(claimDictionary).forEach(key => {
+      if (claimDictionary[key].count > 0) {
+        new_claims.push({
+          count: claimDictionary[key].count,
+          equipment: {
+            id: claimDictionary[key].id,
+            name: key
+          }
+        })
+      }
+    })
+    let new_entity = entity
+    new_entity.claims = new_claims
+    dispatch(put_equipment_bundle(new_entity))
     handleClose()
   }
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth={true}>
-      <DialogTitle id="form-dialog-title">Bundle Editor</DialogTitle>
+    <Dialog open={open} onClose={handleClose}>
+      <DialogTitle id='form-dialog-title'>Bundle Editor</DialogTitle>
       <DialogContent>
         <TextField
           disabled={!editable}
           style={{ margin: '12px' }}
-          id="name"
-          label="Bundle Name"
+          id='name'
+          label='Bundle Name'
           value={entity.name}
-          type="text"
+          type='text'
           onChange={handleChange('name')}
           fullWidth
         />
@@ -179,36 +214,39 @@ const BundleDialog = props => {
         >
           <Typography>Equipment List:</Typography>
           <div style={{ marginBottom: 12 }}>
-            {entity.claims &&
-              entity.claims.map(claim => (
-                <Chip
-                  variant="outlined"
-                  label={claim.equipment.name}
-                  onDelete={() => removeEquipment(claim.equipment.id)}
-                />
-              ))}
+            {Object.keys(claimDictionary).map(key => {
+              if (claimDictionary[key].count != 0) {
+                return (
+                  <Chip
+                    variant='outlined'
+                    label={key}
+                    onDelete={() => removeEquipment(key)}
+                  />
+                )
+              }
+            })}
           </div>
           {editable && (
             <>
               <Button
                 style={{ width: 'max-content' }}
-                color="secondary"
+                color='secondary'
                 onClick={() => setExpanded(!expanded)}
               >
                 Add Equipment
               </Button>
               <Collapse in={expanded}>
                 {equipment &&
-                 equipment.map(element => (
-                   <TextField
+                  equipment.map(element => (
+                    <TextField
                       style={{ margin: '12px' }}
                       id={element.name}
                       label={element.name}
-                      value={0}
-                      type="number"
-                      onChange={handleChange(element.name)}
+                      value={claimDictionary[element.name] && claimDictionary[element.name].count || 0}
+                      type='number'
+                      onChange={handleEquipmentChange(element.name)}
                     />
-                 ))}
+                  ))}
               </Collapse>
             </>
           )}
@@ -216,10 +254,10 @@ const BundleDialog = props => {
       </DialogContent>
       {editable && (
         <DialogActions>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleClose} color='secondary'>
             Cancel
           </Button>
-          <Button onClick={handleSave} color="secondary">
+          <Button onClick={handleSave} color='secondary'>
             Save
           </Button>
         </DialogActions>

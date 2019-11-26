@@ -125,13 +125,6 @@ const Home = () => {
               Create Reservation
             </Button>
           ) }
-          <Button
-            className={classes.homeButton}
-            color="secondary"
-            variant="outlined"
-          >
-            Equipment Rental
-          </Button>
         </div>
         <span className={classes.homepagetitle}>
           {' '}
