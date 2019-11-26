@@ -187,7 +187,7 @@ const FacilitiesDialog = props => {
           label="Capacity"
           value={entity.capacity}
           type="number"
-          onChange={handleChange}
+          onChange={handleChange('capacity')}
           fullWidth
         />
         <TextField

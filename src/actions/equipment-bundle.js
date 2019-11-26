@@ -21,11 +21,11 @@ export const get_equipment_bundle = () => {
   }
 }
 
-export const put_equipment_bundle = () => {
+export const put_equipment_bundle = entity => {
   return dispatch => {
     dispatch({ type: REQUEST(PUT_EQUIPMENT_BUNDLE), payload: {} })
     axios
-      .get('api/equipment-bundles')
+      .put('api/equipment-bundles', entity)
       .then(result => {
         dispatch({ type: SUCCESS(PUT_EQUIPMENT_BUNDLE), payload: result.data })
         dispatch(success("Updated equipment bundle successfully."));

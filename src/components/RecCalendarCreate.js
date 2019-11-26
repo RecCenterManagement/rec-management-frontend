@@ -10,8 +10,6 @@ import ReservationForm from "./ReservationForm";
 import { get_reservations } from "../actions/reservations";
 import { get_facilities } from "../actions/facilities";
 import RecCalendarToolbar from "./RecCalendarToolbar";
-// Handler for class names.
-import clsx from "clsx";
 
 const MONTHS_IN_FUTURE = 3;
 
