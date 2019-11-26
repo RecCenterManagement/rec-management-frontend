@@ -45,7 +45,7 @@ function App() {
     <Router>
       <Route
         path="/"
-        render={props => props.location.pathname !== '/login' && <Header />}
+        render={props => <Header />}
       />
       <Route exact path="/" component={Home} />
       <Route path="/login" component={Login} />
@@ -65,7 +65,7 @@ function App() {
       <Route path="/equipment-bundles" component={EquipmentBundle} />
       <Route
         path="/"
-        render={props => props.location.pathname !== '/login' && <Footer />}
+        render={props => <Footer />}
       />
       
        
