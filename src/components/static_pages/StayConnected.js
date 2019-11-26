@@ -1,8 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import RecCenterVector from '../static/RecCenter.svg'
-import { Button, Container, Table, TableCell, TableHead,
-  TableRow, TableBody, Paper, Fab } from '@material-ui/core'
+import { Button, Container, Fab } from '@material-ui/core'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { Facebook, Instagram, Youtube, Wordpress, Twitter} from 'mdi-material-ui'
 

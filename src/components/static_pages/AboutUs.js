@@ -1,9 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import RecCenterVector from '../static/RecCenter.svg'
-import { Button, Container, Table, TableCell, TableHead,
+import { Container, Table, TableCell, 
   TableRow, TableBody, Paper } from '@material-ui/core'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -54,7 +52,7 @@ const AboutUs = () => {
             <h2>Meet the Staff:</h2>
              
     <Paper className={classes.root}>
-    <table className={classes.table} aria-label="spanning table">
+    <Table className={classes.table} aria-label="spanning table">
     <TableBody>
     <TableRow>
         <TableCell><img src="https://oakland.edu/Assets/Oakland/recwell/graphics/staff-photos/2016/GregJ2016.JPG" 
@@ -184,7 +182,7 @@ const AboutUs = () => {
     
    
     </TableBody>
-    </table>
+    </Table>
     </Paper>
     <br />
     </Container>  
