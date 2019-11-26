@@ -12,7 +12,7 @@ import {
 import OpenInNew from '@material-ui/icons/OpenInNew'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom'
+import { BrowserRouter as Link } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   nested: {
@@ -29,16 +29,16 @@ const RecDrawer = props => {
         <ListItem button component={Link} to="/aboutus">
           <ListItemText primary="About" />
         </ListItem>
-        <ListItem button component={Link} to="/facilityhours">
-          <ListItemText primary="Facility Hours" />
+        <ListItem button component={Link} to='/facilityhours'>
+          <ListItemText primary='Facility Hours' />
         </ListItem>
-        <ListItem button component={Link} to="/stayconnected">
-          <ListItemText primary="Stay Connected" />
+        <ListItem button component={Link} to='/stayconnected'>
+          <ListItemText primary='Stay Connected' />
         </ListItem>
-       
+
         <Divider />
         <ListItem button onClick={() => set_facilities_open(!facilities_open)}>
-          <ListItemText primary="Recreation Facilities" />
+          <ListItemText primary='Recreation Facilities' />
           {facilities_open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         
