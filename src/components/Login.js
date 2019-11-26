@@ -77,6 +77,12 @@ function Login() {
     }
   }
 
+  const handleKeyPress = event => {
+    if (event.key === 'Enter') {
+      handleLogin()
+    }
+  }
+
   const handleLogin = () => {
     dispatch(login(state.username, state.password, state.rememberMe))
   }
@@ -117,7 +123,7 @@ function Login() {
                     helperText={loginError && 'Invalid credentials'}
                     onChange={handleChange('password')}
                     error={loginError}
-                    //onKeyPress={handleKeyPress}
+                    onKeyPress={handleKeyPress}
                   />
                   <FormControlLabel
                     control={
