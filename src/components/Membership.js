@@ -1,8 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import RecCenterVector from '../static/RecCenter.svg'
 import {
-  Button,
   Container,
   Table,
   TableCell,
@@ -11,7 +9,6 @@ import {
   TableBody,
   Paper
 } from '@material-ui/core'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -30,6 +27,9 @@ const useStyles = makeStyles({
   },
   th: {
     backgroundColor: '#8d6e63'
+  },
+  textcenter: {
+    textAlign: 'center',
   }
 })
 
@@ -39,14 +39,15 @@ const Membership = () => {
     <>
       <div className={classes.background}>
         <br />
-        <Container maxWidth="md" className={classes.cont}>
-         <br />
+        <Container maxWidth='md' className={classes.cont}>
+          <br />
           <a>
-            <h2>Membership Rates and Information</h2>
+            <h1 className={classes.textcenter}>Membership Rates and Information</h1>
+            <hr />
           </a>
           <br />
           <Paper className={classes.root}>
-            <Table className={classes.table} aria-label="simple table">
+            <Table className={classes.table} aria-label='simple table'>
               <TableHead className={classes.th}>
                 <TableRow>
                   <TableCell>Student</TableCell>
@@ -100,7 +101,7 @@ const Membership = () => {
           <br />
           <br />
           <Paper className={classes.root}>
-            <Table className={classes.table} aria-label="simple table">
+            <Table className={classes.table} aria-label='simple table'>
               <TableHead className={classes.th}>
                 <TableRow>
                   <TableCell>Employees</TableCell>
@@ -152,7 +153,7 @@ const Membership = () => {
           <br />
           <br />
           <Paper className={classes.root}>
-            <Table className={classes.table} aria-label="simple table">
+            <Table className={classes.table} aria-label='simple table'>
               <TableHead className={classes.th}>
                 <TableRow>
                   <TableCell>Community</TableCell>

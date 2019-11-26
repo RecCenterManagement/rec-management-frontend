@@ -1,10 +1,9 @@
 import {
-  FETCH_FACILITIES_START,
-  RECEIVE_FACILITIES,
-  FETCH_FACILITIES_ERROR,
+  GET_FACILITIES,
   PUT_FACILITY,
-  PUT_FACILITY_ERROR
+  DELETE_FACILITY
 } from '../actions/facilities'
+import { REQUEST, SUCCESS, FAILURE } from '../actions/actions-util'
 
 const initial_state = {
   loading: false,
@@ -17,23 +16,27 @@ const initial_state = {
 
 export default function reducer(state = initial_state, action) {
   switch (action.type) {
-    case FETCH_FACILITIES_START: {
+    case REQUEST(GET_FACILITIES):
       return { ...state, loading: true, errorMessage: '' }
-    }
-    case RECEIVE_FACILITIES: {
+    case REQUEST(PUT_FACILITY):
+      // Case fallthrough
+    case REQUEST(DELETE_FACILITY):
+      // Set updating = true
+      return { ...state, updating: true, errorMessage: '' }
+        
+    case SUCCESS(GET_FACILITIES):
       return { ...state, entities: action.payload, loading: false }
-    }
-    case FETCH_FACILITIES_ERROR: {
-      return { ...state, loading: true }
-    }
-    case PUT_FACILITY: {
-      return { ...state, entities: action.payload }
-    }
-    case PUT_FACILITY_ERROR: {
-      return { ...state, errorMessage: action.payload }
-    }
-    default: {
+    case SUCCESS(PUT_FACILITY):
+      // Case fallthrough.
+    case SUCCESS(DELETE_FACILITY):
+      return { ...state, updating: false }
+              
+    case FAILURE(GET_FACILITIES):
+    case FAILURE(PUT_FACILITY):
+    case FAILURE(DELETE_FACILITY):
+      return { ...state, loading: false, updating: false, errorMessage: action.payload }
+
+    default:
       return state
-    }
   }
 }

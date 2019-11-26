@@ -1,9 +1,8 @@
+import { SUCCESS, REQUEST, FAILURE} from '../actions/actions-util'
 import {
-  FETCH_EQUIPMENT_START,
-  RECEIVE_EQUIPMENT,
-  FETCH_EQUIPMENT_ERROR,
+  GET_EQUIPMENT,
   PUT_EQUIPMENT,
-  PUT_EQUIPMENT_ERROR
+  DELETE_EQUIPMENT
 } from '../actions/equipment'
 
 const initial_state = {
@@ -17,21 +16,30 @@ const initial_state = {
 
 export default function reducer(state = initial_state, action) {
   switch (action.type) {
-    case FETCH_EQUIPMENT_START: {
+    case REQUEST(GET_EQUIPMENT):
+      // Set loading = true.
       return { ...state, loading: true, errorMessage: '' }
-    }
-    case RECEIVE_EQUIPMENT: {
-      return { ...state, entities: action.payload, loading: false }
-    }
-    case FETCH_EQUIPMENT_ERROR: {
-      return { ...state, loading: true }
-    }
-    case PUT_EQUIPMENT: {
-      return { ...state, entities: action.payload }
-    }
-    case PUT_EQUIPMENT_ERROR: {
-      return { ...state, errorMessage: action.payload }
-    }
+    case REQUEST(PUT_EQUIPMENT):
+      // Case fallthrough.
+    case REQUEST(DELETE_EQUIPMENT):
+      // Set updating = true.
+      return { ...state, updating: true, errorMessage: '' }
+      case SUCCESS(GET_EQUIPMENT):
+        // Store the result.
+        return { ...state, entities: action.payload, loading: false }
+        case SUCCESS(PUT_EQUIPMENT):
+          // Case fallthrough.
+          case SUCCESS(DELETE_EQUIPMENT):
+            return { ...state, updating: false }
+            
+    case FAILURE(GET_EQUIPMENT):
+      // Case fallthrough.
+    case FAILURE(PUT_EQUIPMENT):
+      // Case fallthrough.
+    case FAILURE(DELETE_EQUIPMENT):
+      // Store error payload.
+      return { ...state, loading: false, updating: false, errorMessage: action.payload }
+      
     default: {
       return state
     }

@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { get_facilities, put_facility } from '../actions/facilities'
+import { get_facilities, put_facility, delete_facility } from '../../actions/facilities'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,6 +50,10 @@ const Facilities = props => {
     }
     setSelectedEntity(entity)
     setOpen(true)
+  }
+
+  const handleDelete = (entity) => {
+    dispatch(delete_facility(entity.id))
   }
 
   useEffect(() => {
@@ -96,7 +100,7 @@ const Facilities = props => {
                       <Button onClick={() => handleOpen('edit', row)}>
                         Edit
                       </Button>
-                      <Button>Delete</Button>
+                      <Button onClick={() => handleDelete(row)}>Delete</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>
@@ -183,7 +187,7 @@ const FacilitiesDialog = props => {
           label="Capacity"
           value={entity.capacity}
           type="number"
-          onChange={handleChange}
+          onChange={handleChange('capacity')}
           fullWidth
         />
         <TextField
