@@ -32,14 +32,14 @@ import {
   KeyboardDatePicker
 } from '@material-ui/pickers'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllUsers, updateUser, deleteUser } from '../actions/user-management'
+import { getAllUsers, updateUser, deleteUser } from '../../actions/user-management'
 import {
   getMembership,
   getMemberships,
   updateMembership,
   deleteMembership,
   createMembership
-} from '../actions/membership'
+} from '../../actions/membership'
 
 const useStyles = makeStyles(theme => ({
   card: {
