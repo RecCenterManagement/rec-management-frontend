@@ -1,9 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import RecCenterVector from '../static/RecCenter.svg'
-import { Button, Container, Table, TableCell, TableHead,
+import { Container, Table, TableCell, TableHead,
   TableRow, TableBody, Paper } from '@material-ui/core'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -52,7 +50,7 @@ const AquaticCenter = () => {
                 <h2>Hours of the Aquatic Center</h2>
 
                 <Paper className={classes.root}>
-              <table className={classes.table} aria-label="spanning table">
+              <Table className={classes.table} aria-label="spanning table">
               <TableHead>
                     <TableRow>
                       
@@ -70,7 +68,7 @@ const AquaticCenter = () => {
                     <TableCell>10am - 9pm</TableCell>
                   </TableRow>
                 </TableBody>
-              </table> 
+              </Table> 
               </Paper>
               <br />
             </Container>

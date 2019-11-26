@@ -1,10 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import RecCenterVector from '../static/RecCenter.svg'
-import { Button, Container, Table, TableCell, TableHead,
-  TableRow, TableBody, Paper, Fab } from '@material-ui/core'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { Facebook, Instagram, Youtube, Wordpress, Twitter} from 'mdi-material-ui'
+import { Container, Table, TableCell, TableHead,
+  TableRow, TableBody, Paper } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -222,7 +219,7 @@ const RecreationCenter = () => {
           </p>
         
           <Paper className={classes.root}>
-              <table className={classes.table} aria-label="spanning table">
+              <Table className={classes.table} aria-label="spanning table">
               <TableHead>
                     <TableRow>
                       <TableCell><b>Prices</b></TableCell>
@@ -252,7 +249,7 @@ const RecreationCenter = () => {
                     <TableCell>$80</TableCell>
                   </TableRow>
                 </TableBody>
-            </table> 
+            </Table> 
           </Paper>
         <h3>Lost and Found</h3>
         <p>
