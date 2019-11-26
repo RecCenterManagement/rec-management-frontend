@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -60,6 +60,8 @@ function Login() {
     username: '',
     password: ''
   })
+  const loginError = useSelector(state => state.authentication.loginError)
+  const loginSuccess = useSelector(state => state.authentication.loginSuccess)
 
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -74,16 +76,20 @@ function Login() {
         break
     }
   }
-  const handleLogin = () => {
-    dispatch(login(state.username, state.password, state.rememberMe))
-    history.push('/')
-  }
 
   const handleKeyPress = event => {
     if (event.key === 'Enter') {
       handleLogin()
     }
   }
+
+  const handleLogin = () => {
+    dispatch(login(state.username, state.password, state.rememberMe))
+  }
+  useEffect(()=>{
+    loginSuccess&&history.push('/')
+  },[loginSuccess])
+
   return (
     <>
       <Paper>
@@ -92,27 +98,31 @@ function Login() {
             <div className={classes.firstContainer}>
               <div className={classes.firstWrapper}>
                 <div className={classes.firstTitle}>
-                  <Typography gutterBottom variant="h5" component="h1">
+                  <Typography gutterBottom variant='h5' component='h1'>
                     Sign In
                   </Typography>
                 </div>
                 <FormControl>
                   <TextField
-                    label="Username"
-                    id="username-input"
-                    margin="normal"
-                    variant="outlined"
+                    label='Username'
+                    id='username-input'
+                    margin='normal'
+                    variant='outlined'
                     value={state.username}
+                    helperText={loginError && 'Invalid credentials'}
                     onChange={handleChange('username')}
+                    error={loginError}
                   />
                   <TextField
-                    label="Password"
-                    id="password-input"
-                    margin="normal"
-                    variant="outlined"
-                    type="password"
+                    label='Password'
+                    id='password-input'
+                    margin='normal'
+                    variant='outlined'
+                    type='password'
                     value={state.password}
+                    helperText={loginError && 'Invalid credentials'}
                     onChange={handleChange('password')}
+                    error={loginError}
                     onKeyPress={handleKeyPress}
                   />
                   <FormControlLabel
@@ -120,18 +130,18 @@ function Login() {
                       <Checkbox
                         checked={state.rememberMe}
                         onChange={handleChange('rememberMe')}
-                        value="rememberMe"
+                        value='rememberMe'
                       />
                     }
-                    label="Remember me"
+                    label='Remember me'
                   />
                   <Typography gutterBottom>
                     Did you forget your password?
                   </Typography>
                   <Button
-                    variant="outlined"
-                    color="secondary"
-                    href="/reset/request"
+                    variant='outlined'
+                    color='secondary'
+                    href='/reset/request'
                   >
                     Reset Password
                   </Button>
@@ -139,8 +149,8 @@ function Login() {
               </div>
               <div className={classes.button}>
                 <Button
-                  variant="contained"
-                  color="primary"
+                  variant='contained'
+                  color='primary'
                   onClick={handleLogin}
                 >
                   Sign In
@@ -151,22 +161,22 @@ function Login() {
           <Grid item xs={12} md={8}>
             <div className={classes.secondContainer}>
               <div className={classes.secondTitle}>
-                <Typography gutterBottom variant="h6" component="h2">
+                <Typography gutterBottom variant='h6' component='h2'>
                   Register
                 </Typography>
               </div>
               <img
                 src={require('../img/grizzbear.svg')}
                 className={classes.image}
-                alt="Grizz bear with weight"
+                alt='Grizz bear with weight'
               />
               <div className={classes.secondTitle}>
-                <Typography gutterBottom variant="h6" component="h2">
+                <Typography gutterBottom variant='h6' component='h2'>
                   You don't have an account yet?
                 </Typography>
               </div>
               <div className={classes.button}>
-                <Button variant="contained" color="secondary" href="/register">
+                <Button variant='contained' color='secondary' href='/register'>
                   Register
                 </Button>
               </div>
