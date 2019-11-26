@@ -33,6 +33,7 @@ export default function reducer(state = initial_state, action) {
     case FAILURE(CREATE_RESERVATION):
       // Case fallthrough.
     case FAILURE(DELETE_RESERVATION):
+      console.log(action.payload);
       return {
         ...state,
         errorMessage: action.payload,

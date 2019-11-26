@@ -29,64 +29,72 @@ import FitnessCourt from './components/FitnessCourt'
 import OutdoorComplex from './components/OutdoorComplex'
 import PlannedProjects from './components/PlannedProjects'
 import Policies from './components/Policies'
+import Notification from "./components/Notification"
+
 
 function App() {
   const authenticated = useSelector(
     state => state.authentication.isAuthenticated
-  )
-  const loading = useSelector(
-    state => state.authentication.loading
-  )
-  const dispatch = useDispatch()
- 
+  );
+  const loading = useSelector(state => state.authentication.loading);
+  const dispatch = useDispatch();
+
   if (!authenticated) {
     if (localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY)) {
-      dispatch(getUserAccount())
+      dispatch(getUserAccount());
     }
   }
 
-  console.log(!loading, authenticated)
+  console.log(!loading, authenticated);
   if (loading) {
-    return <div/>
+    return <div />;
   }
 
   return (
-    <Router>
-      <Route
-        path="/"
-        render={props => props.location.pathname !== '/login' && <Header />}
-      />
-      <Route exact path="/" component={Home} />
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-      <Route path="/settings" component={Settings}/>
-      <Route path="/users" component={UserManagement}/>
-      <Route path="/facilities" component={Facilities}/>
-      <Route path="/reservations" component={Reservations} />
-      <Route path="/my-reservations" component={ReservationsList} />
-      <Route path="/equipment" component={Equipment} />
-      <Route path="/equipment-reservations" component={EquipmentReservations}/>
-      <Route path="/membership" component={Membership} />
-      <Route path="/reservation-management" component={ReservationManagement} />
-      <Route path='/aboutus' component={AboutUs} />
-      <Route path='/facilityhours' component={FacilityHoursAndSchedule} />
-      <Route path='/stayconnected' component={StayConnected} />
-      <Route path="/equipment-bundles" component={EquipmentBundle} />
-      <Route path="/aquaticcenter" component={AquaticCenter} />
-      <Route path="/recreationcenter" component={RecreationCenter} />
-      <Route path="/fitnesscourt" component={FitnessCourt} />
-      <Route path="/outdoorcomplex" component={OutdoorComplex} />
-      <Route path="/plannedprojects" component={PlannedProjects} />
-      <Route path="/policies" component={Policies} />
-      <Route path="/calendar" component={RecCalendarView} />
-      <Route path="/create-reservation" component={RecCalendarCreate} />
-      <Route path="/submitted" component={ReservationSubmitted} />
-      <Route
-        path="/"
-        render={props => props.location.pathname !== '/login' && <Footer />}
-      />
-    </Router>
-  )
+    <>
+      <Router>
+        <Route
+          path="/"
+          render={props => props.location.pathname !== "/login" && <Header />}
+        />
+        <Route exact path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/settings" component={Settings} />
+        <Route path="/users" component={UserManagement} />
+        <Route path="/facilities" component={Facilities} />
+        <Route path="/reservations" component={Reservations} />
+        <Route path="/my-reservations" component={ReservationsList} />
+        <Route path="/equipment" component={Equipment} />
+        <Route
+          path="/equipment-reservations"
+          component={EquipmentReservations}
+        />
+        <Route path="/membership" component={Membership} />
+        <Route
+          path="/reservation-management"
+          component={ReservationManagement}
+        />
+        <Route path="/aboutus" component={AboutUs} />
+        <Route path="/facilityhours" component={FacilityHoursAndSchedule} />
+        <Route path="/stayconnected" component={StayConnected} />
+        <Route path="/equipment-bundles" component={EquipmentBundle} />
+        <Route path="/calendar" component={RecCalendarView} />
+        <Route path="/create-reservation" component={RecCalendarCreate} />
+        <Route path="/submitted" component={ReservationSubmitted} />
+        <Route path="/aquaticcenter" component={AquaticCenter} />
+        <Route path="/recreationcenter" component={RecreationCenter} />
+        <Route path="/fitnesscourt" component={FitnessCourt} />
+        <Route path="/outdoorcomplex" component={OutdoorComplex} />
+        <Route path="/plannedprojects" component={PlannedProjects} />
+        <Route
+          path="/"
+          render={props => props.location.pathname !== "/login" && <Footer />}
+        />
+      </Router>
+      <Notification />
+    </>
+  );
 }
- 
-export default App
+
+export default App;

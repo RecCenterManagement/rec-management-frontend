@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { REQUEST, SUCCESS, FAILURE } from './actions-util'
+import { warning, error, success } from './notification'
 
 export const GET_FACILITIES = 'facilities/GET_FACILITIES'
 export const PUT_FACILITY = 'facilities/PUT_FACILITY'
@@ -13,12 +14,11 @@ export const get_facilities = () => {
     axios
       .get('api/facilities')
       .then(result => {
-        console.log(result)
         dispatch({ type: SUCCESS(GET_FACILITIES), payload: result.data })
       })
-      .catch(error => {
-        console.error(error)
-        dispatch({ type: FAILURE(GET_FACILITIES), payload: error })
+      .catch(errorData => {
+        dispatch({ type: FAILURE(GET_FACILITIES), payload: errorData })
+        dispatch(warning("Failed to fetch facilities."));
       })
   }
 }
@@ -34,10 +34,11 @@ export const put_facility = entity => {
           return element.id === entity.id ? entity : element
         })
         dispatch({ type: SUCCESS(PUT_FACILITY), payload: new_entities })
+        dispatch(success("Updated facility successfully."));
       })
-      .catch(error => {
-        console.error(error)
-        dispatch({ type: FAILURE(PUT_FACILITY), payload: error })
+      .catch(errorData => {
+        dispatch({ type: FAILURE(PUT_FACILITY), payload: errorData })
+        dispatch(error("Failed to update facility."));
       })
       .finally(() => {
         // Call in both cases, error or success.
@@ -53,11 +54,12 @@ export const delete_facility = id => {
     axios
       .delete(`api/facilities/${id}`)
       .then(result => {
-        dispatch({ type: SUCCESS(DELETE_FACILITY), payload: result })
+        dispatch({ type: SUCCESS(DELETE_FACILITY), payload: result.data })
+        dispatch(success("Deleted facility successfully."));
       })
-      .catch(error => {
-        console.error(error)
-        dispatch({ type: FAILURE(DELETE_FACILITY), payload: error })
+      .catch(errorData => {
+        dispatch({ type: FAILURE(DELETE_FACILITY), payload: errorData })
+        dispatch(error("Failed to delete facility."));
       })
       .finally(() => {
         // Call in both cases, error or success.
