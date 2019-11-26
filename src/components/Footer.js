@@ -13,7 +13,12 @@ const useStyles = makeStyles(theme => ({
   footer_column: {
     display: 'flex',
     flexDirection: 'column',
-    textAlign: 'center'
+    textAlign: 'left',
+    padding: '10%',
+  },
+  strong_text: {
+  color: '#8e774d',
+  textDecoration: 'underline'
   }
 }))
 
@@ -22,199 +27,131 @@ const Footer = props => {
 
   return (
     <footer
-      style={{ backgroundColor: '#212121', color: 'white', paddingTop: 24 }}
+      style={{ backgroundColor: '#212121', color: 'white', paddingTop: 24,  lineHeight: 2.0, }}
     >
       <Grid container>
         <Grid item xs={12} sm={3} med={3}>
           <div className={classes.footer_column}>
-            <strong>Recreation Center</strong>
-            <hr />
+            <strong className={classes.strong_text} >Recreation Center</strong>
             <p>
               The Mission of University Recreation and Well-Being is to offer
               programs, services and facilities that foster student development,
               create a connection to Oakland University and motivate our
               community toward a life-long commitment of well-being.
             </p>
-            <strong>Contact</strong>
-            <hr />
+            <strong className={classes.strong_text} >Contact</strong>
             <p>
-              <i className="fa fa-home mr-3" /> Rochester, MI 48309-4482, US
-            </p>
-            <p>
-              <i className="fa fa-envelope mr-3" /> rec@oakland.edu
-            </p>
-            <p>
-              <i className="fa fa-phone mr-3" /> (248) 370-4REC (4732)
-            </p>
-            <p>
-              <i className="fa fa-print mr-3" /> (248) 370-4889
+              <i className="fa fa-home mr-3" /> Rochester, MI 48309-4482, US <br />
+              <i className="fa fa-envelope mr-3" /> rec@oakland.edu <br />
+              <i className="fa fa-phone mr-3" /> (248) 370-4REC (4732) <br />
+              <i className="fa fa-print mr-3" /> (248) 370-4889 <br />
             </p>
           </div>
         </Grid>
         <Grid item xs={12} sm={3} med={3}>
           <div className={classes.footer_column}>
-            <strong>Academics</strong>
-            <hr />
+            <strong className={classes.strong_text} >Academics</strong>
             <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/cas/">
-                Arts and Sciences
+              <a className={classes.footer_link} href="https://www.oakland.edu/cas" target='blank' >
+                Arts and Sciences  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/business/">
-                Business Administration
+              <a className={classes.footer_link} href="https://www.oakland.edu/business" target='blank' >
+                Business Administration  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/sehs/">
-                Education and Human Services
+              <a className={classes.footer_link} href="https://www.oakland.edu/sehs" target='blank' >
+                Education and Human Services  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/secs/">
-                Engineering and Computer Science
+              <a className={classes.footer_link} href="https://www.oakland.edu/secs" target='blank' >
+                Engineering and Computer Science  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/shs/">
-                Health Sciences
+              <a className={classes.footer_link} href="https://www.oakland.edu/shs" target='blank'>
+                Health Sciences  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/nursing/">
-                Nursing
+                 <a className={classes.footer_link} href="https://www.oakland.edu/nursing" target='blank'>
+                Nursing <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/medicine/">
-                OUWB School of Medicine
+               <a className={classes.footer_link} href="https://www.oakland.edu/medicine" target='blank'>
+                OUWB School of Medicine <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/grad/">
-                Graduate School
+              <a className={classes.footer_link} href="https://www.oakland.edu/grad" target='blank'>
+                Graduate School <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/hc/">
-                Honors College
+               <a className={classes.footer_link} href="https://www.oakland.edu/hc" target='blank'>
+                Honors College <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/bis/">
-                Integrative Studies
+              <a className={classes.footer_link} href="https://www.oakland.edu/bis" target='blank'>
+                Integrative Studies <br />
               </a>
             </p>
           </div>
         </Grid>
         <Grid item xs={12} sm={3} med={3}>
           <div className={classes.footer_column}>
-            <strong>Info For</strong>
-            <hr />
+            <strong className={classes.strong_text} >Info For</strong>
             <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/alumni/">
-                Alumni
+              <a className={classes.footer_link} href="https://www.oakland.edu/alumni" target='blank'>
+                Alumni  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/students/">
-                Current Students
+             <a className={classes.footer_link} href="https://www.oakland.edu/students" target='blank'>
+                Current Students  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/giving/">
-                Donors
+                    <a className={classes.footer_link} href="https://www.oakland.edu/giving" target='blank'>
+                Donors  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/faculty-and-staff/">
-                Faculty and Staff
+                       <a className={classes.footer_link} href="https://www.oakland.edu/faculty-and-staff" target='blank'>
+                Faculty and Staff  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/grad/">
-                Future Graduate Students
+                       <a className={classes.footer_link} href="https://www.oakland.edu/grad" target='blank'>
+                Future Graduate Students  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/futurestudents/">
-                Future Undergraduate Students
+                      <a className={classes.footer_link} href="https://www.oakland.edu/futurestudents" target='blank'>
+                Future Undergraduate Students  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/about/ou-mission-and-vision/">
-                Mission and Vision
+                 <a className={classes.footer_link} href="https://www.oakland.edu/about/ou-mission-and-vision/" target='blank'>
+                Mission and Vision  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/president/strategic-planning/">
-                Strategic Plan
+                    <a className={classes.footer_link} href="https://www.oakland.edu/president/strategic-planning/" target='blank'>
+                Strategic Plan  <br />
               </a>
             </p>
           </div>
         </Grid>
         <Grid item xs={12} sm={3} med={3}>
           <div className={classes.footer_column}>
-            <strong>Quick Links</strong>
-            <hr />
+            <strong className={classes.strong_text} >Quick Links</strong>
             <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/about/">
-                About OU
+              <a className={classes.footer_link} href="https://www.oakland.edu/about" target='blank'>
+                About OU  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/community/">
-                Community Engagement
+              <a className={classes.footer_link} href="https://www.oakland.edu/community" target='blank'>
+                Community Engagement  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://sail.oakland.edu/PROD/bwpkedir.P_DisplayDirectory">
-                Directory
+              <a className={classes.footer_link} href="https://www.oakland.edu/directory" target='blank'>
+                Directory  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/diversity/">
-                Diversity, Equity, and Inclusion
+              <a className={classes.footer_link} href="https://www.oakland.edu/diversity/" target='blank'>
+                Diversity, Equity, and Inclusion  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/eri/">
-                Eye Research Institute
+              <a className={classes.footer_link} href="https://www.oakland.edu/eri" target='blank'>
+                Eye Research Institute  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/registrar/important-dates/">
-                Important Dates
+              <a className={classes.footer_link} href="https://www.oakland.edu/registrar/important-dates/" target='blank'>
+                Important Dates  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://jobs.oakland.edu/">
-                Jobs at OU
+              <a className={classes.footer_link} href="https://jobs.oakland.edu/" target='blank'>
+                Jobs at OU  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/macombouinc/">
-                Macomb-OU Incubator
+              <a className={classes.footer_link} href="https://www.oakland.edu/macombouinc" target='blank'>
+                Macomb-OU Incubator  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/macomb/">
-                Macomb Programs
+              <a className={classes.footer_link} href="https://www.oakland.edu/macomb/" target='blank'>
+                Macomb Programs  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/ouinc/">
-                OU INC
+              <a className={classes.footer_link} href="https://www.oakland.edu/ouinc" target='blank'>
+                OU INC  <br />
               </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="https://www.oakland.edu/universityoffices/">
-                University Offices
-              </a>
-            </p>
-            <p>
-              <a className={classes.footer_link} href="mailto:webmaster@oakland.edu">
-                Webmaster
+              <a className={classes.footer_link} href="https://www.oakland.edu/universityoffices" target='blank'>
+                University Offices  <br />
               </a>
             </p>
           </div>
