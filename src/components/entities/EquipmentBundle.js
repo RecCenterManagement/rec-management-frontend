@@ -176,7 +176,6 @@ const BundleDialog = props => {
   }
 
   const handleSave = () => {
-    console.log(claimDictionary)
     const new_claims = []
     Object.keys(claimDictionary).forEach(key => {
       if (claimDictionary[key].count > 0) {

@@ -12,7 +12,7 @@ import {
 import OpenInNew from '@material-ui/icons/OpenInNew'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import { BrowserRouter as Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   nested: {
