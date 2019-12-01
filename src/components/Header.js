@@ -200,7 +200,32 @@ const Header = () => {
                                   >
                                     Users
                           </MenuItem>
-                                  <Divider/>
+                                  <Divider />
+
+                                  <MenuItem
+                                    component={Link}
+                                    to="/equipment"
+                                    onClick={() => handleEntityClick('equ')}
+                                    selected={currentEntity === 'equ'}
+                                  >
+                                    Equipment
+                          </MenuItem>
+                                  <MenuItem
+                                    component={Link}
+                                    to="/equipment-bundles"
+                                    onClick={() => handleEntityClick('equ-bun')}
+                                    selected={currentEntity === 'equ-bun'}
+                                  >
+                                    Equipment Bundles
+                          </MenuItem>
+                                  <MenuItem
+                                    component={Link}
+                                    to="/equipment-reservations"
+                                    onClick={() => handleEntityClick('equ-res')}
+                                    selected={currentEntity === 'equ-res'}
+                                  >
+                                    Equipment Reservations
+                          </MenuItem>
                                   <MenuItem
                                     component={Link}
                                     to="/facilities"
@@ -216,30 +241,6 @@ const Header = () => {
                                     selected={currentEntity === 'res'}
                                   >
                                     Reservations
-                          </MenuItem>
-                                  <MenuItem
-                                    component={Link}
-                                    to="/equipment"
-                                    onClick={() => handleEntityClick('equ')}
-                                    selected={currentEntity === 'equ'}
-                                  >
-                                    Equipment
-                          </MenuItem>
-                                  <MenuItem
-                                    component={Link}
-                                    to="/equipment-reservations"
-                                    onClick={() => handleEntityClick('equ-res')}
-                                    selected={currentEntity === 'equ-res'}
-                                  >
-                                    Equipment Reservations
-                          </MenuItem>
-                                  <MenuItem
-                                    component={Link}
-                                    to="/equipment-bundles"
-                                    onClick={() => handleEntityClick('equ-bun')}
-                                    selected={currentEntity === 'equ-bun'}
-                                  >
-                                    Equipment Bundles
                           </MenuItem>
                                 </MenuList>
                               </ClickAwayListener>
