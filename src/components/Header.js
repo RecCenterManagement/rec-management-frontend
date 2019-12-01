@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import { useDispatch, useSelector } from 'react-redux'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import { Button, MenuList, useMediaQuery, useTheme } from '@material-ui/core'
+import { Button, MenuList, useMediaQuery, useTheme, Divider } from '@material-ui/core'
 import RecDrawer from './RecDrawer'
 import Grow from '@material-ui/core/Grow'
 import Paper from '@material-ui/core/Paper'
@@ -186,12 +186,21 @@ const Header = () => {
                                 <MenuList>
                                   <MenuItem
                                     component={Link}
+                                    to="/reservation-management"
+                                    onClick={() => handleEntityClick('res-man')}
+                                    selected={currentEntity === 'res-man'}
+                                  >
+                                    Reservation Management
+                          </MenuItem>
+                                  <MenuItem
+                                    component={Link}
                                     to="/users"
                                     onClick={() => handleEntityClick('users')}
                                     selected={currentEntity === 'users'}
                                   >
                                     Users
                           </MenuItem>
+                                  <Divider/>
                                   <MenuItem
                                     component={Link}
                                     to="/facilities"
@@ -231,14 +240,6 @@ const Header = () => {
                                     selected={currentEntity === 'equ-bun'}
                                   >
                                     Equipment Bundles
-                          </MenuItem>
-                                  <MenuItem
-                                component={Link}
-                                to="/reservation-management"
-                                onClick={() => handleEntityClick('res-man')}
-                                selected={currentEntity === 'res-man'}
-                              >
-                                Reservation Management
                           </MenuItem>
                                 </MenuList>
                               </ClickAwayListener>
