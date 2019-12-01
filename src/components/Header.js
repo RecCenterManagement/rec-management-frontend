@@ -150,86 +150,89 @@ const Header = () => {
             <div className={classes.floatDiv}>
               {authenticated && (
                 <>
-                  <Button
-                    color="secondary"
-                    ref={anchorRef}
-                    size="small"
-                    aria-owns={true ? 'menu-list-grow' : undefined}
-                    aria-haspopup="true"
-                    onClick={() => setAdminMenu(true)}
-                  >
-                    Entities
-                <ExpandMore />
-                  </Button>
-                  <Popper
-                    open={adminMenu}
-                    anchorEl={anchorRef.current}
-                    transition
-                    disablePortal
-                    style={{ zIndex: 1 }}
-                  >
-                    {({ TransitionProps, placement }) => (
-                      <Grow
-                        {...TransitionProps}
-                        style={{
-                          transformOrigin:
-                            placement === 'bottom' ? 'center top' : 'center bottom'
-                        }}
+                  {/* BEGIN MANAGE DROPDOWN BLOCK */}
+                  {isAdmin && (
+                    <>
+                      <Button
+                        color="secondary"
+                        ref={anchorRef}
+                        size="small"
+                        aria-owns={true ? 'menu-list-grow' : undefined}
+                        aria-haspopup="true"
+                        onClick={() => setAdminMenu(true)}
                       >
-                        <Paper id="menu-list-grow">
-                          <ClickAwayListener
-                            onClickAway={() => setAdminMenu(false)}
+                        Manage
+                <ExpandMore />
+                      </Button>
+                      <Popper
+                        open={adminMenu}
+                        anchorEl={anchorRef.current}
+                        transition
+                        disablePortal
+                        style={{ zIndex: 1 }}
+                      >
+                        {({ TransitionProps, placement }) => (
+                          <Grow
+                            {...TransitionProps}
+                            style={{
+                              transformOrigin:
+                                placement === 'bottom' ? 'center top' : 'center bottom'
+                            }}
                           >
-                            <MenuList>
-                              <MenuItem
-                                component={Link}
-                                to="/users"
-                                onClick={() => handleEntityClick('users')}
-                                selected={currentEntity === 'users'}
+                            <Paper id="menu-list-grow">
+                              <ClickAwayListener
+                                onClickAway={() => setAdminMenu(false)}
                               >
-                                Users
+                                <MenuList>
+                                  <MenuItem
+                                    component={Link}
+                                    to="/users"
+                                    onClick={() => handleEntityClick('users')}
+                                    selected={currentEntity === 'users'}
+                                  >
+                                    Users
                           </MenuItem>
-                              <MenuItem
-                                component={Link}
-                                to="/facilities"
-                                onClick={() => handleEntityClick('fac')}
-                                selected={currentEntity === 'fac'}
-                              >
-                                Facilities
+                                  <MenuItem
+                                    component={Link}
+                                    to="/facilities"
+                                    onClick={() => handleEntityClick('fac')}
+                                    selected={currentEntity === 'fac'}
+                                  >
+                                    Facilities
                           </MenuItem>
-                              <MenuItem
-                                component={Link}
-                                to="/reservations"
-                                onClick={() => handleEntityClick('res')}
-                                selected={currentEntity === 'res'}
-                              >
-                                Reservations
+                                  <MenuItem
+                                    component={Link}
+                                    to="/reservations"
+                                    onClick={() => handleEntityClick('res')}
+                                    selected={currentEntity === 'res'}
+                                  >
+                                    Reservations
                           </MenuItem>
-                              <MenuItem
-                                component={Link}
-                                to="/equipment"
-                                onClick={() => handleEntityClick('equ')}
-                                selected={currentEntity === 'equ'}
-                              >
-                                Equipment
+                                  <MenuItem
+                                    component={Link}
+                                    to="/equipment"
+                                    onClick={() => handleEntityClick('equ')}
+                                    selected={currentEntity === 'equ'}
+                                  >
+                                    Equipment
                           </MenuItem>
-                              <MenuItem
-                                component={Link}
-                                to="/equipment-reservations"
-                                onClick={() => handleEntityClick('equ-res')}
-                                selected={currentEntity === 'equ-res'}
-                              >
-                                Equipment Reservations
+                                  <MenuItem
+                                    component={Link}
+                                    to="/equipment-reservations"
+                                    onClick={() => handleEntityClick('equ-res')}
+                                    selected={currentEntity === 'equ-res'}
+                                  >
+                                    Equipment Reservations
                           </MenuItem>
-                              <MenuItem
-                                component={Link}
-                                to="/equipment-bundles"
-                                onClick={() => handleEntityClick('equ-bun')}
-                                selected={currentEntity === 'equ-bun'}
-                              >
-                                Equipment Bundles
+                                  <MenuItem
+                                    component={Link}
+                                    to="/equipment-bundles"
+                                    onClick={() => handleEntityClick('equ-bun')}
+                                    selected={currentEntity === 'equ-bun'}
+                                  >
+                                    Equipment Bundles
                           </MenuItem>
-                              <MenuItem
+                                  <MenuItem
                                 component={Link}
                                 to="/reservation-management"
                                 onClick={() => handleEntityClick('res-man')}
@@ -237,12 +240,15 @@ const Header = () => {
                               >
                                 Reservation Management
                           </MenuItem>
-                            </MenuList>
-                          </ClickAwayListener>
-                        </Paper>
-                      </Grow>
-                    )}
-                  </Popper>
+                                </MenuList>
+                              </ClickAwayListener>
+                            </Paper>
+                          </Grow>
+                        )}
+                      </Popper>
+                    </>
+                  )}
+                  {/* END MANAGE DROPDOWN BLOCK */}
                   <IconButton
                     id="account-icon-button"
                     aria-label="account of current user"
