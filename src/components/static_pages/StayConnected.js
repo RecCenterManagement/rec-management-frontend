@@ -141,8 +141,6 @@ const StayConnected = () => {
               <i>You can unsubscribe at any time.</i>
               <br />
               <br />
-
-              <br />
               <br />
             </a>
           </Container>
