@@ -260,6 +260,7 @@ const ReservationManagement = () => {
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
+        setPage(0);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -398,10 +399,11 @@ const ReservationManagement = () => {
                                 onChangeRowsPerPage={handleChangeRowsPerPage}
                             />
                         </Paper>
+                        {/*
                         <FormControlLabel
                             control={<Switch checked={dense} onChange={handleChangeDense} />}
                             label="Dense padding"
-                        />
+                        />*/}
                     </Container>
                 </TabPanel>
                 
@@ -492,10 +494,11 @@ const ReservationManagement = () => {
                                 onChangeRowsPerPage={handleChangeRowsPerPage}
                             />
                         </Paper>
+                        {/*
                         <FormControlLabel
                             control={<Switch checked={dense} onChange={handleChangeDense} />}
                             label="Dense padding"
-                        />
+                        />*/}
                     </Container>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
@@ -585,10 +588,11 @@ const ReservationManagement = () => {
                                 onChangeRowsPerPage={handleChangeRowsPerPage}
                             />
                         </Paper>
+                        {/*
                         <FormControlLabel
                             control={<Switch checked={dense} onChange={handleChangeDense} />}
                             label="Dense padding"
-                        />
+                        />*/}
                     </Container>
                 </TabPanel>
                 <TabPanel value={value} index={3}>
@@ -670,10 +674,11 @@ const ReservationManagement = () => {
                                 onChangeRowsPerPage={handleChangeRowsPerPage}
                             />
                         </Paper>
+                        {/*
                         <FormControlLabel
                             control={<Switch checked={dense} onChange={handleChangeDense} />}
                             label="Dense padding"
-                        />
+                        />*/}
                     </Container>
                 </TabPanel>
             </div>   
