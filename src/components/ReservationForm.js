@@ -111,7 +111,7 @@ const ReservationsDialog = props => {
           disabled={!editable}
           style={{ margin: '12px' }}
           id="name"
-          error={(entity.estimatedParticipants > getCapacity()) }
+          error={(entity.estimatedParticipants > getCapacity()) || (entity.estimatedParticipants <= 0) }
           label="Estimated Participants"
           value={entity.estimatedParticipants}
           type="number"
