@@ -346,8 +346,14 @@ const ReservationManagement = () => {
                                                         <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
                                                         <TableCell align="center">{row.event}</TableCell>
                                                         <TableCell align="center">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="center">{new Date (row.startTime).toDateString()}</TableCell>
-                                                        <TableCell align="center">{new Date (row.endTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">
+                                                            <div>{new Date (row.startTime).toDateString()}</div>
+                                                            <div>{new Date(row.startTime).toLocaleTimeString()}</div>
+                                                       </TableCell>
+                                                       <TableCell align="center">
+                                                            <div>{new Date (row.endTime).toDateString()}</div>
+                                                            <div>{new Date(row.endTime).toLocaleTimeString()}</div>
+                                                        </TableCell>
                                                         <TableCell align="center">{row.status}</TableCell>
                                                         <TableCell align="center">
                                                             {row.actions}
@@ -444,8 +450,14 @@ const ReservationManagement = () => {
                                                         <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
                                                         <TableCell align="center">{row.event}</TableCell>
                                                         <TableCell align="center">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="center">{new Date (row.startTime).toDateString()}</TableCell>
-                                                        <TableCell align="center">{new Date (row.endTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">
+                                                            <div>{new Date (row.startTime).toDateString()}</div>
+                                                            <div>{new Date(row.startTime).toLocaleTimeString()}</div>
+                                                       </TableCell>
+                                                       <TableCell align="center">
+                                                            <div>{new Date (row.endTime).toDateString()}</div>
+                                                            <div>{new Date(row.endTime).toLocaleTimeString()}</div>
+                                                        </TableCell>
                                                         <TableCell align="center">{row.status}</TableCell>
                                                         <TableCell align="center">
                                                             {row.actions}   
@@ -538,8 +550,14 @@ const ReservationManagement = () => {
                                                         <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
                                                         <TableCell align="center">{row.event}</TableCell>
                                                         <TableCell align="center">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="center">{new Date (row.startTime).toDateString()}</TableCell>
-                                                        <TableCell align="center">{new Date (row.endTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">
+                                                            <div>{new Date (row.startTime).toDateString()}</div>
+                                                            <div>{new Date(row.startTime).toLocaleTimeString()}</div>
+                                                       </TableCell>
+                                                       <TableCell align="center">
+                                                            <div>{new Date (row.endTime).toDateString()}</div>
+                                                            <div>{new Date(row.endTime).toLocaleTimeString()}</div>
+                                                        </TableCell>
                                                         <TableCell align="center">{row.status}</TableCell>
                                                         <TableCell align="center">
                                                             {row.actions}
@@ -632,8 +650,14 @@ const ReservationManagement = () => {
                                                         <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
                                                         <TableCell align="center">{row.event}</TableCell>
                                                         <TableCell align="center">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="center">{new Date (row.startTime).toDateString()}</TableCell>
-                                                        <TableCell align="center">{new Date (row.endTime).toDateString()}</TableCell>
+                                                        <TableCell align="center">
+                                                            <div>{new Date (row.startTime).toDateString()}</div>
+                                                            <div>{new Date (row.startTime).toLocaleTimeString()}</div>
+                                                       </TableCell>
+                                                       <TableCell align="center">
+                                                            <div>{new Date (row.endTime).toDateString()}</div>
+                                                            <div>{new Date (row.endTime).toLocaleTimeString()}</div>
+                                                        </TableCell>
                                                         <TableCell align="center">{row.status}</TableCell>
                                                         <TableCell align="center">
                                                             {row.actions}
