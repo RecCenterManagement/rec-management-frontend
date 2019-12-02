@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { SUCCESS, REQUEST, FAILURE } from './actions-util'
+import {getUserAccount} from './authentication'
 
 export const FETCH_PROFILE_PICTURES = 'PROFILE_PICTURES/FETCH_PROFILE_PICTURES'
 export const POST_PROFILE_PICTURES = 'PROFILE_PICTURES/POST_PROFILE_PICTURES'
@@ -32,6 +33,7 @@ export const create_profile_picture = image => async dispatch => {
       .post('api/profile-pictures?eagerFetch=true', image)
       .then(result => {
         dispatch({ type: SUCCESS(POST_PROFILE_PICTURES), payload: result.data })
+        dispatch(getUserAccount())
       })
       .catch(error => {
         console.error(error)
@@ -49,6 +51,7 @@ export const put_profile_picture = image => async dispatch => {
       .put('api/profile-pictures?eagerFetch=true', image)
       .then(result => {
         dispatch({ type: SUCCESS(POST_PROFILE_PICTURES), payload: result.data })
+        dispatch(getUserAccount())
       })
       .catch(error => {
         console.error(error)
@@ -68,6 +71,7 @@ export const delete_profile_picture = id => {
           type: SUCCESS(DELETE_PROFILE_PICTURES),
           payload: result.data
         })
+        dispatch(getUserAccount())
       })
       .catch(error => {
         console.error(error)
