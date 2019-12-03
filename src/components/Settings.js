@@ -66,7 +66,6 @@ const Settings = () => {
 
   const [image, setImage] = useState(img)
   const [pictureData, setPictureData] = useState({
-    id: Math.floor(Math.random() * 1000),
     user: {
       activated: account.activated,
       email: account.email,
@@ -117,7 +116,6 @@ const Settings = () => {
         setImage({ ...image, imageData, imageDataContentType })
         setPictureData({
           ...pictureData,
-          id: 1053,
           imageData,
           imageDataContentType
         })
@@ -126,6 +124,7 @@ const Settings = () => {
     }
   }
   const handleSaveUpload = () => {
+    /*
     if (pictureData.id) {
       dispatch(put_profile_picture(pictureData))
       console.log('uploading')
@@ -134,6 +133,8 @@ const Settings = () => {
       create_profile_picture(pictureData)
       console.log('creating')
     }
+    */
+    dispatch(create_profile_picture(pictureData))
     setUploadInfo({ ...uploadInfo, name: null })
   }
 
@@ -238,12 +239,8 @@ const Settings = () => {
                 type='file'
                 onChange={e => handleUpload(e)}
               />
-              <InputLabel htmlFor='raised-button-file'>
-                <Button color='secondary' variant='raised' component='span'>
-                  Upload
-                </Button>
-              </InputLabel>
-              {uploadInfo && uploadInfo.name && (
+              
+              {uploadInfo && uploadInfo.name ? (
                 <>
                   <Typography>{uploadInfo.name}</Typography>
                   <Button
@@ -257,8 +254,15 @@ const Settings = () => {
                     Cancel
                   </Button>
                 </>
+              ) : 
+              (
+                <InputLabel htmlFor='raised-button-file'>
+                <Button color='secondary' variant='raised' component='span'>
+                  Upload
+                </Button>
+              </InputLabel>
               )}
-              {img && (
+              {img && !(uploadInfo && uploadInfo.name) && (
                 <Button size='small' onClick={handleDelete}>
                   Delete
                 </Button>
