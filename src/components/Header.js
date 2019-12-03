@@ -121,7 +121,7 @@ const Header = () => {
   }
 
   const handleEntityClick = name => {
-    setCurrentEntity(name)
+    // setCurrentEntity(name)
     setAdminMenu(false)
   }
 
