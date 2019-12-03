@@ -124,16 +124,6 @@ const Settings = () => {
     }
   }
   const handleSaveUpload = () => {
-    /*
-    if (pictureData.id) {
-      dispatch(put_profile_picture(pictureData))
-      console.log('uploading')
-
-    } else {
-      create_profile_picture(pictureData)
-      console.log('creating')
-    }
-    */
     dispatch(create_profile_picture(pictureData))
     setUploadInfo({ ...uploadInfo, name: null })
   }
