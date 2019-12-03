@@ -48,12 +48,12 @@ const Membership = () => {
           <br />
           <Paper className={classes.root}>
             <Table className={classes.table} aria-label='simple table'>
-              <TableHead className={classes.th}>
+              <TableHead className={classes.table}>
                 <TableRow>
-                  <TableCell>Student</TableCell>
-                  <TableCell>1 Month</TableCell>
-                  <TableCell>4 Month</TableCell>
-                  <TableCell>12 Month</TableCell>
+                  <TableCell><b>Student</b></TableCell>
+                  <TableCell><b>1 Month</b></TableCell>
+                  <TableCell><b>4 Month</b></TableCell>
+                  <TableCell><b>12 Month</b></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -102,12 +102,12 @@ const Membership = () => {
           <br />
           <Paper className={classes.root}>
             <Table className={classes.table} aria-label='simple table'>
-              <TableHead className={classes.th}>
+              <TableHead className={classes.table}>
                 <TableRow>
-                  <TableCell>Employees</TableCell>
-                  <TableCell>1 Month</TableCell>
-                  <TableCell>4 Month</TableCell>
-                  <TableCell>12 Month</TableCell>
+                  <TableCell><b>Employees</b></TableCell>
+                  <TableCell><b>1 Month</b></TableCell>
+                  <TableCell><b>4 Month</b></TableCell>
+                  <TableCell><b>12 Month</b></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -154,12 +154,12 @@ const Membership = () => {
           <br />
           <Paper className={classes.root}>
             <Table className={classes.table} aria-label='simple table'>
-              <TableHead className={classes.th}>
+              <TableHead className={classes.table}>
                 <TableRow>
-                  <TableCell>Community</TableCell>
-                  <TableCell>1 Month</TableCell>
-                  <TableCell>4 Month</TableCell>
-                  <TableCell>12 Month</TableCell>
+                  <TableCell><b>Community</b></TableCell>
+                  <TableCell><b>1 Month</b></TableCell>
+                  <TableCell><b>4 Month</b></TableCell>
+                  <TableCell><b>12 Month</b></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -190,7 +190,7 @@ const Membership = () => {
           residence as the primary member can be added to their account.
           <br />
           <b>Dependent:</b> Those ages 2-17 can be added to the parent/legal
-          guardian member's account. account.
+          guardian member's account. 
           <br />
           <br />
           <br />

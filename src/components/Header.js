@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
+import Avatar from '@material-ui/core/Avatar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
@@ -92,6 +93,7 @@ const Header = () => {
   const authenticated = useSelector(
     state => state.authentication.isAuthenticated
   )
+  const avatarUrl = useSelector(state => state.authentication.account.imageUrl)
   const roles = useSelector(state => state.authentication.account.authorities)
   let isAdmin = false
   if (roles) {
@@ -118,7 +120,7 @@ const Header = () => {
   }
 
   const handleEntityClick = name => {
-    setCurrentEntity(name)
+    // setCurrentEntity(name)
     setAdminMenu(false)
   }
 
@@ -258,7 +260,11 @@ const Header = () => {
                     onClick={handleClick}
                     color="inherit"
                   >
-                    <AccountCircle />
+                    {(avatarUrl == null || avatarUrl == "") ? 
+                    <AccountCircle /> :
+                    <Avatar src={avatarUrl} onClick={handleClick}></Avatar>
+                  }
+                    
                   </IconButton>
                   <Menu
                     id="menu-appbar"
