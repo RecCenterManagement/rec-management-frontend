@@ -32,7 +32,11 @@ import {
   KeyboardDatePicker
 } from '@material-ui/pickers'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllUsers, updateUser, deleteUser } from '../../actions/user-management'
+import {
+  getAllUsers,
+  updateUser,
+  deleteUser
+} from '../../actions/user-management'
 import {
   getMembership,
   getMemberships,
@@ -352,67 +356,85 @@ const UsersDialog = props => {
         <Divider />
         <Typography variant='h6'>Membership Information</Typography>
         {membership || addMembership ? (
-            <Grid  container direction="row">
-            <FormControl className={classes.formControl}>
-              <InputLabel id='membership'>Membership</InputLabel>
-              <Select
-                disabled={!editable}
-                labelId='membership-select'
-                id='membership-select'
-                defaultValue={
-                  membershipEntity
-                    ? membershipEntity.membershipType
-                    : 'COMMUNITY'
-                }
-                value={
-                  membershipEntity
-                    ? membershipEntity.membershipType
-                    : 'COMMUNITY'
-                }
-                onChange={handleChangeMembershipType('membershipType')}
-                input={<Input />}
-              >
-                {memberships.map(membership => (
-                  <MenuItem key={membership} value={membership}>
-                    {membership
-                      .toLowerCase()
-                      .replace(/\w/, e => e.toUpperCase())}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container justify='flex-start'>
-                <KeyboardDatePicker
+          <Grid container direction='column' justify='flex-start'>
+            <Grid item>
+              <FormControl className={classes.formControl}>
+                <InputLabel id='membership'>Membership</InputLabel>
+                <Select
                   disabled={!editable}
-                  margin='12px'
-                  id={'membershipDate'}
-                  label='Membership Expiration Date'
-                  value={
-                    membershipEntity ? membershipEntity.expirationDate : 'N/A'
+                  labelId='membership-select'
+                  id='membership-select'
+                  defaultValue={
+                    membershipEntity
+                      ? membershipEntity.membershipType
+                      : 'COMMUNITY'
                   }
-                  onChange={handleMembershipExpirationDate}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date'
-                  }}
-                  disablePast
-                  format='yyyy/MM/dd'
-                />
-                </Grid>
-            </MuiPickersUtilsProvider>
-            {membershipEntity && (
-              <Typography variant='h7'>
-                {membershipEntity.expirationDate <= new Date()
-                  ? 'Membership is expired'
-                  : 'Membership is active'}
-              </Typography>
-            )}
-            <Button onClick={() => handleDeleteMembership(membership)}>
-              Delete Membership
-            </Button>
+                  value={
+                    membershipEntity
+                      ? membershipEntity.membershipType
+                      : 'COMMUNITY'
+                  }
+                  onChange={handleChangeMembershipType('membershipType')}
+                  input={<Input />}
+                >
+                  {memberships.map(membership => (
+                    <MenuItem key={membership} value={membership}>
+                      {membership
+                        .toLowerCase()
+                        .replace(/\w/, e => e.toUpperCase())}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
+            <Grid item>
+              <MuiPickersUtilsProvider
+                utils={DateFnsUtils}
+                className={classes.formControl}
+              >
+                <Grid container justify='flex-start'>
+                  <KeyboardDatePicker
+                    className={classes.formControl}
+                    disabled={!editable}
+                    id={'membershipDate'}
+                    margin='normal'
+                    label='Membership Expiration Date'
+                    value={
+                      membershipEntity ? membershipEntity.expirationDate : 'N/A'
+                    }
+                    onChange={handleMembershipExpirationDate}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date'
+                    }}
+                    disablePast
+                    format='yyyy/MM/dd'
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
+            </Grid>
+            <Grid item>
+              {membershipEntity && (
+                <Typography variant='h7' className={classes.formControl}>
+                  {membershipEntity.expirationDate <= new Date()
+                    ? 'Membership is expired'
+                    : 'Membership is active'}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item>
+              <Button
+                className={classes.formControl}
+                disabled={!editable}
+                onClick={() => handleDeleteMembership(membership)}
+              >
+                Delete Membership
+              </Button>
+            </Grid>
+          </Grid>
         ) : (
-          <Button onClick={handleAddMembership}> Add Membership</Button>
+          <Button disabled={!editable} onClick={handleAddMembership}>
+            Add Membership
+          </Button>
         )}
       </DialogContent>
       {editable && (

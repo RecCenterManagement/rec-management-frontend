@@ -4,6 +4,7 @@ import { warning, error, success } from './notification'
 
 export const GET_FACILITIES = 'facilities/GET_FACILITIES'
 export const PUT_FACILITY = 'facilities/PUT_FACILITY'
+export const POST_FACILITY = 'facilities/POST_FACILITY'
 export const DELETE_FACILITY = 'facilities/DELETE_FACILITY'
 
 export const AUTH_KEY = 'ou-rcm-auth-token'
@@ -18,11 +19,34 @@ export const get_facilities = () => {
       })
       .catch(errorData => {
         dispatch({ type: FAILURE(GET_FACILITIES), payload: errorData })
-        dispatch(warning("Failed to fetch facilities."));
+        dispatch(warning('Failed to fetch facilities.'))
       })
   }
 }
-
+export const post_facility = entity => {
+  return (dispatch, getState) => {
+    dispatch({ type: REQUEST(POST_FACILITY), payload: {} })
+    axios
+      .post('api/facilities', entity)
+      .then(result => {
+        const old_entities = getState().facilities.entities
+        const new_entities = old_entities.map(element => {
+          return element.id === entity.id ? entity : element
+        })
+        dispatch({ type: SUCCESS(POST_FACILITY), payload: new_entities })
+        dispatch(success('Added facility successfully.'))
+      })
+      .catch(errorData => {
+        dispatch({ type: FAILURE(POST_FACILITY), payload: errorData })
+        dispatch(error('Failed to add facility.'))
+      })
+      .finally(() => {
+        // Call in both cases, error or success.
+        // Triggers only after the request completes, avoiding code duplication.
+        dispatch(get_facilities())
+      })
+  }
+}
 export const put_facility = entity => {
   return (dispatch, getState) => {
     dispatch({ type: REQUEST(PUT_FACILITY), payload: {} })
@@ -34,11 +58,11 @@ export const put_facility = entity => {
           return element.id === entity.id ? entity : element
         })
         dispatch({ type: SUCCESS(PUT_FACILITY), payload: new_entities })
-        dispatch(success("Updated facility successfully."));
+        dispatch(success('Updated facility successfully.'))
       })
       .catch(errorData => {
         dispatch({ type: FAILURE(PUT_FACILITY), payload: errorData })
-        dispatch(error("Failed to update facility."));
+        dispatch(error('Failed to update facility.'))
       })
       .finally(() => {
         // Call in both cases, error or success.
@@ -55,11 +79,11 @@ export const delete_facility = id => {
       .delete(`api/facilities/${id}`)
       .then(result => {
         dispatch({ type: SUCCESS(DELETE_FACILITY), payload: result.data })
-        dispatch(success("Deleted facility successfully."));
+        dispatch(success('Deleted facility successfully.'))
       })
       .catch(errorData => {
         dispatch({ type: FAILURE(DELETE_FACILITY), payload: errorData })
-        dispatch(error("Failed to delete facility."));
+        dispatch(error('Failed to delete facility.'))
       })
       .finally(() => {
         // Call in both cases, error or success.
