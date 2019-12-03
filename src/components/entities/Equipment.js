@@ -13,11 +13,18 @@ import {
   DialogActions,
   DialogTitle,
   DialogContent,
-  TextField
+  TextField,
+  IconButton
 } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { get_equipment, put_equipment, delete_equipment } from '../../actions/equipment'
+import {
+  get_equipment,
+  post_equipment,
+  put_equipment,
+  delete_equipment
+} from '../../actions/equipment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,7 +51,7 @@ const Reservations = props => {
   }
 
   const handleOpen = (type, entity) => {
-    if (type === 'edit') {
+    if (type === 'edit' || type === 'new') {
       setEditable(true)
     } else {
       setEditable(false)
@@ -53,7 +60,7 @@ const Reservations = props => {
     setOpen(true)
   }
 
-  const handleDelete = (entity) => {
+  const handleDelete = entity => {
     dispatch(delete_equipment(entity.id))
   }
 
@@ -64,24 +71,40 @@ const Reservations = props => {
   return (
     <>
       <Card className={classes.root}>
-        <CardHeader className={classes.cardHeader} title="Equipment Entities" />
-        <Table aria-label="simple table">
+        <CardHeader
+          className={classes.cardHeader}
+          title='Equipment Entities'
+          action={
+            <IconButton
+              color='inherit'
+              onClick={() => handleOpen('new', null)}
+              aria-label='add'
+            >
+              <AddIcon />
+            </IconButton>
+          }
+        />
+        <Table aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell align="left">ID</TableCell>
-              <TableCell align="left">Name</TableCell>
-              <TableCell align="center">Actions</TableCell>
+              <TableCell align='left'>ID</TableCell>
+              <TableCell align='left'>Name</TableCell>
+              <TableCell align='left'>Inventory Size</TableCell>
+
+              <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {entities &&
               entities.map(row => (
                 <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {row.id}
                   </TableCell>
-                  <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align='left'>{row.name}</TableCell>
+                  <TableCell align='left'>{row.inventorySize}</TableCell>
+
+                  <TableCell align='center'>
                     <ButtonGroup>
                       <Button onClick={() => handleOpen('view', row)}>
                         View
@@ -112,15 +135,20 @@ const EquipmentDialog = props => {
   const dispatch = useDispatch()
 
   const [entity, setEntity] = useState({
-    id: 0,
-    name: ''
+    name: '',
+    inventorySize: 0
   })
 
   useEffect(() => {
-    setEntity({
-      id: props.entity.id,
-      name: props.entity.name
-    })
+    if (props.entity) {
+      setEntity({
+        id: props.entity.id,
+        name: props.entity.name,
+        inventorySize: props.entity.inventorySize
+      })
+    } else {
+      setEntity({ name: '', inventorySize: 0 })
+    }
   }, [props.entity])
 
   const handleChange = name => event => {
@@ -128,19 +156,24 @@ const EquipmentDialog = props => {
   }
 
   const handleSave = () => {
-    dispatch(put_equipment(entity))
+    if (props.entity) {
+      dispatch(put_equipment(entity))
+    } else {
+      dispatch(post_equipment(entity))
+    }
+    setEntity({ name: '', inventorySize: 0 })
     handleClose()
   }
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
-      <DialogTitle id="form-dialog-title">Equipment Editor</DialogTitle>
+      <DialogTitle id='form-dialog-title'>Equipment Editor</DialogTitle>
       <DialogContent>
         <TextField
           style={{ margin: '12px' }}
-          id="id"
-          label="Entity ID"
-          type="text"
+          id='id'
+          label='Entity ID'
+          type='text'
           fullWidth
           disabled
           value={entity.id}
@@ -148,20 +181,30 @@ const EquipmentDialog = props => {
         <TextField
           disabled={!editable}
           style={{ margin: '12px' }}
-          id="name"
-          label="Entity Name"
+          id='name'
+          label='Entity Name'
           value={entity.name}
-          type="text"
+          type='text'
           onChange={handleChange('name')}
+          fullWidth
+        />
+        <TextField
+          disabled={!editable}
+          style={{ margin: '12px' }}
+          id='inventorySize'
+          label='Inventory Size'
+          value={entity.inventorySize}
+          type='number'
+          onChange={handleChange('inventorySize')}
           fullWidth
         />
       </DialogContent>
       {editable && (
         <DialogActions>
-          <Button onClick={handleSave} color="secondary">
+          <Button onClick={handleSave} color='secondary'>
             Cancel
           </Button>
-          <Button onClick={handleSave} color="secondary">
+          <Button onClick={handleSave} color='secondary'>
             Save
           </Button>
         </DialogActions>
