@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import RecCenterVector from '../static/RecCenter.svg'
-import { Button } from '@material-ui/core'
+import { Button, Tooltip } from '@material-ui/core'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import RecCalendar from './RecCalendarCreate'
@@ -136,14 +136,18 @@ const Home = () => {
               Create<br/>Reservation
             </Button>
           ) : (
-            <Button
-              className={classes.homeButton}
-              color="secondary"
-              variant="outlined"
-              disabled
-            >
-              Create<br/>Reservation<br/>(Login Required)
-            </Button>
+            <Tooltip title="Login required">
+              <Button
+                component={Link}
+                to="/login"
+                className={classes.homeButton}
+                color="secondary"
+                variant="outlined"
+              >
+                Create<br/>Reservation<br/>
+              </Button>
+
+            </Tooltip>
           )}
         </div>
         <span className={classes.homepagetitle}>
