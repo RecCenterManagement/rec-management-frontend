@@ -188,7 +188,6 @@ const FacilitiesDialog = props => {
   }
 
   const handleChangeCheckbox = name => event => {
-    console.log(name, event.target.checked)
     setEntity({ ...entity, [name]: event.target.checked })
   }
 
