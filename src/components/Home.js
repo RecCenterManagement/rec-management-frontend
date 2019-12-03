@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import RecCenterVector from '../static/RecCenter.svg'
-import { Button } from '@material-ui/core'
+import { Button, Tooltip } from '@material-ui/core'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import RecCalendar from './RecCalendarCreate'
@@ -10,9 +10,14 @@ const useStyles = makeStyles(theme => ({
   backgroundHome: {
     background: `url(${RecCenterVector}) no-repeat right center`,
     backgroundColor: '#343434',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    position: 'relative',
+    height: 'calc(100vh - 64px)'
   },
   homepagetitle: {
+    position: 'absolute',
+    bottom: 12,
+    right: 12,
     fontSize: '2em',
     color: 'white',
     fontWeight: 'bold',
@@ -34,6 +39,12 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       height: '75px',
       width: '100%'
+    },
+    "&.Mui-disabled": {
+      backgroundColor: "darkgray",
+    },
+    "& .MuiButton-label": {
+      textAlign: "center",
     }
   },
   homeButtonContainer: {
@@ -112,9 +123,9 @@ const Home = () => {
             color="secondary"
             variant="outlined"
           >
-            View Reservations
+            Preview Reservations
           </Button>
-          { authenticated && (
+          {authenticated ? (
             <Button
               component={Link}
               to="/create-reservation"
@@ -122,9 +133,22 @@ const Home = () => {
               color="secondary"
               variant="outlined"
             >
-              Create Reservation
+              Create<br/>Reservation
             </Button>
-          ) }
+          ) : (
+            <Tooltip title="Login required">
+              <Button
+                component={Link}
+                to="/login"
+                className={classes.homeButton}
+                color="secondary"
+                variant="outlined"
+              >
+                Create<br/>Reservation<br/>
+              </Button>
+
+            </Tooltip>
+          )}
         </div>
         <span className={classes.homepagetitle}>
           {' '}

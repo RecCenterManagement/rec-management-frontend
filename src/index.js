@@ -10,16 +10,16 @@ import * as serviceWorker from './serviceWorker'
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#b89f74',
-      main: '#877148',
-      dark: '#58461f',
-      contrastText: '#fff'
+      light: '#B89F74', // Primary Light
+      main: '#877148', // Heritage Gold
+      dark: '#58461F', // Primary Dark
+      contrastText: '#FFF'
     },
     secondary: {
-      light: '#56a2ea',
-      main: '#0074b7',
-      dark: '#004987',
-      contrastText: '#fff'
+      light: '#00B398', // Accent Teal
+      main: '#0086BF', // Accent Blue
+      dark: 'purple', // Accent Purple
+      contrastText: '#FFF'
     }
   }
 })

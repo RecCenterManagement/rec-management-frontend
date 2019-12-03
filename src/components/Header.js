@@ -36,7 +36,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#1f242b'
   },
   floatContainer: {
-    width: "100%"
   },
   floatDiv: {
     float: "right"
@@ -145,7 +144,7 @@ const Header = () => {
               component={Link}
               to="/"
             >
-              RecCenterManagement
+              Oakland University Recreation Center
           </Typography>
           )}
           <div className={classes.floatContainer}>

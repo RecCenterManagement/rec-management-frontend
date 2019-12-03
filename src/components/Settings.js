@@ -217,7 +217,7 @@ const Settings = () => {
                     : img &&
                     `data:${img.imageDataContentType};base64,${img.imageData}`
                 }
-                title='Contemplative Reptile'
+                title='Your Profile Picture'
               />
             </CardActionArea>
             <CardContent>
