@@ -60,17 +60,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ToggleButton = ({ room_name, state, setState }) => {
+const ToggleButton = ({ room_name, state, setState, style, ...others }) => {
   const onClick = () => {
     setState(oldState => !oldState);
   };
 
   return (
     <Button
-      style={{ height: 64, margin: 16 }}
+      style={{ height: 64, margin: 16, ...style }}
       variant="contained"
       color={state ? "primary" : "default"}
       onClick={onClick}
+      { ...others }
     >
       {room_name}
     </Button>
@@ -180,10 +181,28 @@ const RecCalendar = () => {
     }
   };
 
+  const getEventColor = (event) => {
+    let eventFacilities = event.facilities;
+
+    const color1 = event.facilities[0].colorCode;
+    if (eventFacilities.length === 1) {
+      return color1;
+    }
+
+    const color2 = event.facilities[1].colorCode;
+    if (eventFacilities.length == 2) {
+      return `linear-gradient(to right, ${color1}, ${color1} 50%, ${color2} 50%)`;
+    }
+
+    const color3 = event.facilities[2].colorCode;
+    return `linear-gradient(to right, ${color1}, ${color1} 33%, ${color2} 33%, ${color2} 66%, ${color3} 66%)`;
+  };
+
   // Determine the properties of an event, including its CSS style.
   const getEventProperties = (event, start, end, isSelected) => {
     return {
-      className: event.temporary ? classes.temporaryEvent : null
+      className: event.temporary ? classes.temporaryEvent : null,
+      style: { backgroundImage: getEventColor(event)}
     };
   };
 
@@ -272,6 +291,8 @@ const RecCalendar = () => {
               state={buttonStates[`${facility.id}`]}
               setState={setButtonState(`${facility.id}`)}
               room_name={facility.name}
+              style={buttonStates[`${facility.id}`] ? 
+                {borderBottom: `12px solid ${facility.colorCode}`} : null}
             />
           );
         })}
