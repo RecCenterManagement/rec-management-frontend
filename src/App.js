@@ -29,6 +29,7 @@ import FitnessCourt from './components/static_pages/FitnessCourt'
 import OutdoorComplex from './components/static_pages/OutdoorComplex'
 import PlannedProjects from './components/static_pages/PlannedProjects'
 import Notification from "./components/Notification"
+import Policies from "./components/static_pages/Policies"
 
 
 function App() {
@@ -86,6 +87,7 @@ function App() {
         <Route path="/fitnesscourt" component={FitnessCourt} />
         <Route path="/outdoorcomplex" component={OutdoorComplex} />
         <Route path="/plannedprojects" component={PlannedProjects} />
+        <Route path="/policies" component={Policies} />
         <Route
           path="/"
           render={props => props.location.pathname !== "/login" && <Footer />}
