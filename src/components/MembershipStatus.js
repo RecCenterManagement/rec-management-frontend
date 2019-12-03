@@ -17,6 +17,10 @@ const useStyles = makeStyles(theme => ({
         fontSize: '1.5rem',
         fontWeight: '400',
 
+    },
+    statusValue : {
+        fontSize: '1.3rem',
+        fontWeight: 'bold',
     }
 }))
 
@@ -87,11 +91,11 @@ const MembershipStatus = props => {
                     </section>
                     <section className={classes.contentSection}>
                         <h2 className={classes.statusHeader}>Membership type</h2>
-                        <p>{membershipType}</p>
+                        <p className={classes.statusValue}>{membershipType}</p>
                     </section>
                     <section className={classes.contentSection}>
                         <h2 className={classes.statusHeader}>Expiration date</h2>
-                        <p>{expirationDate}</p>
+                        <p className={classes.statusValue}>{expirationDate}</p>
                     </section>
                 </div>
             </CardContent>
