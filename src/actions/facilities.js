@@ -12,7 +12,7 @@ export const get_facilities = () => {
   return dispatch => {
     dispatch({ type: REQUEST(GET_FACILITIES), payload: {} })
     axios
-      .get('api/facilities')
+      .get('api/facilities?eagerFetch=true')
       .then(result => {
         dispatch({ type: SUCCESS(GET_FACILITIES), payload: result.data })
       })

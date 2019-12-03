@@ -37,6 +37,8 @@ const ReservationsDialog = props => {
     status: 'PENDING'
   })
 
+  const [bundle_checked, set_bundle_checked] = useState({})
+  let bundles = []
   // Facilities currently selected.
   const filteredFacilities = allFacilities.filter(facility => entity.facilities != null && entity.facilities.includes(String(facility.id)))
 
@@ -54,6 +56,16 @@ const ReservationsDialog = props => {
         equipmentReservations: props.entity.equipmentReservations,
       }))
       dispatch(get_facilities)
+      if (allFacilities && filteredFacilities) {
+        let temp_dictionary = {}
+        filteredFacilities.forEach(facility => {
+          facility.equipmentBundles.forEach(bundle => {
+            let associated_equipment = bundle.claims.map(claim => ({count: claim.count, equipment_name: claim.equipment.name, equipment_id: claim.equipment.id}))
+            temp_dictionary = {...temp_dictionary, [bundle.id]: {selected: false, name: bundle.name, id: bundle.id, equipment: associated_equipment}}
+          })
+        })
+        set_bundle_checked(temp_dictionary)
+      }
     },
     [dispatch, props.entity]
   )
@@ -63,8 +75,6 @@ const ReservationsDialog = props => {
   }
 
   const getCapacity = () => {
-    console.log("CAPACITY");
-    console.log(filteredFacilities);
     return filteredFacilities.reduce((sum, facility) => (sum + facility.capacity), 0);
   }
 
@@ -79,8 +89,23 @@ const ReservationsDialog = props => {
       return;
     }
 
+    let temp_array=[]
+
+    Object.keys(bundle_checked).forEach(key => {
+      bundle_checked[key].equipment.forEach(claim => {
+        temp_array.push({
+          count: claim.count,
+          equipment: {
+            id: claim.equipment_id,
+            name: claim.equipment_name,
+          }
+        })
+      })
+    })
+
+    const mutated_entity = {...entity, equipmentReservations: temp_array}
     if (create) {
-      dispatch(create_reservation(entity))
+      dispatch(create_reservation(mutated_entity))
     } else {
       dispatch(put_reservation(entity))
     }
@@ -88,10 +113,16 @@ const ReservationsDialog = props => {
     history.push('/submitted')
   }
 
+  const changeBundleSelection = key => {
+    set_bundle_checked({...bundle_checked,
+      [key]: {
+        ...bundle_checked[key],
+        selected: !bundle_checked[key].selected
+      }
+    })
+  }
 
   let facility_names = filteredFacilities.map(e => e.name)
-  let facility_bundle = filteredFacilities.map(e => e.equipmentBundle)
-  const [bundle_checked, set_bundle_checked] = useState({})
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
@@ -149,20 +180,23 @@ const ReservationsDialog = props => {
           onChange={handleChange('facilities')}
           fullWidth
         />
-        {facility_bundle.length === 0 &&
+        {Object.entries(bundle_checked) !== 0 &&
           <FormControl component="fieldset">
                   <FormLabel component="legend">Equipment Bundles</FormLabel>
                   <FormGroup>
-                  {facility_bundle.map(e => {
-                    set_bundle_checked(oldState => ({
-                      ...oldState,
-                      [e.id]: false
-                    }));
+                  {Object.keys(bundle_checked).map(key => {
                     return(
+                      <>
                       <FormControlLabel
-                        control={<Checkbox checked={bundle_checked[e.id]} onChange={() => console.log(e.id)} value={e.id} />}
-                        label={e.name}
-                    />);
+                        control={<Checkbox checked={bundle_checked[key].selected} onChange={() => changeBundleSelection(key)} value={key} />}
+                        label={bundle_checked[key].name}
+                    />
+                    {bundle_checked[key].equipment.map(e => (
+                      <div>{`${e.equipment_name} x ${e.count}`}</div>
+                    ))}
+
+                    </>
+                    );
                   })}
             </FormGroup>
           </FormControl>
