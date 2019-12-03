@@ -192,7 +192,7 @@ const ReservationsDialog = props => {
                         label={bundle_checked[key].name}
                     />
                     {bundle_checked[key].equipment.map(e => (
-                      <div>{`${e.equipment_name} x ${e.count}`}</div>
+                      <div style={{marginLeft: 30, color: 'darkgrey'}}>{`${e.equipment_name} x ${e.count}`}</div>
                     ))}
 
                     </>

@@ -26,14 +26,20 @@ const RecDrawer = props => {
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <List>
-        <ListItem button component={Link} to="/aboutus">
+        <ListItem button component={Link} to="/" onClick={props.onClose}>
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem button component={Link} to="/aboutus" onClick={props.onClose}>
           <ListItemText primary="About" />
         </ListItem>
-        <ListItem button component={Link} to='/facilityhours'>
+        <ListItem button component={Link} to='/facilityhours' onClick={props.onClose}>
           <ListItemText primary='Facility Hours' />
         </ListItem>
-        <ListItem button component={Link} to='/stayconnected'>
+        <ListItem button component={Link} to='/stayconnected' onClick={props.onClose}>
           <ListItemText primary='Stay Connected' />
+        </ListItem>
+        <ListItem button component={Link} to='/membership' onClick={props.onClose}>
+          <ListItemText primary='Membership Info' />
         </ListItem>
 
         <Divider />
@@ -44,22 +50,22 @@ const RecDrawer = props => {
         
         <Collapse in={facilities_open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.nested} button component={Link} to="/aquaticcenter">
+            <ListItem className={classes.nested} button component={Link} to="/aquaticcenter" onClick={props.onClose}>
               <ListItemText primary="Aquatic Center" />
             </ListItem>
-            <ListItem className={classes.nested} button component={Link} to="/recreationcenter">
+            <ListItem className={classes.nested} button component={Link} to="/recreationcenter" onClick={props.onClose}>
               <ListItemText primary="Recreation Center" />
             </ListItem>
-            <ListItem className={classes.nested} button component={Link} to="/fitnesscourt">
+            <ListItem className={classes.nested} button component={Link} to="/fitnesscourt" onClick={props.onClose}>
               <ListItemText primary="Fitness Court" />
             </ListItem>
-            <ListItem className={classes.nested} button component={Link} to="/outdoorcomplex">
+            <ListItem className={classes.nested} button component={Link} to="/outdoorcomplex" onClick={props.onClose}>
               <ListItemText primary="Outdoor Complex" />
             </ListItem>
-            <ListItem className={classes.nested} button component={Link} to="/plannedprojects">
+            <ListItem className={classes.nested} button component={Link} to="/plannedprojects" onClick={props.onClose}>
               <ListItemText primary="Planned Projects" />
             </ListItem>
-            <ListItem className={classes.nested} button component={Link} to="/policies">
+            <ListItem className={classes.nested} button component={Link} to="/policies" onClick={props.onClose}>
               <ListItemText primary="Policies" />
             </ListItem>
           </List>
