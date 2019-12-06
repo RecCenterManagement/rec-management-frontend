@@ -177,49 +177,68 @@ const UsersDialog = props => {
   const [entity, setEntity] = useState({})
   const membership = useSelector(state => state.membership.entity)
   const memberships = ['STUDENT', 'COMMUNITY', 'EMPLOYEE']
-  const [membershipEntity, setMembershipEntity] = useState({
-    id: Math.floor(Math.random() * 10),
-    expirationDate: new Date(),
-    membershipType: 'Unknown'
-  })
-  const [addMembership, setAddMembership] = useState(false)
+  const [membershipVM, setMembershipVM] = useState(null)
+
+  useEffect(() => {
+    if (!open) {
+      setEntity({})
+      setMembershipVM(null)
+    }
+  }, [open]) 
 
   useEffect(() => {
     setEntity(props.entity)
-    membership
-      ? setMembershipEntity(membership)
-      : setMembershipEntity({
-          ...membershipEntity,
-          user: props.entity,
-          id: props.entity.id
-        })
-  }, [props.entity, membership])
+  }, [props.entity])
 
+  useEffect(() => {
+    if (membership != null) {
+      setMembershipVM({
+        expirationDate: membership.expirationDate,
+        id: membership.id,
+        membershipType: membership.membershipType,
+        user: {
+          id: membership.user.id
+        }
+      })
+    }
+    else {
+      setMembershipVM(null)
+    }
+  }, [membership])
+  
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
   }
   const handleUpdate = () => {
     dispatch(updateUser(entity))
-    if (membership) {
-      dispatch(updateMembership(membershipEntity))
-    } else {
-      dispatch(createMembership(membershipEntity))
+    if (membership === null && membershipVM) {
+      dispatch(createMembership(membershipVM))
+    } else if (membership && membershipVM === null) {
+      dispatch(deleteMembership(entity.id))
+    } else if (membership && membershipVM) {
+      dispatch(updateMembership(membershipVM))
     }
     dispatch(getAllUsers())
     handleClose()
   }
 
   const handleChangeMembershipType = name => event => {
-    setMembershipEntity({ ...membershipEntity, [name]: event.target.value })
+    setMembershipVM({ ...membershipVM, [name]: event.target.value })
   }
   const handleAddMembership = () => {
-    setAddMembership(true)
+    setMembershipVM({
+      expirationDate: new Date(),
+      membershipType: 'STUDENT',
+      user: {
+        id: entity.id
+      }
+    })
   }
   const handleMembershipExpirationDate = date => {
-    setMembershipEntity({ ...membershipEntity, expirationDate: date })
+    setMembershipVM({ ...membershipVM, expirationDate: date })
   }
   const handleDeleteMembership = membership => {
-    membership && dispatch(deleteMembership(membership.id))
+    setMembershipVM(null)
   }
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
@@ -355,7 +374,7 @@ const UsersDialog = props => {
         />
         <Divider />
         <Typography variant='h6'>Membership Information</Typography>
-        {membership || addMembership ? (
+        {membershipVM ? (
           <Grid container direction='column' justify='flex-start'>
             <Grid item>
               <FormControl className={classes.formControl}>
@@ -365,13 +384,13 @@ const UsersDialog = props => {
                   labelId='membership-select'
                   id='membership-select'
                   defaultValue={
-                    membershipEntity
-                      ? membershipEntity.membershipType
+                    membershipVM
+                      ? membershipVM.membershipType
                       : 'COMMUNITY'
                   }
                   value={
-                    membershipEntity
-                      ? membershipEntity.membershipType
+                    membershipVM
+                      ? membershipVM.membershipType
                       : 'COMMUNITY'
                   }
                   onChange={handleChangeMembershipType('membershipType')}
@@ -400,7 +419,7 @@ const UsersDialog = props => {
                     margin='normal'
                     label='Membership Expiration Date'
                     value={
-                      membershipEntity ? membershipEntity.expirationDate : 'N/A'
+                      membershipVM ? membershipVM.expirationDate : 'N/A'
                     }
                     onChange={handleMembershipExpirationDate}
                     KeyboardButtonProps={{
@@ -413,9 +432,9 @@ const UsersDialog = props => {
               </MuiPickersUtilsProvider>
             </Grid>
             <Grid item>
-              {membershipEntity && (
+              {membershipVM && (
                 <Typography variant='h7' className={classes.formControl}>
-                  {membershipEntity.expirationDate <= new Date()
+                  {membershipVM.expirationDate <= new Date()
                     ? 'Membership is expired'
                     : 'Membership is active'}
                 </Typography>
@@ -432,10 +451,10 @@ const UsersDialog = props => {
             </Grid>
           </Grid>
         ) : (
-          <Button disabled={!editable} onClick={handleAddMembership}>
-            Add Membership
+            <Button disabled={!editable} onClick={handleAddMembership}>
+              Add Membership
           </Button>
-        )}
+          )}
       </DialogContent>
       {editable && (
         <DialogActions>
