@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { SUCCESS, FAILURE, REQUEST } from './actions-util'
+import { success } from './notification'
 export const FETCH_MEMBERSHIPS = 'membership/FETCH_MEMBERSHIPS'
 
 export const FETCH_MEMBERSHIP = 'membership/FETCH_MEMBERSHIP'
@@ -27,7 +28,11 @@ export const getMembership = id => dispatch => {
       dispatch({ type: SUCCESS(FETCH_MEMBERSHIP), payload: response })
     })
     .catch(error => {
-      dispatch({ type: FAILURE(FETCH_MEMBERSHIP), payload: error })
+      if (error.response.status == 404) {
+        dispatch({ type: SUCCESS(FETCH_MEMBERSHIP), payload: {data: null} })
+      } else {
+        dispatch({ type: FAILURE(FETCH_MEMBERSHIP), payload: error })
+      }
     })
 }
 
