@@ -204,9 +204,9 @@ const UsersDialog = props => {
   }
   const handleUpdate = () => {
     dispatch(updateUser(entity))
-    if (membership === null && membershipVM) {
+    if (!membership && membershipVM) {
       dispatch(createMembership(membershipVM))
-    } else if (membership && membershipVM === null) {
+    } else if (membership && !membershipVM) {
       dispatch(deleteMembership(entity.id))
     } else if (membership && membershipVM) {
       dispatch(updateMembership(membershipVM))
