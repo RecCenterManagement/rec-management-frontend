@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { SUCCESS, FAILURE, REQUEST } from './actions-util'
-import { success } from './notification'
 export const FETCH_MEMBERSHIPS = 'membership/FETCH_MEMBERSHIPS'
 
 export const FETCH_MEMBERSHIP = 'membership/FETCH_MEMBERSHIP'
