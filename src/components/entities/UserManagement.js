@@ -180,13 +180,6 @@ const UsersDialog = props => {
   const [membershipVM, setMembershipVM] = useState(null)
 
   useEffect(() => {
-    if (!open) {
-      setEntity({})
-      setMembershipVM(null)
-    }
-  }, [open]) 
-
-  useEffect(() => {
     setEntity(props.entity)
   }, [props.entity])
 
@@ -205,7 +198,7 @@ const UsersDialog = props => {
       setMembershipVM(null)
     }
   }, [membership])
-  
+
   const handleChange = name => event => {
     setEntity({ ...entity, [name]: event.target.value })
   }
