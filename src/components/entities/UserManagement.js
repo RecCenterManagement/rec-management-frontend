@@ -434,7 +434,7 @@ const UsersDialog = props => {
             <Grid item>
               {membershipVM && (
                 <Typography variant='h7' className={classes.formControl}>
-                  {membershipVM.expirationDate <= new Date()
+                  {new Date(membershipVM.expirationDate).valueOf() <= new Date()
                     ? 'Membership is expired'
                     : 'Membership is active'}
                 </Typography>
