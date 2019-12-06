@@ -184,7 +184,7 @@ const UsersDialog = props => {
   }, [props.entity])
 
   useEffect(() => {
-    if (membership != null) {
+    if (membership) {
       setMembershipVM({
         expirationDate: membership.expirationDate,
         id: membership.id,
