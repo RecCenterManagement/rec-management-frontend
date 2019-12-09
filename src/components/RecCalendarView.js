@@ -204,16 +204,18 @@ const RecCalendar = () => {
   // Convert the list of EXISTING reservations into a list of calendar events.
   // Memoization caches the result until the list of reservations changes.
   const generateEvents = React.useCallback(() => {
-    return reservations.map(reservation => ({
-      id: reservation.id,
-      allDay: false,
-      title: reservation.event,
-      start: new Date(reservation.startTime),
-      end: new Date(reservation.endTime),
-      desc: `${reservation.estimatedParticipants} participants`,
-      temporary: false,
-      facilities: reservation.facilities // TODO: Temporary
-    }));
+    return reservations
+      .filter(reservation => reservation.status === 'APPROVED')
+      .map(reservation => ({
+        id: reservation.id,
+        allDay: false,
+        title: reservation.event,
+        start: new Date(reservation.startTime),
+        end: new Date(reservation.endTime),
+        desc: `${reservation.estimatedParticipants} participants`,
+        temporary: false,
+        facilities: reservation.facilities // TODO: Temporary
+      }));
   }, [reservations]);
 
   // Filter the list of EXISTING events into a list filtered by facility.
