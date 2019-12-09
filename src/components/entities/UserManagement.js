@@ -50,7 +50,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: '5vh',
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    margin: 24
   },
   cardHeader: {
     backgroundColor: theme.palette.primary.light,
@@ -142,7 +143,7 @@ const UserManagement = props => {
                 <TableCell align='right'>{row.lastModifiedDate}</TableCell>
                 <TableCell align='right'>{row.lastModifiedBy}</TableCell>
                 <TableCell align='center'>
-                  <ButtonGroup size='small' variant='contained' color='primary'>
+                  <ButtonGroup size='small'>
                     <Button onClick={() => handleOpen('view', row)}>
                       View
                     </Button>
@@ -435,6 +436,8 @@ const UsersDialog = props => {
             </Grid>
             <Grid item>
               <Button
+                variant='outlined'
+                color='secondary'
                 className={classes.formControl}
                 disabled={!editable}
                 onClick={() => handleDeleteMembership(membership)}

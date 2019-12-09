@@ -64,7 +64,6 @@ function App() {
           path="/"
           render={props => <Header />}
         />
-        <div className={classes.content}>
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
@@ -96,8 +95,6 @@ function App() {
           <Route path="/outdoorcomplex" component={OutdoorComplex} />
           <Route path="/plannedprojects" component={PlannedProjects} />
           <Route path="/policies" component={Policies} />
-
-        </div>
         <Route
           path="/"
           render={props => props.location.pathname !== "/login" && <Footer />}

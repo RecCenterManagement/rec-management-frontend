@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import { makeStyles,} from '@material-ui/core/styles'
-import { 
+import { useDispatch, useSelector } from 'react-redux'
+import { makeStyles, } from '@material-ui/core/styles'
+import {
     Container,
     Table,
     TableBody,
@@ -12,8 +12,6 @@ import {
     TableSortLabel,
     Typography,
     Paper,
-    FormControlLabel,
-    Switch,
     Tabs,
     Tab,
     Box,
@@ -23,7 +21,8 @@ import {
     ButtonGroup,
 } from '@material-ui/core'
 import { get_reservations, put_reservation } from '../actions/reservations'
-import ReservationsDialog from './ReservationForm.js'
+//import ReservationsDialog from './ReservationForm.js'
+import ReservationsListForm from './ReservationsListForm.js'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 const ReservationManagement = () => {
@@ -31,16 +30,16 @@ const ReservationManagement = () => {
     function TabPanel(props) {
         const { children, value, index, ...other } = props;
         return (
-          <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-          >
-            <Box p={3}>{children}</Box>
-          </Typography>
+            <Typography
+                component="div"
+                role="tabpanel"
+                hidden={value !== index}
+                id={`simple-tabpanel-${index}`}
+                aria-labelledby={`simple-tab-${index}`}
+                {...other}
+            >
+                <Box p={3}>{children}</Box>
+            </Typography>
         );
     }
 
@@ -75,7 +74,7 @@ const ReservationManagement = () => {
         { id: 'startTime', numeric: true, disablePadding: false, label: 'Start Time' },
         { id: 'endTime', numeric: true, disablePadding: false, label: 'End Time' },
         { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
-        { id: 'actions', numeric: false, disablePadding: false, label: 'Actions'}
+        { id: 'actions', numeric: false, disablePadding: false, label: 'Actions' }
     ];
 
     function EnhancedTableHead(props) {
@@ -85,7 +84,7 @@ const ReservationManagement = () => {
         };
 
         return (
-            <TableHead style={{backgroundColor: '#8e774d'}}> 
+            <TableHead style={{ backgroundColor: '#8e774d' }}>
                 <TableRow>
                     {headCells.map(headCell => (
                         <TableCell
@@ -98,11 +97,11 @@ const ReservationManagement = () => {
                                 active={orderBy === headCell.id}
                                 direction={order}
                                 onClick={createSortHandler(headCell.id)}
-                                >
+                            >
                                 {headCell.label}
                                 {orderBy === headCell.id ? (
                                     <span className={classes.visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                                     </span>
                                 ) : null}
                             </TableSortLabel>
@@ -143,11 +142,11 @@ const ReservationManagement = () => {
             flexGrow: 1,
             backgroundColor: theme.palette.background.paper,
         },
-        th:{
+        th: {
             backgroudColor: '#8d6e63',
             color: '#8d6e63',
         },
-        createReservation:{
+        createReservation: {
             backgroudColor: '#8d6e63',
             color: '#8d6e63',
             align: "right",
@@ -187,13 +186,14 @@ const ReservationManagement = () => {
 
     const handleOpen = (type, entity) => {
         if (type === 'edit') {
-          setEditable(true)
+            setEditable(true)
         } else {
-          setEditable(false)
+            setEditable(false)
         }
+        console.log(entity)
         setSelectedEntity(entity)
         setOpen(true)
-      }
+    }
 
     const handleClose = () => {
         setOpen(false)
@@ -241,13 +241,13 @@ const ReservationManagement = () => {
 
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, name);
-        } 
+        }
         else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
-        } 
+        }
         else if (selectedIndex === selected.length - 1) {
             newSelected = newSelected.concat(selected.slice(0, -1));
-        } 
+        }
         else if (selectedIndex > 0) {
             newSelected = newSelected.concat(
                 selected.slice(0, selectedIndex),
@@ -286,7 +286,7 @@ const ReservationManagement = () => {
                 <AppBar position="static">
                     <Tabs value={value} onChange={handleTabChange} aria-label="simple tabs example" >
                         <Tab label="Pending" />
-                        <Tab label="Approved"/>
+                        <Tab label="Approved" />
                         <Tab label="Denied" />
                         <Tab label="All" />
                     </Tabs>
@@ -329,63 +329,63 @@ const ReservationManagement = () => {
                                         rowCount={rows.length}
                                     />
                                     {rows.length !== 0 ? (
-                                    <TableBody>
-                                        {stableSort(rows, getSorting(order, orderBy))
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row) => {
-                                                const isItemSelected = isSelected(row.name);
-                                                return (
-                                                    <TableRow
-                                                        hover
-                                                        onClick={event => handleClick(event, row.name)}
-                                                        aria-checked={isItemSelected}
-                                                        tabIndex={-1}
-                                                        key={row.name}
-                                                        selected={isItemSelected}
-                                                    >
-                                                        <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
-                                                        <TableCell align="center">{row.event}</TableCell>
-                                                        <TableCell align="center">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="center">
-                                                            <div>{new Date (row.startTime).toDateString()}</div>
-                                                            <div>{new Date(row.startTime).toLocaleTimeString()}</div>
-                                                       </TableCell>
-                                                       <TableCell align="center">
-                                                            <div>{new Date (row.endTime).toDateString()}</div>
-                                                            <div>{new Date(row.endTime).toLocaleTimeString()}</div>
-                                                        </TableCell>
-                                                        <TableCell align="center">{row.status}</TableCell>
-                                                        <TableCell align="center">
-                                                            {row.actions}
-                                                            <Grid item>
-                                                                <ButtonGroup size="small" aria-label="small outlined button group">
-                                                                    <Button onClick={() => handleApproval(row)} color="secondary">Approve</Button>
-                                                                    <Button onClick={() => handleDenial(row)} color="secondary">Deny</Button>
-                                                                    <Button onClick={() => handleOpen('edit', row)} color="secondary">Edit</Button>
-                                                                </ButtonGroup>
-                                                            </Grid>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                );
-                                            })
-                                        }
-                                        {emptyRows > 0 && (
-                                            <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                                                <TableCell colSpan={6} />
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
+                                        <TableBody>
+                                            {stableSort(rows, getSorting(order, orderBy))
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((row) => {
+                                                    const isItemSelected = isSelected(row.name);
+                                                    return (
+                                                        <TableRow
+                                                            hover
+                                                            onClick={event => handleClick(event, row.name)}
+                                                            aria-checked={isItemSelected}
+                                                            tabIndex={-1}
+                                                            key={row.name}
+                                                            selected={isItemSelected}
+                                                        >
+                                                            <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
+                                                            <TableCell align="center">{row.event}</TableCell>
+                                                            <TableCell align="center">{row.estimatedParticipants}</TableCell>
+                                                            <TableCell align="center">
+                                                                <div>{new Date(row.startTime).toDateString()}</div>
+                                                                <div>{new Date(row.startTime).toLocaleTimeString()}</div>
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <div>{new Date(row.endTime).toDateString()}</div>
+                                                                <div>{new Date(row.endTime).toLocaleTimeString()}</div>
+                                                            </TableCell>
+                                                            <TableCell align="center">{row.status}</TableCell>
+                                                            <TableCell align="center">
+                                                                {row.actions}
+                                                                <Grid item>
+                                                                    <ButtonGroup size="small" aria-label="small outlined button group">
+                                                                        <Button onClick={() => handleApproval(row)} color="secondary">Approve</Button>
+                                                                        <Button onClick={() => handleDenial(row)} color="secondary">Deny</Button>
+                                                                        <Button onClick={() => handleOpen('edit', row)} color="secondary">Edit</Button>
+                                                                    </ButtonGroup>
+                                                                </Grid>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })
+                                            }
+                                            {emptyRows > 0 && (
+                                                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                                                    <TableCell colSpan={6} />
+                                                </TableRow>
+                                            )}
+                                        </TableBody>
                                     ) : (
-                                        <div style={{ padding: '20px' }}>
-                                          <Typography>No reservations for this criteria</Typography>
-                                        </div>
-                                      )}
+                                            <div style={{ padding: '20px' }}>
+                                                <Typography>No reservations for this criteria</Typography>
+                                            </div>
+                                        )}
                                 </Table>
-                                <ReservationsDialog
+                                <ReservationsListForm
                                     open={open}
                                     handleClose={handleClose}
                                     entity={selectedEntity}
-                                    editable={editable}
+                                    editable
                                     create={false}
                                 />
                             </div>
@@ -412,7 +412,7 @@ const ReservationManagement = () => {
                         />*/}
                     </Container>
                 </TabPanel>
-                
+
                 <TabPanel value={value} index={1}>
                     <Container>
                         <Paper className={classes.paper}>
@@ -432,57 +432,57 @@ const ReservationManagement = () => {
                                         rowCount={rows.length}
                                     />
                                     {rows.length !== 0 ? (
-                                    <TableBody>
-                                        {stableSort(rows, getSorting(order, orderBy))
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row, index) => {
-                                                const isItemSelected = isSelected(row.name);
+                                        <TableBody>
+                                            {stableSort(rows, getSorting(order, orderBy))
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((row, index) => {
+                                                    const isItemSelected = isSelected(row.name);
 
-                                                return (
-                                                    <TableRow
-                                                        hover
-                                                        onClick={event => handleClick(event, row.name)}
-                                                        aria-checked={isItemSelected}
-                                                        tabIndex={-1}
-                                                        key={row.name}
-                                                        selected={isItemSelected}
-                                                    >
-                                                        <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
-                                                        <TableCell align="center">{row.event}</TableCell>
-                                                        <TableCell align="center">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="center">
-                                                            <div>{new Date (row.startTime).toDateString()}</div>
-                                                            <div>{new Date(row.startTime).toLocaleTimeString()}</div>
-                                                       </TableCell>
-                                                       <TableCell align="center">
-                                                            <div>{new Date (row.endTime).toDateString()}</div>
-                                                            <div>{new Date(row.endTime).toLocaleTimeString()}</div>
-                                                        </TableCell>
-                                                        <TableCell align="center">{row.status}</TableCell>
-                                                        <TableCell align="center">
-                                                            {row.actions}   
-                                                            <ButtonGroup fullWidth aria-label="full width outlined button group">
-                                                                <Button onClick={() => handleDenial(row)} color="secondary">Deny</Button>
-                                                                <Button onClick={() => handleOpen('edit', row)} color="secondary">Edit</Button>
-                                                            </ButtonGroup>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                );
-                                            })
-                                        }
-                                        {emptyRows > 0 && (
-                                            <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                                                <TableCell colSpan={6} />
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
+                                                    return (
+                                                        <TableRow
+                                                            hover
+                                                            onClick={event => handleClick(event, row.name)}
+                                                            aria-checked={isItemSelected}
+                                                            tabIndex={-1}
+                                                            key={row.name}
+                                                            selected={isItemSelected}
+                                                        >
+                                                            <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
+                                                            <TableCell align="center">{row.event}</TableCell>
+                                                            <TableCell align="center">{row.estimatedParticipants}</TableCell>
+                                                            <TableCell align="center">
+                                                                <div>{new Date(row.startTime).toDateString()}</div>
+                                                                <div>{new Date(row.startTime).toLocaleTimeString()}</div>
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <div>{new Date(row.endTime).toDateString()}</div>
+                                                                <div>{new Date(row.endTime).toLocaleTimeString()}</div>
+                                                            </TableCell>
+                                                            <TableCell align="center">{row.status}</TableCell>
+                                                            <TableCell align="center">
+                                                                {row.actions}
+                                                                <ButtonGroup fullWidth aria-label="full width outlined button group">
+                                                                    <Button onClick={() => handleDenial(row)} color="secondary">Deny</Button>
+                                                                    <Button onClick={() => handleOpen('edit', row)} color="secondary">Edit</Button>
+                                                                </ButtonGroup>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })
+                                            }
+                                            {emptyRows > 0 && (
+                                                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                                                    <TableCell colSpan={6} />
+                                                </TableRow>
+                                            )}
+                                        </TableBody>
                                     ) : (
-                                        <div style={{ padding: '20px' }}>
-                                          <Typography>No reservations for this criteria</Typography>
-                                        </div>
-                                      )}
+                                            <div style={{ padding: '20px' }}>
+                                                <Typography>No reservations for this criteria</Typography>
+                                            </div>
+                                        )}
                                 </Table>
-                                <ReservationsDialog
+                                <ReservationsListForm
                                     open={open}
                                     handleClose={handleClose}
                                     entity={selectedEntity}
@@ -532,57 +532,57 @@ const ReservationManagement = () => {
                                         rowCount={rows.length}
                                     />
                                     {rows.length !== 0 ? (
-                                    <TableBody>
-                                        {stableSort(rows, getSorting(order, orderBy))
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row, index) => {
-                                                const isItemSelected = isSelected(row.name);
+                                        <TableBody>
+                                            {stableSort(rows, getSorting(order, orderBy))
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((row, index) => {
+                                                    const isItemSelected = isSelected(row.name);
 
-                                                return (
-                                                    <TableRow
-                                                        hover
-                                                        onClick={event => handleClick(event, row.name)}
-                                                        aria-checked={isItemSelected}
-                                                        tabIndex={-1}
-                                                        key={row.name}
-                                                        selected={isItemSelected}
-                                                    >
-                                                        <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
-                                                        <TableCell align="center">{row.event}</TableCell>
-                                                        <TableCell align="center">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="center">
-                                                            <div>{new Date (row.startTime).toDateString()}</div>
-                                                            <div>{new Date(row.startTime).toLocaleTimeString()}</div>
-                                                       </TableCell>
-                                                       <TableCell align="center">
-                                                            <div>{new Date (row.endTime).toDateString()}</div>
-                                                            <div>{new Date(row.endTime).toLocaleTimeString()}</div>
-                                                        </TableCell>
-                                                        <TableCell align="center">{row.status}</TableCell>
-                                                        <TableCell align="center">
-                                                            {row.actions}
-                                                            <ButtonGroup fullWidth aria-label="full width outlined button group">
-                                                                <Button onClick={() => handleApproval(row)}color="secondary">Approve</Button>
-                                                                <Button onClick={() => handleOpen('edit', row)} color="secondary">Edit</Button>
-                                                            </ButtonGroup>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                );
-                                            })
-                                        }
-                                        {emptyRows > 0 && (
-                                            <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                                                <TableCell colSpan={6} />
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
+                                                    return (
+                                                        <TableRow
+                                                            hover
+                                                            onClick={event => handleClick(event, row.name)}
+                                                            aria-checked={isItemSelected}
+                                                            tabIndex={-1}
+                                                            key={row.name}
+                                                            selected={isItemSelected}
+                                                        >
+                                                            <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
+                                                            <TableCell align="center">{row.event}</TableCell>
+                                                            <TableCell align="center">{row.estimatedParticipants}</TableCell>
+                                                            <TableCell align="center">
+                                                                <div>{new Date(row.startTime).toDateString()}</div>
+                                                                <div>{new Date(row.startTime).toLocaleTimeString()}</div>
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <div>{new Date(row.endTime).toDateString()}</div>
+                                                                <div>{new Date(row.endTime).toLocaleTimeString()}</div>
+                                                            </TableCell>
+                                                            <TableCell align="center">{row.status}</TableCell>
+                                                            <TableCell align="center">
+                                                                {row.actions}
+                                                                <ButtonGroup fullWidth aria-label="full width outlined button group">
+                                                                    <Button onClick={() => handleApproval(row)} color="secondary">Approve</Button>
+                                                                    <Button onClick={() => handleOpen('edit', row)} color="secondary">Edit</Button>
+                                                                </ButtonGroup>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })
+                                            }
+                                            {emptyRows > 0 && (
+                                                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                                                    <TableCell colSpan={6} />
+                                                </TableRow>
+                                            )}
+                                        </TableBody>
                                     ) : (
-                                        <div style={{ padding: '20px' }}>
-                                          <Typography>No reservations for this criteria</Typography>
-                                        </div>
-                                      )}
+                                            <div style={{ padding: '20px' }}>
+                                                <Typography>No reservations for this criteria</Typography>
+                                            </div>
+                                        )}
                                 </Table>
-                                <ReservationsDialog
+                                <ReservationsListForm
                                     open={open}
                                     handleClose={handleClose}
                                     entity={selectedEntity}
@@ -632,54 +632,54 @@ const ReservationManagement = () => {
                                         rowCount={rows.length}
                                     />
                                     {rows.length !== 0 ? (
-                                    <TableBody>
-                                        {stableSort(rows, getSorting(order, orderBy))
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row, index) => {
-                                                const isItemSelected = isSelected(row.name);
+                                        <TableBody>
+                                            {stableSort(rows, getSorting(order, orderBy))
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((row, index) => {
+                                                    const isItemSelected = isSelected(row.name);
 
-                                                return (
-                                                    <TableRow
-                                                        hover
-                                                        onClick={event => handleClick(event, row.name)}
-                                                        aria-checked={isItemSelected}
-                                                        tabIndex={-1}
-                                                        key={row.name}
-                                                        selected={isItemSelected}
-                                                    >
-                                                        <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
-                                                        <TableCell align="center">{row.event}</TableCell>
-                                                        <TableCell align="center">{row.estimatedParticipants}</TableCell>
-                                                        <TableCell align="center">
-                                                            <div>{new Date (row.startTime).toDateString()}</div>
-                                                            <div>{new Date (row.startTime).toLocaleTimeString()}</div>
-                                                       </TableCell>
-                                                       <TableCell align="center">
-                                                            <div>{new Date (row.endTime).toDateString()}</div>
-                                                            <div>{new Date (row.endTime).toLocaleTimeString()}</div>
-                                                        </TableCell>
-                                                        <TableCell align="center">{row.status}</TableCell>
-                                                        <TableCell align="center">
-                                                            {row.actions}
-                                                            <ButtonGroup fullWidth aria-label="full width outlined button group">
-                                                                <Button onClick={() => handleOpen('view', row)} color="secondary">View</Button>
-                                                            </ButtonGroup>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                );
-                                            })
-                                        }
-                                        {emptyRows > 0 && (
-                                            <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                                                <TableCell colSpan={6} />
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
+                                                    return (
+                                                        <TableRow
+                                                            hover
+                                                            onClick={event => handleClick(event, row.name)}
+                                                            aria-checked={isItemSelected}
+                                                            tabIndex={-1}
+                                                            key={row.name}
+                                                            selected={isItemSelected}
+                                                        >
+                                                            <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
+                                                            <TableCell align="center">{row.event}</TableCell>
+                                                            <TableCell align="center">{row.estimatedParticipants}</TableCell>
+                                                            <TableCell align="center">
+                                                                <div>{new Date(row.startTime).toDateString()}</div>
+                                                                <div>{new Date(row.startTime).toLocaleTimeString()}</div>
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <div>{new Date(row.endTime).toDateString()}</div>
+                                                                <div>{new Date(row.endTime).toLocaleTimeString()}</div>
+                                                            </TableCell>
+                                                            <TableCell align="center">{row.status}</TableCell>
+                                                            <TableCell align="center">
+                                                                {row.actions}
+                                                                <ButtonGroup fullWidth aria-label="full width outlined button group">
+                                                                    <Button onClick={() => handleOpen('view', row)} color="secondary">View</Button>
+                                                                </ButtonGroup>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })
+                                            }
+                                            {emptyRows > 0 && (
+                                                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                                                    <TableCell colSpan={6} />
+                                                </TableRow>
+                                            )}
+                                        </TableBody>
                                     ) : (
-                                        <div style={{ padding: '20px' }}>
-                                          <Typography>No reservations for this criteria</Typography>
-                                        </div>
-                                      )}
+                                            <div style={{ padding: '20px' }}>
+                                                <Typography>No reservations for this criteria</Typography>
+                                            </div>
+                                        )}
                                 </Table>
                             </div>
                             <TablePagination
@@ -705,7 +705,7 @@ const ReservationManagement = () => {
                         />*/}
                     </Container>
                 </TabPanel>
-            </div>   
+            </div>
         </div>
     );
 }
