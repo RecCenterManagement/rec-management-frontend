@@ -19,6 +19,8 @@ import {
     Grid,
     Button,
     ButtonGroup,
+    Avatar,
+    Tooltip,
 } from '@material-ui/core'
 import { get_reservations, put_reservation } from '../actions/reservations'
 //import ReservationsDialog from './ReservationForm.js'
@@ -68,6 +70,7 @@ const ReservationManagement = () => {
     }
 
     const headCells = [
+        { id: 'user', numeric: false, disablePadding: false, label: 'USER' },
         { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
         { id: 'event', numeric: true, disablePadding: false, label: 'Event Name' },
         { id: 'estimatedParticipants', numeric: true, disablePadding: false, label: 'Participants (Est.)' },
@@ -227,6 +230,7 @@ const ReservationManagement = () => {
                 setRows(all);
                 break;
         }
+        console.log("+=====================ROWS==============", pending)
     }, [pending, approved, denied, all, value]);
 
     const handleRequestSort = (event, property) => {
@@ -279,6 +283,24 @@ const ReservationManagement = () => {
     const isSelected = name => selected.indexOf(name) !== -1;
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+    const userAvatar = row => {
+        if (row.user) {
+            if (row.user.imageUrl != '') {
+                return (
+                    <Tooltip title={row.user.login}>
+                        <Avatar alt={row.user.login} src={row.user.imageUrl}></Avatar>
+                    </Tooltip>
+                )
+            } else {
+                return (<Tooltip title={row.user.login}>
+                    <Avatar alt={row.user.login}>{row.user.login.charAt(0)}</Avatar>
+                </Tooltip>)
+            }
+        } else {
+            return (<Avatar>?</Avatar>)
+        }
+    }
 
     return (
         <div className={classes.root}>
@@ -343,6 +365,7 @@ const ReservationManagement = () => {
                                                             key={row.name}
                                                             selected={isItemSelected}
                                                         >
+                                                            <TableCell> {userAvatar(row)} </TableCell>
                                                             <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
                                                             <TableCell align="center">{row.event}</TableCell>
                                                             <TableCell align="center">{row.estimatedParticipants}</TableCell>
@@ -447,6 +470,7 @@ const ReservationManagement = () => {
                                                             key={row.name}
                                                             selected={isItemSelected}
                                                         >
+                                                            <TableCell> {userAvatar(row)} </TableCell>
                                                             <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
                                                             <TableCell align="center">{row.event}</TableCell>
                                                             <TableCell align="center">{row.estimatedParticipants}</TableCell>
@@ -547,6 +571,7 @@ const ReservationManagement = () => {
                                                             key={row.name}
                                                             selected={isItemSelected}
                                                         >
+                                                            <TableCell> {userAvatar(row)} </TableCell>
                                                             <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
                                                             <TableCell align="center">{row.event}</TableCell>
                                                             <TableCell align="center">{row.estimatedParticipants}</TableCell>
@@ -647,6 +672,7 @@ const ReservationManagement = () => {
                                                             key={row.name}
                                                             selected={isItemSelected}
                                                         >
+                                                            <TableCell> {userAvatar(row)} </TableCell>
                                                             <TableCell component="th" scope="row" padding="center">{row.id}</TableCell>
                                                             <TableCell align="center">{row.event}</TableCell>
                                                             <TableCell align="center">{row.estimatedParticipants}</TableCell>
