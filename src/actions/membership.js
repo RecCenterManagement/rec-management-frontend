@@ -27,7 +27,11 @@ export const getMembership = id => dispatch => {
       dispatch({ type: SUCCESS(FETCH_MEMBERSHIP), payload: response })
     })
     .catch(error => {
-      dispatch({ type: FAILURE(FETCH_MEMBERSHIP), payload: error })
+      if (error.response.status == 404) {
+        dispatch({ type: SUCCESS(FETCH_MEMBERSHIP), payload: {data: null} })
+      } else {
+        dispatch({ type: FAILURE(FETCH_MEMBERSHIP), payload: error })
+      }
     })
 }
 
